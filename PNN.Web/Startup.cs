@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PNN.web.Data;
+using PNN.Web.Data;
+using PNN.Web.Data.Entities;
+using PNN.Web.Helpers;
 
 namespace PNN.Web
 {
@@ -31,6 +32,32 @@ namespace PNN.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            //configurar propiedades del usuario
+            services.AddIdentity<User, IdentityRole>(cfg =>
+            {
+                cfg.User.RequireUniqueEmail = true;
+                cfg.Password.RequireDigit = false;
+                cfg.Password.RequiredUniqueChars = 0;
+                cfg.Password.RequireLowercase = false;
+                cfg.Password.RequireNonAlphanumeric = false;
+                cfg.Password.RequireUppercase = false;
+            })
+                .AddEntityFrameworkStores<DataContext>();
+
+
+            //inyectamos esta linea una vez agregamos la linea de conexión en appsttings para configurar la BD
+            //PM> update-database
+            //PM > add - migration InitialDb
+            //PM > update - database
+            services.AddDbContext<DataContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            //agregamos una linea despues de insertar los datos en el SeedDb de Entities.
+            services.AddTransient<SeedDb>();
+            //Configuramos la inyección del UserHelper donde lo necesitemos
+            services.AddScoped<IUserHelper, UserHelper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -50,6 +77,7 @@ namespace PNN.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

@@ -1,0 +1,96 @@
+﻿@model PNN.Web.Data.Entities.Park
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Park</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Creation)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Creation)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Been)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Been)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Extension)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Extension)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Temperature)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Temperature)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Flora)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flora)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Wildlife)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Wildlife)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Communities)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Communities)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Like)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Like)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DisLike)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DisLike)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
