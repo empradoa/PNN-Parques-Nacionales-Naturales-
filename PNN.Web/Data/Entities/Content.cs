@@ -47,7 +47,7 @@ namespace PNN.Web.Data.Entities
         public ContentType ContentType { get; set; }
         public Park Park { get; set; }        
         public Location Location { get; set; }
-
+        public Owner Owner { get; set; }
 
         //relacion entre comment y content
         public ICollection<Comment> Comments { get; set; }

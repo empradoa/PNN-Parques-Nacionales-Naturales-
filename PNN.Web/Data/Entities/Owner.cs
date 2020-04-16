@@ -12,8 +12,8 @@ public class Owner
         //relacion entre tablas foreign keys (Location and owner)
         public Location Location { get; set; }
 
-        //relacion entre Owner y park
-        public ICollection<Park> Parks { get; set; }
+        //relacion entre Owner y Content
+        public ICollection<Content> Content { get; set; }
         //relacion entre Owner y comment
         public ICollection<Comment> Comments { get; set; }
     }

@@ -126,15 +126,15 @@ namespace PNN.Web.Data
         }
         private async Task CheckParksAsync()
         {
-            var owner = _dataContext.Owners.FirstOrDefault();
+            var manager = _dataContext.Managers.FirstOrDefault();
             var location = _dataContext.Locations.FirstOrDefault();
             if (!_dataContext.Parks.Any())
             {
-                AddPark("Parque Nacional Natural Catatumbo Barí", "Se encuentra ubicado al nororiente","1989","Cerrado para el público", "158.125 Hectáreas", "200 - 1800 msnm", "Promedio 22.5 °C", "El territorio está cubierto","", "", owner, location);
+                AddPark("Parque Nacional Natural Catatumbo Barí", "Se encuentra ubicado al nororiente","1989","Cerrado para el público", "158.125 Hectáreas", "200 - 1800 msnm", "Promedio 22.5 °C", "El territorio está cubierto","", "", manager, location);
                 await _dataContext.SaveChangesAsync();
             }
         }
-        private void AddPark(string name, string description, string creation, string been, string extension, string height,string temperature, string flora, string wildlife, string communities, Owner owner, Location location)
+        private void AddPark(string name, string description, string creation, string been, string extension, string height,string temperature, string flora, string wildlife, string communities, Manager manager, Location location)
         {
             _dataContext.Parks.Add(new Park
             {
@@ -150,7 +150,7 @@ namespace PNN.Web.Data
                 Communities = communities,
                 Like = 0,
                 DisLike = 0,
-                Owner = owner,
+                Manager = manager,
                 Location = location
             });
         }

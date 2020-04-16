@@ -29,7 +29,7 @@ namespace PNN.Web.Controllers
             return View(_context.Owners
                 .Include(o => o.User)
                 .Include(o => o.Comments)
-                .Include(o => o.Parks));
+                .Include(o => o.Content));
         }
 
         // GET: Owners/Details/5

@@ -261,7 +261,7 @@ namespace PNN.Web.Migrations
                     Communities = table.Column<string>(maxLength: 300, nullable: true),
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),
-                    OwnerId = table.Column<int>(nullable: true),
+                    ManagerId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -274,9 +274,9 @@ namespace PNN.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Parks_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
+                        name: "FK_Parks_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -294,7 +294,8 @@ namespace PNN.Web.Migrations
                     DisLike = table.Column<int>(maxLength: 10, nullable: false),
                     ContentTypeId = table.Column<int>(nullable: true),
                     ParkId = table.Column<int>(nullable: true),
-                    LocationId = table.Column<int>(nullable: true)
+                    LocationId = table.Column<int>(nullable: true),
+                    OwnerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -309,6 +310,12 @@ namespace PNN.Web.Migrations
                         name: "FK_Contents_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Contents_Owners_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Owners",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -332,7 +339,8 @@ namespace PNN.Web.Migrations
                     DisLike = table.Column<int>(nullable: false),
                     ZoneTypeId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true),
-                    ParkId = table.Column<int>(nullable: true)
+                    ParkId = table.Column<int>(nullable: true),
+                    ManagerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -341,6 +349,12 @@ namespace PNN.Web.Migrations
                         name: "FK_Zones_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Zones_Managers_ManagerId",
+                        column: x => x.ManagerId,
+                        principalTable: "Managers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -458,6 +472,11 @@ namespace PNN.Web.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Contents_OwnerId",
+                table: "Contents",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Contents_ParkId",
                 table: "Contents",
                 column: "ParkId");
@@ -483,14 +502,19 @@ namespace PNN.Web.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parks_OwnerId",
+                name: "IX_Parks_ManagerId",
                 table: "Parks",
-                column: "OwnerId");
+                column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zones_LocationId",
                 table: "Zones",
                 column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Zones_ManagerId",
+                table: "Zones",
+                column: "ManagerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zones_ParkId",
@@ -524,9 +548,6 @@ namespace PNN.Web.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Managers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -539,16 +560,19 @@ namespace PNN.Web.Migrations
                 name: "ContentTypes");
 
             migrationBuilder.DropTable(
+                name: "Owners");
+
+            migrationBuilder.DropTable(
                 name: "Parks");
 
             migrationBuilder.DropTable(
                 name: "ZoneTypes");
 
             migrationBuilder.DropTable(
-                name: "Owners");
+                name: "Locations");
 
             migrationBuilder.DropTable(
-                name: "Locations");
+                name: "Managers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

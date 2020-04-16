@@ -10,7 +10,7 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200413131011_UpdateDB")]
+    [Migration("20200416091642_UpdateDB")]
     partial class UpdateDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -186,6 +186,8 @@ namespace PNN.Web.Migrations
 
                     b.Property<int?>("LocationId");
 
+                    b.Property<int?>("OwnerId");
+
                     b.Property<int?>("ParkId");
 
                     b.HasKey("Id");
@@ -193,6 +195,8 @@ namespace PNN.Web.Migrations
                     b.HasIndex("ContentTypeId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("OwnerId");
 
                     b.HasIndex("ParkId");
 
@@ -300,11 +304,11 @@ namespace PNN.Web.Migrations
 
                     b.Property<int?>("LocationId");
 
+                    b.Property<int?>("ManagerId");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<int?>("OwnerId");
 
                     b.Property<string>("Temperature")
                         .HasMaxLength(30);
@@ -316,7 +320,7 @@ namespace PNN.Web.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("ManagerId");
 
                     b.ToTable("Parks");
                 });
@@ -405,6 +409,8 @@ namespace PNN.Web.Migrations
 
                     b.Property<int?>("LocationId");
 
+                    b.Property<int?>("ManagerId");
+
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(30);
@@ -416,6 +422,8 @@ namespace PNN.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("ManagerId");
 
                     b.HasIndex("ParkId");
 
@@ -509,6 +517,10 @@ namespace PNN.Web.Migrations
                         .WithMany("Contents")
                         .HasForeignKey("LocationId");
 
+                    b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
+                        .WithMany("Content")
+                        .HasForeignKey("OwnerId");
+
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")
                         .WithMany("Contents")
                         .HasForeignKey("ParkId");
@@ -538,9 +550,9 @@ namespace PNN.Web.Migrations
                         .WithMany("Parks")
                         .HasForeignKey("LocationId");
 
-                    b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
+                    b.HasOne("PNN.web.Data.Entities.Manager", "Manager")
                         .WithMany("Parks")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("ManagerId");
                 });
 
             modelBuilder.Entity("PNN.Web.Data.Entities.Zone", b =>
@@ -548,6 +560,10 @@ namespace PNN.Web.Migrations
                     b.HasOne("PNN.Web.Data.Entities.Location", "Location")
                         .WithMany("Zones")
                         .HasForeignKey("LocationId");
+
+                    b.HasOne("PNN.web.Data.Entities.Manager", "Manager")
+                        .WithMany("Zones")
+                        .HasForeignKey("ManagerId");
 
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")
                         .WithMany("Zones")
