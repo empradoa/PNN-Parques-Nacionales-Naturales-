@@ -77,6 +77,7 @@ namespace PNN.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            //se agrega esta linea revisar tutorial 7
             app.UseAuthentication();
             app.UseCookiePolicy();
 

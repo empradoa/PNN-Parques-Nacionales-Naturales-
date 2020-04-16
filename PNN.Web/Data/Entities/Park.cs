@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using PNN.web.Data.Entities;
 
 namespace PNN.Web.Data.Entities
 {
@@ -70,7 +71,7 @@ namespace PNN.Web.Data.Entities
 
 
         //relacion entre tablas foreign keys
-        public Owner Owner { get; set; }
+        public Manager Manager { get; set; }
         public Location Location { get; set; }
 
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using PNN.Web.Data.Entities;
+using PNN.Web.Models;
 
 namespace PNN.Web.Helpers
 {
@@ -23,5 +24,12 @@ namespace PNN.Web.Helpers
 
         //Valida si un usuario pertenece o no a un Rol
         Task<bool> IsUserInRoleAsync(User user, string roleName);
+
+        //le pasamos una instancia de la loginViewModel y nos devuelve el SignInResult que nos dice si logueo o no logueo
+        Task<SignInResult> LoginAsync(LoginViewModel model);
+
+        //metodo para desloguear
+        Task LogoutAsync();
+
     }
 }

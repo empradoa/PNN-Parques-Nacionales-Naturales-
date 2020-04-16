@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PNN.Web.Data.Entities;
 using PNN.web.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PNN.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class OwnersController : Controller
     {
         private readonly DataContext _context;
@@ -20,9 +22,14 @@ namespace PNN.Web.Controllers
         }
 
         // GET: Owners
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Owners.ToListAsync());
+            //se hace una especie de consulta sql donde con Include toma forma de Join para relacionar la tabla owners con User
+            //select * from owner inner join User
+            return View(_context.Owners
+                .Include(o => o.User)
+                .Include(o => o.Comments)
+                .Include(o => o.Parks));
         }
 
         // GET: Owners/Details/5

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using PNN.web.Data.Entities;
 
 namespace PNN.Web.Data.Entities
 {
@@ -42,6 +43,8 @@ namespace PNN.Web.Data.Entities
         public ZoneType ZoneType { get; set; }
         public Location Location { get; set; }
         public Park Park { get; set; }
+        public Manager Manager { get; set; }
+
 
         //relacion entre zone y comment
         public ICollection<Comment> Comments { get; set; }

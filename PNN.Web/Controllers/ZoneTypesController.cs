@@ -2,32 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PNN.Web.Data.Entities;
 using PNN.web.Data;
-using PNN.web.Data.Entities;
 
 namespace PNN.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class ManagersController : Controller
+    public class ZoneTypesController : Controller
     {
         private readonly DataContext _context;
 
-        public ManagersController(DataContext context)
+        public ZoneTypesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Managers
+        // GET: ZoneTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Managers.ToListAsync());
+            return View(await _context.ZoneTypes.ToListAsync());
         }
 
-        // GET: Managers/Details/5
+        // GET: ZoneTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers
+            var zoneType = await _context.ZoneTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (zoneType == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(zoneType);
         }
 
-        // GET: Managers/Create
+        // GET: ZoneTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Managers/Create
+        // POST: ZoneTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Manager manager)
+        public async Task<IActionResult> Create([Bind("Id,Name")] ZoneType zoneType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(manager);
+                _context.Add(zoneType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            return View(zoneType);
         }
 
-        // GET: Managers/Edit/5
+        // GET: ZoneTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers.FindAsync(id);
-            if (manager == null)
+            var zoneType = await _context.ZoneTypes.FindAsync(id);
+            if (zoneType == null)
             {
                 return NotFound();
             }
-            return View(manager);
+            return View(zoneType);
         }
 
-        // POST: Managers/Edit/5
+        // POST: ZoneTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Manager manager)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ZoneType zoneType)
         {
-            if (id != manager.Id)
+            if (id != zoneType.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace PNN.Web.Controllers
             {
                 try
                 {
-                    _context.Update(manager);
+                    _context.Update(zoneType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ManagerExists(manager.Id))
+                    if (!ZoneTypeExists(zoneType.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +113,10 @@ namespace PNN.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            return View(zoneType);
         }
 
-        // GET: Managers/Delete/5
+        // GET: ZoneTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +124,30 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers
+            var zoneType = await _context.ZoneTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (zoneType == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(zoneType);
         }
 
-        // POST: Managers/Delete/5
+        // POST: ZoneTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var manager = await _context.Managers.FindAsync(id);
-            _context.Managers.Remove(manager);
+            var zoneType = await _context.ZoneTypes.FindAsync(id);
+            _context.ZoneTypes.Remove(zoneType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ManagerExists(int id)
+        private bool ZoneTypeExists(int id)
         {
-            return _context.Managers.Any(e => e.Id == id);
+            return _context.ZoneTypes.Any(e => e.Id == id);
         }
     }
 }

@@ -2,32 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PNN.Web.Data.Entities;
 using PNN.web.Data;
-using PNN.web.Data.Entities;
 
 namespace PNN.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class ManagersController : Controller
+    public class ContentTypesController : Controller
     {
         private readonly DataContext _context;
 
-        public ManagersController(DataContext context)
+        public ContentTypesController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Managers
+        // GET: ContentTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Managers.ToListAsync());
+            return View(await _context.ContentTypes.ToListAsync());
         }
 
-        // GET: Managers/Details/5
+        // GET: ContentTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -35,39 +33,39 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers
+            var contentType = await _context.ContentTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (contentType == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(contentType);
         }
 
-        // GET: Managers/Create
+        // GET: ContentTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Managers/Create
+        // POST: ContentTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Manager manager)
+        public async Task<IActionResult> Create([Bind("Id,Name")] ContentType contentType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(manager);
+                _context.Add(contentType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            return View(contentType);
         }
 
-        // GET: Managers/Edit/5
+        // GET: ContentTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -75,22 +73,22 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers.FindAsync(id);
-            if (manager == null)
+            var contentType = await _context.ContentTypes.FindAsync(id);
+            if (contentType == null)
             {
                 return NotFound();
             }
-            return View(manager);
+            return View(contentType);
         }
 
-        // POST: Managers/Edit/5
+        // POST: ContentTypes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Manager manager)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] ContentType contentType)
         {
-            if (id != manager.Id)
+            if (id != contentType.Id)
             {
                 return NotFound();
             }
@@ -99,12 +97,12 @@ namespace PNN.Web.Controllers
             {
                 try
                 {
-                    _context.Update(manager);
+                    _context.Update(contentType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ManagerExists(manager.Id))
+                    if (!ContentTypeExists(contentType.Id))
                     {
                         return NotFound();
                     }
@@ -115,10 +113,10 @@ namespace PNN.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
+            return View(contentType);
         }
 
-        // GET: Managers/Delete/5
+        // GET: ContentTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -126,30 +124,30 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var manager = await _context.Managers
+            var contentType = await _context.ContentTypes
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
+            if (contentType == null)
             {
                 return NotFound();
             }
 
-            return View(manager);
+            return View(contentType);
         }
 
-        // POST: Managers/Delete/5
+        // POST: ContentTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var manager = await _context.Managers.FindAsync(id);
-            _context.Managers.Remove(manager);
+            var contentType = await _context.ContentTypes.FindAsync(id);
+            _context.ContentTypes.Remove(contentType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ManagerExists(int id)
+        private bool ContentTypeExists(int id)
         {
-            return _context.Managers.Any(e => e.Id == id);
+            return _context.ContentTypes.Any(e => e.Id == id);
         }
     }
 }

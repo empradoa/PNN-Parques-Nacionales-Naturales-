@@ -33,10 +33,28 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Owners" asp-action="Index">Owners</a></li>
-                    <li><a asp-area="" asp-controller="Parks" asp-action="Index">Parks</a></li>
-                    <li><a asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <li><a asp-area="" asp-controller="Owners" asp-action="Index">Propietarios</a></li>
+                        <li><a asp-area="" asp-controller="Parks" asp-action="Index">Parques</a></li>
+                        <li><a asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                        <li><a asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a></li>
+                        <li><a asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a></li>
+                    }
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @* Si el usuario es valido loguea *@
+                        <li><a asp-area="" asp-controller="Account" asp-action="ChangeUser">@User.Identity.Name</a></li>
+                        <li><a asp-area="" asp-controller="Account" asp-action="Logout">Salir</a></li>
+                    }
+                    else
+                    {
+                        <li><a asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a></li>
+                    }
+                </ul>
+
             </div>
         </div>
     </nav>

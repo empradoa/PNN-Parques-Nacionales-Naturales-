@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using PNN.Web.Data.Entities;
+using PNN.Web.Models;
 
 namespace PNN.Web.Helpers
 {
@@ -11,13 +12,19 @@ namespace PNN.Web.Helpers
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<User> _signInManager;
 
         public UserHelper(
             UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            //trabaja con usuarios personalizados
+            SignInManager<User> signInManager)
         {
+
+            //propiedades de solo lectura que see inicia en el constructor de la clase
             _userManager = userManager;
             _roleManager = roleManager;
+            _signInManager = signInManager;
         }
 
         //adicionar un nuevo usuario de forma asincrona
@@ -56,5 +63,22 @@ namespace PNN.Web.Helpers
         {
             return await _userManager.IsInRoleAsync(user, roleName);
         }
+
+        //Implementación del metodo para loguearse declarado en el IUserHelper
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
+        {
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);//en caso de ir true debe implemetarse la funcionalidad para desbloquear usuarios bloqueados
+        }
+
+        //implementación del metodo para desloguear del IUserHelper
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
+
     }
 }

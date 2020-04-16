@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PNN.Web.Data.Entities;
 using PNN.web.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PNN.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ParksController : Controller
     {
         private readonly DataContext _context;
