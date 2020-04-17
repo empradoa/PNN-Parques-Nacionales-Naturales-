@@ -12,7 +12,7 @@ namespace PNN.Web.Data.Entities
 
         //descripción del contenido
         [Display(Name = "Descripción")]
-        [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
+        //[MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
@@ -34,12 +34,10 @@ namespace PNN.Web.Data.Entities
             : $"https://TDB.azurewebsites.net{ImageUrl.Substring(1)}";
 
         //Like del contenido
-        [MaxLength(10)]
         [Display(Name = "Like")]
         public int Like { get; set; }
 
         //DisLike del contenido
-        [MaxLength(10)]
         [Display(Name = "DisLike")]
         public int DisLike { get; set; }
 

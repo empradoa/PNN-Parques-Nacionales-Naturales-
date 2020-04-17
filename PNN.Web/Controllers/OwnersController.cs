@@ -10,21 +10,28 @@ using PNN.web.Data;
 using Microsoft.AspNetCore.Authorization;
 using PNN.Web.Models;
 using PNN.Web.Helpers;
+using System.IO;
 
 namespace PNN.Web.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class OwnersController : Controller
     {
-        private readonly DataContext _context;
+        private readonly DataContext _dataContext;
         private readonly IUserHelper _userHelper;
+        private readonly ICombosHelper _combosHelper;
+        private readonly IConverterHelper _converterHelper;
 
         public OwnersController(
-            DataContext context,
-            IUserHelper userHelper)
+            DataContext dataContext,
+            IUserHelper userHelper,
+            ICombosHelper combosHelper,
+            IConverterHelper converterHelper)
         {
-            _context = context;
+            _dataContext = dataContext;
             _userHelper = userHelper;
+            _combosHelper = combosHelper;
+            _converterHelper = converterHelper;
         }
 
         // GET: Owners
@@ -32,13 +39,13 @@ namespace PNN.Web.Controllers
         {
             //se hace una especie de consulta sql donde con Include toma forma de Join para relacionar la tabla owners con User
             //select * from owner inner join User
-            return View(_context.Owners
+            return View(_dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Comments)
                 .Include(o => o.Contents));
         }
 
-        // GET: Owners/Details/5
+        //detalles del usuario tener encuenta la consulta a la bd
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,7 +53,7 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var owner = await _dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Comments)
                 .Include(o => o.Contents)
@@ -104,11 +111,11 @@ namespace PNN.Web.Controllers
                     };
 
                     //agregamos el owner
-                    _context.Owners.Add(owner);
+                    _dataContext.Owners.Add(owner);
 
                     try
                     {
-                        await _context.SaveChangesAsync();
+                        await _dataContext.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
                     }
                     catch (Exception ex)
@@ -131,7 +138,7 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners.FindAsync(id);
+            var owner = await _dataContext.Owners.FindAsync(id);
             if (owner == null)
             {
                 return NotFound();
@@ -155,8 +162,8 @@ namespace PNN.Web.Controllers
             {
                 try
                 {
-                    _context.Update(owner);
-                    await _context.SaveChangesAsync();
+                    _dataContext.Update(owner);
+                    await _dataContext.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -182,7 +189,7 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var owner = await _context.Owners
+            var owner = await _dataContext.Owners
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (owner == null)
             {
@@ -197,15 +204,78 @@ namespace PNN.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var owner = await _context.Owners.FindAsync(id);
-            _context.Owners.Remove(owner);
-            await _context.SaveChangesAsync();
+            var owner = await _dataContext.Owners.FindAsync(id);
+            _dataContext.Owners.Remove(owner);
+            await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OwnerExists(int id)
         {
-            return _context.Owners.Any(e => e.Id == id);
+            return _dataContext.Owners.Any(e => e.Id == id);
         }
+
+        //detalles del usuario tener encuenta la consulta a la bd
+        public async Task<IActionResult> AddContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var owner = await _dataContext.Owners.FindAsync(id.Value);
+            if (owner == null)
+            {
+                return NotFound();
+            }
+
+            //instanciamos la clase ContentViewModel que creamos en la carpeta models, para el modelo del contenido
+            var model = new ContentViewModel
+            {
+                Date = DateTime.Today,
+                OwnerId = owner.Id,
+                //creamos una clase ICombosHelps para poder traer la lista de ContentTypes
+                ContentTypes = _combosHelper.GetComboContentTypes(),
+                Parks = _combosHelper.GetComboParks()
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        //sobre cargamos el metodo AddContent para guardar pero le agregamos el modelo ContentViewModel
+        public async Task<IActionResult> AddContent(ContentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = string.Empty;
+
+                if (model.ImageFile != null)
+                {
+                    //agregamos una imagen que no se repita en la carpeta Contents de wwwroot
+                    var guid = Guid.NewGuid().ToString();
+                    var file = $"{guid}.jpg";
+                    path = Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "wwwroot\\images\\Contents",
+                        file);
+
+                    //metodos permiten el cargue de la imagen al servidor
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await model.ImageFile.CopyToAsync(stream);
+                    }
+
+                    path = $"~/images/Contents/{file}";
+                }
+                //creamos una instancia del objeto content y en el metodo ToContect nos devuelve el objeto Content
+                var content = await _converterHelper.ToContentAsync(model, path);
+                _dataContext.Contents.Add(content);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction($"Details/{model.OwnerId}");
+            }
+            return View(model);
+        }
+
     }
 }

@@ -58,7 +58,10 @@ namespace PNN.Web
             services.AddTransient<SeedDb>();
             //Configuramos la inyección del UserHelper donde lo necesitemos
             services.AddScoped<IUserHelper, UserHelper>();
-
+            //una vez creamos el ICombosHelper lo inyectamos aqui
+            services.AddScoped<ICombosHelper, CombosHelper>();
+            //agregamos el IConverterHelper lo inyectamos aqui
+            services.AddScoped<IConverterHelper, ConverterHelper>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
