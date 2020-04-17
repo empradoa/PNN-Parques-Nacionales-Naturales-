@@ -41,7 +41,7 @@ namespace PNN.Web.Controllers
                     }
 
                     //si no me logueo lo devuelvo a la vista index del controlador Home
-                    return RedirectToAction("Index", "Owners");
+                    return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Usuario o password no valido");
                 model.Password = string.Empty;

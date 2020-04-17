@@ -10,8 +10,8 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200416091642_UpdateDB")]
-    partial class UpdateDB
+    [Migration("20200417064246_UpdateOwner")]
+    partial class UpdateOwner
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -518,7 +518,7 @@ namespace PNN.Web.Migrations
                         .HasForeignKey("LocationId");
 
                     b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
-                        .WithMany("Content")
+                        .WithMany("Contents")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")

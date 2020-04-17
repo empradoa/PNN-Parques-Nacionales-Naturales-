@@ -13,7 +13,7 @@ public class Owner
         public Location Location { get; set; }
 
         //relacion entre Owner y Content
-        public ICollection<Content> Content { get; set; }
+        public ICollection<Content> Contents { get; set; }
         //relacion entre Owner y comment
         public ICollection<Comment> Comments { get; set; }
     }

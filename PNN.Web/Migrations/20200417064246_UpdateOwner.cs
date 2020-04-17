@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PNN.Web.Migrations
 {
-    public partial class UpdateDB : Migration
+    public partial class UpdateOwner : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -516,7 +516,7 @@ namespace PNN.Web.Migrations
                         .HasForeignKey("LocationId");
 
                     b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
-                        .WithMany("Content")
+                        .WithMany("Contents")
                         .HasForeignKey("OwnerId");
 
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")

@@ -21,7 +21,7 @@ namespace PNN.Web.Data.Entities
         public string Description { get; set; }
 
         //Año de creación del parque
-        [Display(Name = "Año de Creacion")]
+        [Display(Name = "Creación")]
         [MaxLength(20, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Creation { get; set; }
@@ -33,7 +33,7 @@ namespace PNN.Web.Data.Entities
             ? null
             : $"https://TDB.azurewebsites.net{ImageUrl.Substring(1)}";
 
-        [Display(Name = "Estado del Parque")]
+        [Display(Name = "Estado")]
         [MaxLength(30, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         public string Been { get; set; }
 
