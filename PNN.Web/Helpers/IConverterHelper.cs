@@ -6,6 +6,9 @@ namespace PNN.Web.Helpers
 {
     public interface IConverterHelper
     {
-        Task<Content> ToContentAsync(ContentViewModel model, string path);
+        Task<Content> ToContentAsync(ContentViewModel model, string path, bool isNew);
+
+        ContentViewModel ToContentViewModel(Content content);
+
     }
 }

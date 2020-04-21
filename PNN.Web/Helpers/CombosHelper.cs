@@ -29,7 +29,7 @@ namespace PNN.Web.Helpers
                 .ToList();
 
             //insertamos la primera linea 0 para que el usuario sepa lo que va a seleccionar
-            list.Insert(0, new SelectListItem
+            list.Insert(1, new SelectListItem
             {
                 Text = "Seleccione el tipo de publicación",
                 Value = "0"
@@ -45,15 +45,15 @@ namespace PNN.Web.Helpers
                 Text = ct.Name,
                 Value = $"{ct.Id}"
             })
-                .OrderBy(ct => ct.Text)
+                .OrderBy(ct => ct.Value)
                 .ToList();
 
             //insertamos la primera linea 0 para que el usuario sepa lo que va a seleccionar
-            list.Insert(0, new SelectListItem
-            {
-                Text = "Puede seleccionar un parque nacional si lo desea",
-                Value = "0"
-            });
+            //list.Insert(1, new SelectListItem
+            //{
+                //Text = "Puede seleccionar un parque nacional si lo desea",
+                //Value = "1"
+            //});
 
             return list;
         }

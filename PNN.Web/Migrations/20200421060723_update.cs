@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PNN.Web.Migrations
 {
-    public partial class UpdateOwner : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -249,16 +249,16 @@ namespace PNN.Web.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Description = table.Column<string>(maxLength: 300, nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     Creation = table.Column<string>(maxLength: 20, nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
                     Been = table.Column<string>(maxLength: 30, nullable: true),
                     Extension = table.Column<string>(maxLength: 30, nullable: true),
                     Height = table.Column<string>(maxLength: 30, nullable: true),
                     Temperature = table.Column<string>(maxLength: 30, nullable: true),
-                    Flora = table.Column<string>(maxLength: 300, nullable: true),
-                    Wildlife = table.Column<string>(maxLength: 300, nullable: true),
-                    Communities = table.Column<string>(maxLength: 300, nullable: true),
+                    Flora = table.Column<string>(nullable: true),
+                    Wildlife = table.Column<string>(nullable: true),
+                    Communities = table.Column<string>(nullable: true),
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),
                     ManagerId = table.Column<int>(nullable: true),
@@ -287,11 +287,11 @@ namespace PNN.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(maxLength: 50, nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     ImageUrl = table.Column<string>(nullable: true),
-                    Like = table.Column<int>(maxLength: 10, nullable: false),
-                    DisLike = table.Column<int>(maxLength: 10, nullable: false),
+                    Like = table.Column<int>(nullable: false),
+                    DisLike = table.Column<int>(nullable: false),
                     ContentTypeId = table.Column<int>(nullable: true),
                     ParkId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true),

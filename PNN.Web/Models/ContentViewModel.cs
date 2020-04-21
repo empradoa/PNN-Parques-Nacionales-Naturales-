@@ -17,7 +17,7 @@ namespace PNN.Web.Models
         public int ContentTypeId { get; set; }
 
         [Display(Name = "Parque")]
-        [Range(1, int.MaxValue, ErrorMessage = "Desea especificar un parque natural")]
+        [Range(0, int.MaxValue, ErrorMessage = "Desea especificar un parque natural")]
         public int ParkId { get; set; }
 
         public int LocationId { get; set; }

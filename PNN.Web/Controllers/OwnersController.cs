@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using PNN.Web.Models;
 using PNN.Web.Helpers;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace PNN.Web.Controllers
 {
@@ -21,17 +22,20 @@ namespace PNN.Web.Controllers
         private readonly IUserHelper _userHelper;
         private readonly ICombosHelper _combosHelper;
         private readonly IConverterHelper _converterHelper;
+        private readonly IImageHelper _imageHelper;
 
         public OwnersController(
             DataContext dataContext,
             IUserHelper userHelper,
             ICombosHelper combosHelper,
-            IConverterHelper converterHelper)
+            IConverterHelper converterHelper,
+            IImageHelper imageHelper)
         {
             _dataContext = dataContext;
             _userHelper = userHelper;
             _combosHelper = combosHelper;
             _converterHelper = converterHelper;
+            this._imageHelper = imageHelper;
         }
 
         // GET: Owners
@@ -252,30 +256,66 @@ namespace PNN.Web.Controllers
 
                 if (model.ImageFile != null)
                 {
-                    //agregamos una imagen que no se repita en la carpeta Contents de wwwroot
-                    var guid = Guid.NewGuid().ToString();
-                    var file = $"{guid}.jpg";
-                    path = Path.Combine(
-                        Directory.GetCurrentDirectory(),
-                        "wwwroot\\images\\Contents",
-                        file);
-
-                    //metodos permiten el cargue de la imagen al servidor
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await model.ImageFile.CopyToAsync(stream);
-                    }
-
-                    path = $"~/images/Contents/{file}";
+                    //invocamos el metodo UploadImageAsync de IImageHelper
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile);                    
                 }
                 //creamos una instancia del objeto content y en el metodo ToContect nos devuelve el objeto Content
-                var content = await _converterHelper.ToContentAsync(model, path);
+                //true porque es un nuevo contenido
+                var content = await _converterHelper.ToContentAsync(model, path, true);
                 _dataContext.Contents.Add(content);
                 await _dataContext.SaveChangesAsync();
                 return RedirectToAction($"Details/{model.OwnerId}");
             }
+            model.ContentTypes = _combosHelper.GetComboContentTypes();
+            model.Parks = _combosHelper.GetComboParks();
             return View(model);
         }
 
+        //detalles del usuario tener encuenta la consulta a la bd el Id no es el Id del owner sino del Content que viene de details del owner METODO GET
+        public async Task<IActionResult> EditContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var content = await _dataContext.Contents
+                .Include(ct => ct.Owner)
+                .Include(ct => ct.ContentType)
+                .Include(ct => ct.Park)
+                .Include(ct => ct.Location)
+                .FirstOrDefaultAsync(ct => ct.Id == id);
+            if (content == null)
+            {
+                return NotFound();
+            }
+            //invocamos el metodo ToContentViewModel del ConverterHelper para pintar los datos en el formulario editar content
+            return View(_converterHelper.ToContentViewModel(content));
+        }
+
+        [HttpPost]
+        //sobrecargamos el metodo EditContent para armar el POST
+        public async Task<IActionResult> EditContent(ContentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var path = model.ImageUrl;
+
+                if (model.ImageFile != null)
+                {
+                    //invocamos el metodo UploadImageAsync de IImageHelper
+                    path = await _imageHelper.UploadImageAsync(model.ImageFile);
+                }
+                //creamos una instancia del objeto content y en el metodo ToContect nos devuelve el objeto Content
+                //false porque no es un nuevo contenido
+                var content = await _converterHelper.ToContentAsync(model, path, false);
+                _dataContext.Contents.Update(content);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction($"Details/{model.OwnerId}");
+            }
+            model.ContentTypes = _combosHelper.GetComboContentTypes();
+            model.Parks = _combosHelper.GetComboParks();
+            return View(model);
+        }
     }
 }

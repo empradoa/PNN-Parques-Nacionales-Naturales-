@@ -17,12 +17,12 @@ namespace PNN.Web.Data.Entities
         public string Description { get; set; }
 
         //fecha de la publicación del cotenido
-        [Display(Name = "Fecha*")]
+        [Display(Name = "Fecha")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm:ss}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
-        [Display(Name = "Fecha*")]
+        [Display(Name = "Fecha")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime DateLocal => Date.ToLocalTime();
 

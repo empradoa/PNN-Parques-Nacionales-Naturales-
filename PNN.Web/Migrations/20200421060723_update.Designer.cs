@@ -10,8 +10,8 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200417064246_UpdateOwner")]
-    partial class UpdateOwner
+    [Migration("20200421060723_update")]
+    partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -173,16 +173,13 @@ namespace PNN.Web.Migrations
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(50);
+                        .IsRequired();
 
-                    b.Property<int>("DisLike")
-                        .HasMaxLength(10);
+                    b.Property<int>("DisLike");
 
                     b.Property<string>("ImageUrl");
 
-                    b.Property<int>("Like")
-                        .HasMaxLength(10);
+                    b.Property<int>("Like");
 
                     b.Property<int?>("LocationId");
 
@@ -276,24 +273,21 @@ namespace PNN.Web.Migrations
                     b.Property<string>("Been")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Communities")
-                        .HasMaxLength(300);
+                    b.Property<string>("Communities");
 
                     b.Property<string>("Creation")
                         .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(300);
+                        .IsRequired();
 
                     b.Property<int>("DisLike");
 
                     b.Property<string>("Extension")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Flora")
-                        .HasMaxLength(300);
+                    b.Property<string>("Flora");
 
                     b.Property<string>("Height")
                         .HasMaxLength(30);
@@ -313,8 +307,7 @@ namespace PNN.Web.Migrations
                     b.Property<string>("Temperature")
                         .HasMaxLength(30);
 
-                    b.Property<string>("Wildlife")
-                        .HasMaxLength(300);
+                    b.Property<string>("Wildlife");
 
                     b.HasKey("Id");
 

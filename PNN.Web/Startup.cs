@@ -62,6 +62,8 @@ namespace PNN.Web
             services.AddScoped<ICombosHelper, CombosHelper>();
             //agregamos el IConverterHelper lo inyectamos aqui
             services.AddScoped<IConverterHelper, ConverterHelper>();
+            //agregamos el IImageHelper lo inyectamos aqui
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

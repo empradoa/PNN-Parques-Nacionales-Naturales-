@@ -130,7 +130,7 @@ namespace PNN.Web.Data
             var location = _dataContext.Locations.FirstOrDefault();
             if (!_dataContext.Parks.Any())
             {
-                AddPark("Parque Nacional Natural Catatumbo Barí", "Se encuentra ubicado al nororiente","1989","Cerrado para el público", "158.125 Hectáreas", "200 - 1800 msnm", "Promedio 22.5 °C", "El territorio está cubierto","", "", manager, location);
+                AddPark("Prefiero no registra el parque", "","2020","", "", "", "", "","", "", manager, location);
                 await _dataContext.SaveChangesAsync();
             }
         }
