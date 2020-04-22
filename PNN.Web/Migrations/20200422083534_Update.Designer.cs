@@ -10,8 +10,8 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200421060723_update")]
-    partial class update
+    [Migration("20200422083534_Update")]
+    partial class Update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -138,6 +138,8 @@ namespace PNN.Web.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("ContentId");
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
                         .IsRequired()

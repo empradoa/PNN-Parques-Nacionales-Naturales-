@@ -317,5 +317,29 @@ namespace PNN.Web.Controllers
             model.Parks = _combosHelper.GetComboParks();
             return View(model);
         }
+
+        //editamos el contentenido o publicación del owner
+        public async Task<IActionResult> DetailsContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var content = await _dataContext.Contents
+                .Include(ct => ct.Owner)
+                .ThenInclude(o => o.User)
+                .Include(ct => ct.Comments)
+                .ThenInclude(ct => ct.Content)
+                .Include(t => t.ContentType)
+                .FirstOrDefaultAsync(o => o.Id == id.Value);
+            if (content == null)
+            {
+                return NotFound();
+            }
+
+            return View(content);
+        }
+
     }
 }

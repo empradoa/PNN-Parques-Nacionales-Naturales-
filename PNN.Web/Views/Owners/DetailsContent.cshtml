@@ -1,0 +1,134 @@
+﻿@model PNN.Web.Data.Entities.Content
+@{
+    ViewData["Title"] = "DetailsContent";
+}
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info">
+                <h6 style="color:white;">Detalles de la publicación</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <center><img src="@Url.Content(Model.ImageUrl)" alt="Image" style="height:170px;max-height: 100%; width: auto;" /></center>
+                        </div>
+                    </li>
+                    }
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>Usuario:</b>
+                                @Html.DisplayFor(model => model.Owner.User.FullName)
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>@Html.DisplayNameFor(model => model.ContentType.Name):</b>
+                                @Html.DisplayFor(model => model.ContentType.Name)
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>@Html.DisplayNameFor(model => model.Description):</b>
+                                @Html.DisplayFor(model => model.Description)
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>@Html.DisplayNameFor(model => model.Date):</b>
+                                @Html.DisplayFor(model => model.Date)
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>@Html.DisplayNameFor(model => model.Like):</b>
+                                @Html.DisplayFor(model => model.Like)
+                            </span>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group form-group">
+                            <span class="">
+                                <b>@Html.DisplayNameFor(model => model.DisLike):</b>
+                                @Html.DisplayFor(model => model.DisLike)
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+                <br />
+                <a asp-action="EditContent" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+                <a asp-action="Details" asp-route-id="@Model.Owner.Id" class="btn btn-success">Volver</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="input-group form-group">
+            <h4>Comentarios</h4>
+            <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-primary">Comentar</a>
+        </div>
+        <hr />
+        @if (Model.Comments.Count == 0)
+        {
+            <h5>No hay comentarios para esta publicación.</h5>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Comments.FirstOrDefault().Date)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Comments.FirstOrDefault().Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Comments.FirstOrDefault().Like)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Comments.FirstOrDefault().DisLike)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Comments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Like)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DisLike)
+                            </td>
+                            <td>
+                                <a asp-action="EditHistory" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                                <a asp-action="DeleteHistory" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>

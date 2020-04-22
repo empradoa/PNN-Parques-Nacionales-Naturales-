@@ -11,7 +11,7 @@ namespace PNN.Web.Data.Entities
         public int Id { get; set; }
 
         //descripción del contenido
-        [Display(Name = "Descripción")]
+        [Display(Name = "Publicación")]
         //[MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }

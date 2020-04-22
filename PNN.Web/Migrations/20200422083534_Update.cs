@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PNN.Web.Migrations
 {
-    public partial class update : Migration
+    public partial class Update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -378,6 +378,7 @@ namespace PNN.Web.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),
                     ZoneId = table.Column<int>(nullable: true),

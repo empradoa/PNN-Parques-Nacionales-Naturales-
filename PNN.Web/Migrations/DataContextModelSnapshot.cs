@@ -137,6 +137,8 @@ namespace PNN.Web.Migrations
 
                     b.Property<int?>("ContentId");
 
+                    b.Property<DateTime>("Date");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(200);
