@@ -140,8 +140,7 @@ namespace PNN.Web.Migrations
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200);
+                        .IsRequired();
 
                     b.Property<int>("DisLike");
 

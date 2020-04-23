@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PNN.web.Data;
 using PNN.Web.Data.Entities;
 using PNN.Web.Models;
@@ -63,5 +64,32 @@ namespace PNN.Web.Helpers
                 //LocationId = content.Location.Id               
             };
         }
+        //metodo para agregar comentario desde contenido o publicación de CommentViewModel a Comment
+        public async Task<Comment> ToCommentAsync(CommentViewModel model, bool isNew)
+        {
+
+            return new Comment
+            {
+                Date = DateTime.Now,
+                Description = model.Description,
+                Id = isNew ? 0 : model.Id,
+                Content = await _dataContext.Contents.FindAsync(model.ContentId),
+                Owner = await _dataContext.Owners.FindAsync(model.OwnerId)
+            };
+        }
+
+        //metodo para agregar comentario desde contenido o publicación de Comment a CommentViewModel
+        public CommentViewModel ToCommentViewModel(Comment comment)        {
+            
+            return new CommentViewModel
+            {
+                Date = comment.Date,
+                Description = comment.Description,
+                Id = comment.Id,
+                ContentId = comment.Content.Id,
+                OwnerId = comment.Owner.Id
+            };
+        }
+
     }
 }

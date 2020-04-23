@@ -78,9 +78,8 @@
     <div class="col-md-8">
         <div class="input-group form-group">
             <h4>Comentarios</h4>
-            <a asp-action="AddComment" asp-route-id="@Model.Id" class="btn btn-primary">Comentar</a>
+            <a asp-action="AddCommentToContent" asp-route-id="@Model.Id" class="btn btn-primary">Comentar</a>
         </div>
-        <hr />
         @if (Model.Comments.Count == 0)
         {
             <h5>No hay comentarios para esta publicación.</h5>

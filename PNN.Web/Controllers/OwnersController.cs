@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace PNN.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class OwnersController : Controller
     {
         private readonly DataContext _dataContext;
@@ -339,6 +339,64 @@ namespace PNN.Web.Controllers
             }
 
             return View(content);
+        }
+
+        //metodo para agregar comentarios a las publicaciones o contenidos
+        public async Task<IActionResult> AddCommentToContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }            
+
+            var content = await _dataContext.Contents.FindAsync(id.Value);
+            var owner = await _dataContext.Contents.FindAsync(id.Value);
+            if (content == null)
+            {
+                return NotFound();
+            }
+
+
+            //nos traemos los datos del usuario logeado
+            //var owner = await _dataContext.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+
+            var model = new CommentViewModel
+            {
+                Date = DateTime.Now,
+                ContentId = content.Id,
+                OwnerId = owner.Id
+            };
+
+            return View(model);
+        }
+
+        //sobre cargamos el metodo AddCommentToContent pero en el HttpPost
+        [HttpPost]
+        public async Task<IActionResult> AddCommentToContent(CommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //var comment = await _dataContext.Comments.FindAsync(model.Id);
+                if (ModelState.IsValid)
+                {
+                    var comment = await _converterHelper.ToCommentAsync(model, true);
+                    _dataContext.Comments.Add(comment);
+                    await _dataContext.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
+                }
+                /*var comment = await _dataContext.Comments.FindAsync(model.Id);
+                if (comment != null)
+                {
+                    comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
+                    comment.Content = await _dataContext.Contents.FindAsync(model.ContentId);
+                    comment.Description = model.Description;
+                    _dataContext.Comments.Update(comment);
+                    await _dataContext.SaveChangesAsync();
+                    return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
+                }*/
+            }
+
+            return View(model);
         }
 
     }

@@ -377,7 +377,7 @@ namespace PNN.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(maxLength: 200, nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     Date = table.Column<DateTime>(nullable: false),
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),

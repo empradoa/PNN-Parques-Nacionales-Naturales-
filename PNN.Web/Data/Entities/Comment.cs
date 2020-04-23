@@ -12,7 +12,6 @@ namespace PNN.Web.Data.Entities
 
         //Nombre de owner para ingresar a la app
         [Display(Name = "Comentario")]
-        [MaxLength(200, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public string Description { get; set; }
 
