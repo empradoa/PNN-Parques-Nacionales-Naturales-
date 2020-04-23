@@ -45,7 +45,6 @@ namespace PNN.Web.Controllers
             //select * from owner inner join User
             return View(_dataContext.Owners
                 .Include(o => o.User)
-                .Include(o => o.Comments)
                 .Include(o => o.Contents));
         }
 
@@ -59,7 +58,7 @@ namespace PNN.Web.Controllers
 
             var owner = await _dataContext.Owners
                 .Include(o => o.User)
-                .Include(o => o.Comments)
+                //.Include(o => o.Comments)
                 .Include(o => o.Contents)
                 .ThenInclude(ct => ct.ContentType)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -110,7 +109,7 @@ namespace PNN.Web.Controllers
                     var owner = new Owner
                     {
                         Contents = new List<Content>(),
-                        Comments = new List<Comment>(),
+                        //Comments = new List<Comment>(),
                         User = userInDB
                     };
 
@@ -350,21 +349,24 @@ namespace PNN.Web.Controllers
             }            
 
             var content = await _dataContext.Contents.FindAsync(id.Value);
-            var owner = await _dataContext.Contents.FindAsync(id.Value);
+            //var user = await _dataContext.Users.FindAsync(id.Value);
             if (content == null)
             {
                 return NotFound();
             }
 
-
             //nos traemos los datos del usuario logeado
             //var owner = await _dataContext.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
+
+            var user = await _dataContext.Users
+                .Include(ct => ct.Comments)
+                .FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
 
             var model = new CommentViewModel
             {
                 Date = DateTime.Now,
                 ContentId = content.Id,
-                OwnerId = owner.Id
+                UserId = user.Id
             };
 
             return View(model);
@@ -380,20 +382,26 @@ namespace PNN.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     var comment = await _converterHelper.ToCommentAsync(model, true);
+                    //comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
                     _dataContext.Comments.Add(comment);
                     await _dataContext.SaveChangesAsync();
                     return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
                 }
-                /*var comment = await _dataContext.Comments.FindAsync(model.Id);
+
+
+                /*bool isNew = true;
+                var comment = await _dataContext.Comments.FindAsync(model.Id);
                 if (comment != null)
                 {
+                    comment.Id = isNew ? 0 : model.Id;
                     comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
                     comment.Content = await _dataContext.Contents.FindAsync(model.ContentId);
                     comment.Description = model.Description;
                     _dataContext.Comments.Update(comment);
                     await _dataContext.SaveChangesAsync();
                     return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
-                }*/
+                }
+                */
             }
 
             return View(model);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PNN.Web.Models;
 
@@ -12,12 +13,14 @@ namespace PNN.Web.Controllers
     {
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("Test","funciona");
             return View();
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewBag.sessionv = HttpContext.Session.GetString("Text");
+            //ViewData["Message"] = "Your application description page.";
 
             return View();
         }

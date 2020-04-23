@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PNN.Web.Migrations
 {
-    public partial class Update : Migration
+    public partial class update : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -383,7 +383,7 @@ namespace PNN.Web.Migrations
                     DisLike = table.Column<int>(nullable: false),
                     ZoneId = table.Column<int>(nullable: true),
                     ContentId = table.Column<int>(nullable: true),
-                    OwnerId = table.Column<int>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -395,9 +395,9 @@ namespace PNN.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
+                        name: "FK_Comments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -453,9 +453,9 @@ namespace PNN.Web.Migrations
                 column: "ContentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_OwnerId",
+                name: "IX_Comments_UserId",
                 table: "Comments",
-                column: "OwnerId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ZoneId",

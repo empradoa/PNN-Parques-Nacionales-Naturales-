@@ -15,6 +15,6 @@ public class Owner
         //relacion entre Owner y Content
         public ICollection<Content> Contents { get; set; }
         //relacion entre Owner y comment
-        public ICollection<Comment> Comments { get; set; }
+        //public ICollection<Comment> Comments { get; set; }
     }
 }

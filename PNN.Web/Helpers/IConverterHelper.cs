@@ -18,6 +18,5 @@ namespace PNN.Web.Helpers
 
         // convierte de Comment a CommentViewModel
         CommentViewModel ToCommentViewModel(Comment comment);
-
     }
 }

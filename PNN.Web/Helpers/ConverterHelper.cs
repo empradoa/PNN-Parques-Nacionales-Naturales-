@@ -68,14 +68,27 @@ namespace PNN.Web.Helpers
         public async Task<Comment> ToCommentAsync(CommentViewModel model, bool isNew)
         {
 
-            return new Comment
+           return new Comment
             {
                 Date = DateTime.Now,
                 Description = model.Description,
                 Id = isNew ? 0 : model.Id,
                 Content = await _dataContext.Contents.FindAsync(model.ContentId),
-                Owner = await _dataContext.Owners.FindAsync(model.OwnerId)
+                User = await _dataContext.Users.FindAsync(model.UserId)
             };
+
+
+            /*var comment = await _dataContext.Comments.FindAsync(model.Id);
+            if (comment != null)
+            {
+                comment.Date = DateTime.Now;
+                comment.Id = isNew ? 0 : model.Id;
+                comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
+                comment.Content = await _dataContext.Contents.FindAsync(model.ContentId);
+                comment.Description = model.Description;
+            }
+
+            return comment; */
         }
 
         //metodo para agregar comentario desde contenido o publicación de Comment a CommentViewModel
@@ -87,9 +100,10 @@ namespace PNN.Web.Helpers
                 Description = comment.Description,
                 Id = comment.Id,
                 ContentId = comment.Content.Id,
-                OwnerId = comment.Owner.Id
+                //OwnerId = comment.User.Id
             };
         }
+
 
     }
 }

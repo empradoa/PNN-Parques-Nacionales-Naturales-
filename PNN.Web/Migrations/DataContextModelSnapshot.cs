@@ -146,7 +146,7 @@ namespace PNN.Web.Migrations
 
                     b.Property<int>("Like");
 
-                    b.Property<int?>("OwnerId");
+                    b.Property<string>("UserId");
 
                     b.Property<int?>("ZoneId");
 
@@ -154,7 +154,7 @@ namespace PNN.Web.Migrations
 
                     b.HasIndex("ContentId");
 
-                    b.HasIndex("OwnerId");
+                    b.HasIndex("UserId");
 
                     b.HasIndex("ZoneId");
 
@@ -490,9 +490,9 @@ namespace PNN.Web.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("ContentId");
 
-                    b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
+                    b.HasOne("PNN.Web.Data.Entities.User", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("OwnerId");
+                        .HasForeignKey("UserId");
 
                     b.HasOne("PNN.Web.Data.Entities.Zone", "Zone")
                         .WithMany("Comments")

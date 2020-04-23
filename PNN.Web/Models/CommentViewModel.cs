@@ -11,8 +11,8 @@ namespace PNN.Web.Models
     {
         public int ContentId { get; set; }
         public int ZoneId { get; set; }
-        public int OwnerId { get; set; }
+        public String UserId { get; set; }
 
-        public IEnumerable<SelectListItem> Owners { get; set; }
+        public IEnumerable<SelectListItem> Users { get; set; }
     }
 }

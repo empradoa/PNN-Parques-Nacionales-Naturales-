@@ -37,5 +37,8 @@ namespace PNN.Web.Data.Entities
 
         [Display(Name = "Nombres completos")]
         public string FullNameWithUsername => $"{FirstName} {LastName} - {UserName}";
+
+        //relacion entre User y comment
+        public ICollection<Comment> Comments { get; set; }
     }
 }

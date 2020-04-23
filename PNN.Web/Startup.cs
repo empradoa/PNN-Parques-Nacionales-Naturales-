@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -54,6 +55,9 @@ namespace PNN.Web
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
             //agregamos una linea despues de insertar los datos en el SeedDb de Entities.
             services.AddTransient<SeedDb>();
             //Configuramos la inyección del UserHelper donde lo necesitemos
@@ -82,10 +86,14 @@ namespace PNN.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //Agregamos esto para sesiones
+            //app.UseHttpContextItemsMiddleware();
             //se agrega esta linea revisar tutorial 7
             app.UseAuthentication();
             app.UseCookiePolicy();
 
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

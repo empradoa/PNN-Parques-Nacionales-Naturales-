@@ -36,6 +36,6 @@ namespace PNN.Web.Data.Entities
         //relacion entre tablas foreign keys
         public Zone Zone { get; set; }
         public Content Content { get; set; }
-        public Owner Owner { get; set; }
+        public User User { get; set; }
     }
 }
