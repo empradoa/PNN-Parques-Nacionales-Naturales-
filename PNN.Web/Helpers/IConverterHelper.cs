@@ -14,9 +14,9 @@ namespace PNN.Web.Helpers
 
 
         // convierte de ToCommentContentAsync a Comment
-        Task<Comment> ToCommentAsync(CommentViewModel model, bool isNew);
+        Task<Comment> ToCommentToContentAsync(CommentViewModel model, bool isNew);
 
         // convierte de Comment a CommentViewModel
-        CommentViewModel ToCommentViewModel(Comment comment);
+        CommentViewModel ToCommentToContentViewModel(Comment comment);
     }
 }

@@ -65,7 +65,7 @@ namespace PNN.Web.Helpers
             };
         }
         //metodo para agregar comentario desde contenido o publicación de CommentViewModel a Comment
-        public async Task<Comment> ToCommentAsync(CommentViewModel model, bool isNew)
+        public async Task<Comment> ToCommentToContentAsync(CommentViewModel model, bool isNew)
         {
 
            return new Comment
@@ -76,23 +76,10 @@ namespace PNN.Web.Helpers
                 Content = await _dataContext.Contents.FindAsync(model.ContentId),
                 User = await _dataContext.Users.FindAsync(model.UserId)
             };
-
-
-            /*var comment = await _dataContext.Comments.FindAsync(model.Id);
-            if (comment != null)
-            {
-                comment.Date = DateTime.Now;
-                comment.Id = isNew ? 0 : model.Id;
-                comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
-                comment.Content = await _dataContext.Contents.FindAsync(model.ContentId);
-                comment.Description = model.Description;
-            }
-
-            return comment; */
         }
 
         //metodo para agregar comentario desde contenido o publicación de Comment a CommentViewModel
-        public CommentViewModel ToCommentViewModel(Comment comment)        {
+        public CommentViewModel ToCommentToContentViewModel(Comment comment)        {
             
             return new CommentViewModel
             {
@@ -100,7 +87,7 @@ namespace PNN.Web.Helpers
                 Description = comment.Description,
                 Id = comment.Id,
                 ContentId = comment.Content.Id,
-                //OwnerId = comment.User.Id
+                UserId = comment.User.Id
             };
         }
 

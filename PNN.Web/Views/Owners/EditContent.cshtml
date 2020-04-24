@@ -3,16 +3,20 @@
 @{
     ViewData["Title"] = "Editar";
 }
-<h4>Publicación</h4>
+<br />
 <hr />
 <div class="row">
-    <div class="fa-image" style="margin-left: auto;margin-right: auto;display: block;">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
-        {
-            <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="width:400px;height:400px;max-width: 100%; height: auto;" />
-        }
+    <div class="col-md-4">
+        <div class="fa-image" style="align-content: center;justify-content: center;">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="height:100%; width: 100%;" />
+            }
+        </div>
     </div>
-    <div class="col-md-12">
+    <div class="col-md-6">
+        <h4>Editar Publicación</h4>
+        <br />
         <form asp-action="EditContent" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
@@ -22,7 +26,7 @@
             <partial name="_Content" />
 
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
                 <a asp-action="Details" asp-route-id="@Model.OwnerId" class="btn btn-success">volver</a>
             </div>
         </form>

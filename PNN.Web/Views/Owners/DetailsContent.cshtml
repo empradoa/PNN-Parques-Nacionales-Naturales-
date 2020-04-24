@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "DetailsContent";
 }
-<br />
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,8 +14,8 @@
                     @if (!string.IsNullOrEmpty(Model.ImageUrl))
                     {
                     <li class="list-group-item">
-                        <div class="input-group form-group">
-                            <center><img src="@Url.Content(Model.ImageUrl)" alt="Image" style="height:170px;max-height: 100%; width: auto;" /></center>
+                        <div class="input-group form-group" style="align-content: center;justify-content: center">
+                            <center><img src="@Url.Content(Model.ImageUrl)" alt="Image" style="height:100%; width: 100%;" /></center>
                         </div>
                     </li>
                     }
@@ -63,8 +62,8 @@
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.DisLike):</b>
-                                @Html.DisplayFor(model => model.DisLike)
+                                <b># Comentarios:</b>
+                                @Html.DisplayFor(model => model.Comments.Count)
                             </span>
                         </div>
                     </li>
@@ -121,8 +120,8 @@
                                 @Html.DisplayFor(modelItem => item.DisLike)
                             </td>
                             <td>
-                                <a asp-action="EditHistory" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                                <a asp-action="DeleteHistory" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                                <a asp-action="EditCommentToContent" asp-route-id="@item.Id" class="btn btn-warning">Editar</a>
+                                <a asp-action="DeleteComment" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
                             </td>
                         </tr>
                     }

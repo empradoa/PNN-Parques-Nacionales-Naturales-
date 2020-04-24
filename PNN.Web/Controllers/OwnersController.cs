@@ -46,6 +46,7 @@ namespace PNN.Web.Controllers
             return View(_dataContext.Owners
                 .Include(o => o.User)
                 .Include(o => o.Contents));
+                //.ThenInclude(c => c.Comments)
         }
 
         //detalles del usuario tener encuenta la consulta a la bd
@@ -58,10 +59,11 @@ namespace PNN.Web.Controllers
 
             var owner = await _dataContext.Owners
                 .Include(o => o.User)
-                //.Include(o => o.Comments)
                 .Include(o => o.Contents)
                 .ThenInclude(ct => ct.ContentType)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                //.Include(c => c.User.Comments)
+                .FirstOrDefaultAsync(m => m.Id == id);           
+
             if (owner == null)
             {
                 return NotFound();
@@ -354,10 +356,7 @@ namespace PNN.Web.Controllers
             {
                 return NotFound();
             }
-
-            //nos traemos los datos del usuario logeado
             //var owner = await _dataContext.Owners.FirstOrDefaultAsync(o => o.User.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
-
             var user = await _dataContext.Users
                 .Include(ct => ct.Comments)
                 .FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
@@ -381,27 +380,47 @@ namespace PNN.Web.Controllers
                 //var comment = await _dataContext.Comments.FindAsync(model.Id);
                 if (ModelState.IsValid)
                 {
-                    var comment = await _converterHelper.ToCommentAsync(model, true);
+                    var comment = await _converterHelper.ToCommentToContentAsync(model, true);
                     //comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
                     _dataContext.Comments.Add(comment);
                     await _dataContext.SaveChangesAsync();
                     return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
                 }
+            }
 
+            return View(model);
+        }
 
-                /*bool isNew = true;
-                var comment = await _dataContext.Comments.FindAsync(model.Id);
-                if (comment != null)
-                {
-                    comment.Id = isNew ? 0 : model.Id;
-                    comment.Owner = await _dataContext.Owners.FindAsync(model.OwnerId);
-                    comment.Content = await _dataContext.Contents.FindAsync(model.ContentId);
-                    comment.Description = model.Description;
-                    _dataContext.Comments.Update(comment);
-                    await _dataContext.SaveChangesAsync();
-                    return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
-                }
-                */
+        //metodo para editar comentarios a las publicaciones o contenidos
+        public async Task<IActionResult> EditCommentToContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var comment = await _dataContext.Comments
+                .Include(c => c.Content)
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(ct => ct.Id == id.Value);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            return View(_converterHelper.ToCommentToContentViewModel(comment));
+        }
+
+        //sobre cargamos el metodo EditCommentContent pero en el HttpPost
+        [HttpPost]
+        public async Task<IActionResult> EditCommentToContent(CommentViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var comment = await _converterHelper.ToCommentToContentAsync(model, false);
+                _dataContext.Comments.Update(comment);
+                await _dataContext.SaveChangesAsync();
+                return RedirectToAction($"{nameof(DetailsContent)}/{model.ContentId}");
             }
 
             return View(model);

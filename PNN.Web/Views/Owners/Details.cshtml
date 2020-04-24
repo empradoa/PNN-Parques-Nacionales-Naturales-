@@ -65,8 +65,9 @@
                     </li>
                 </ul>
                 <br />
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
                 <a asp-action="Index" class="btn btn-success">Volver</a>
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+                <a asp-action="AddContent" asp-route-id="@Model.Id" class="btn btn-primary">Publicar</a>
             </div>
         </div>
 
@@ -74,7 +75,6 @@
     <div class="col-md-8">
         <div class="input-group form-group">
             <h3>Publicaciones</h3>
-            <a asp-action="AddContent" asp-route-id="@Model.Id" class="btn btn-primary">Agregar</a>
         </div>
         @if (Model.Contents.Count == 0)
         {
@@ -84,58 +84,50 @@
         {
             <table class="table">
                 <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contents.FirstOrDefault().Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contents.FirstOrDefault().ImageUrl)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contents.FirstOrDefault().DateLocal)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contents.FirstOrDefault().Like)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Contents.FirstOrDefault().DisLike)
-                        </th>
-                        <th></th>
-                    </tr>
+                    
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Contents)
                     {
-                        <tr>
+                        <tr class="btn-light">
                             <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @if (!string.IsNullOrEmpty(item.ImageUrl))
-                                {
-                                    <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateLocal)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Like)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DisLike)
-                            </td>
-                            <td>
-                                <a asp-action="EditContent" asp-route-id="@item.Id" class="btn btn-success">Editar</a>
-                                <a asp-action="DetailsContent" asp-route-id="@item.Id" class="btn btn-info">Detalles</a>
-                                <a asp-action="DeleteContent" asp-route-id="@item.Id" class="btn btn-danger">Eliminar</a>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/images/Contents/noimagen.png" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                        }
+                                    </div>
+                                    <div class="col-md-9">
+                                        <p>
+                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
+                                        </p>
+                                        <p>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </p>                                        
+                                        <a asp-action="EditContent" asp-route-id="@item.Id" class="badge badge-success">Editar</a>
+                                        <a asp-action="DeleteContent" asp-route-id="@item.Id" class="badge badge-danger">Eliminar</a>
+                                        <hr class="btn-light"/>
+                                        <span>
+                                            <a class="badge badge-light">
+                                                Me gusta <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Like)</span>
+                                            </a>
+                                            <a asp-action="DetailsContent" asp-route-id="@item.Id" class="badge badge-light">
+                                                Ver Comentarios <span class="badge badge-primary"></span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         }
-
     </div>
 </div>
 

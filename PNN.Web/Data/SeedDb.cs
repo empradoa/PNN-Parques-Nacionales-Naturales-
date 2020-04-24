@@ -130,7 +130,7 @@ namespace PNN.Web.Data
             var location = _dataContext.Locations.FirstOrDefault();
             if (!_dataContext.Parks.Any())
             {
-                AddPark("Prefiero no registra el parque", "","2020","", "", "", "", "","", "", manager, location);
+                AddPark("Prefiero no registrar el parque", "","2020","", "", "", "", "","", "", manager, location);
                 await _dataContext.SaveChangesAsync();
             }
         }
