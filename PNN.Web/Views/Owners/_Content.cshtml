@@ -2,7 +2,7 @@
 
 <div class="form-group">
     <label asp-for="ContentTypeId" class="control-label"></label>
-    <select asp-for="ContentTypeId" asp-items="Model.ContentTypes" class="form-control"></select>
+    <select asp-for="ContentTypeId" asp-items="Model.ContentTypes" class="form-control" required></select>
     <span asp-validation-for="ContentTypeId" class="text-danger"></span>
 </div>
 
@@ -14,7 +14,7 @@
 
 <div class="form-group">
     <label asp-for="Description" class="control-label"></label>
-    <textarea asp-for="Description" class="form-control"></textarea>
+    <textarea asp-for="Description" class="form-control" required></textarea>
     <span asp-validation-for="Description" class="text-danger"></span>
 </div>
 

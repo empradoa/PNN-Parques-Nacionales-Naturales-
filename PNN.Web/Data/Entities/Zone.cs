@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using PNN.web.Data.Entities;
 
 namespace PNN.Web.Data.Entities
@@ -29,7 +26,7 @@ namespace PNN.Web.Data.Entities
         [Display(Name = "Descripción")]
         [MaxLength(200, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
-        public string Description { get; set; }      
+        public string Description { get; set; }
 
         //Like de la zona
         [Display(Name = "Like")]

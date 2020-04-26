@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PNN.Web.Helpers;
@@ -26,7 +24,7 @@ namespace PNN.Web.Controllers
 
         [HttpPost]
         //sobre cargamos el metodo login, para poder valide los datos en el formulario de login. Heredad de la LoginViewModel
-        public async Task<IActionResult> Login(LoginViewModel model) 
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             //Devolvemos el modelo para que el usuario no pierda lo que digito
             //EL ModelState maneja el estado del controlador, los mensajes de errors del LoginViewModel.cs
@@ -53,7 +51,7 @@ namespace PNN.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _userHelper.LogoutAsync();
-            return RedirectToAction("Index","Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PNN.Web.Data.Entities
 {
@@ -26,6 +23,6 @@ namespace PNN.Web.Data.Entities
         public ICollection<Content> Contents { get; set; }
         public ICollection<Zone> Zones { get; set; }
         public ICollection<Park> Parks { get; set; }
-        public ICollection<Owner> Owners { get; set; }
+        //public ICollection<Owner> Owners { get; set; }
     }
 }

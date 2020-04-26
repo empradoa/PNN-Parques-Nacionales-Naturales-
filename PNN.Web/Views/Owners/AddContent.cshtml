@@ -1,7 +1,8 @@
 ﻿@model PNN.Web.Models.ContentViewModel
 @{
-    ViewData["Title"] = "Publicar";
+    ViewData["Title"] = "Crear";
 }
+
 <br />
 <hr />
 <br />
@@ -12,16 +13,14 @@
         <h4>Nueva Publicación</h4>
         <form asp-action="AddContent" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OwnerId" />
+            <input type="hidden" asp-for="UserId" />
 
-            <partial name="_Content" />
+            <partial name="_content" />
 
             <div class="form-group">
                 <input type="submit" value="Crear" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.OwnerId" class="btn btn-success">volver</a>
+                <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-success">volver</a>
             </div>
         </form>
     </div>
 </div>
-
-

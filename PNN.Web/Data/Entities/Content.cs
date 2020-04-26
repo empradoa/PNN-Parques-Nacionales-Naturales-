@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PNN.Web.Data.Entities
 {
@@ -43,9 +41,9 @@ namespace PNN.Web.Data.Entities
 
         //relacion entre tablas foreign keys
         public ContentType ContentType { get; set; }
-        public Park Park { get; set; }        
+        public Park Park { get; set; }
         public Location Location { get; set; }
-        public Owner Owner { get; set; }
+        public User User { get; set; }
 
         //relacion entre comment y content
         public ICollection<Comment> Comments { get; set; }

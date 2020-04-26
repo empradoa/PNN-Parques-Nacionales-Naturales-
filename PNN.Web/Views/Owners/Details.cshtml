@@ -1,4 +1,4 @@
-﻿@model PNN.Web.Data.Entities.Owner
+﻿@model PNN.Web.Data.Entities.User
 
 @{
     ViewData["Title"] = "Details";
@@ -18,40 +18,40 @@
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.User.FirstName):</b>
-                                @Html.DisplayFor(model => model.User.FirstName)
+                                <b>@Html.DisplayNameFor(model => model.FirstName):</b>
+                                @Html.DisplayFor(model => model.FirstName)
                             </span>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.User.LastName):</b>
-                                @Html.DisplayFor(model => model.User.LastName)
+                                <b>@Html.DisplayNameFor(model => model.LastName):</b>
+                                @Html.DisplayFor(model => model.LastName)
                             </span>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.User.Email):</b>
-                                @Html.DisplayFor(model => model.User.Email)
+                                <b>@Html.DisplayNameFor(model => model.Email):</b>
+                                @Html.DisplayFor(model => model.Email)
                             </span>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.User.CellPhone):</b>
-                                @Html.DisplayFor(model => model.User.CellPhone)
+                                <b>@Html.DisplayNameFor(model => model.CellPhone):</b>
+                                @Html.DisplayFor(model => model.CellPhone)
                             </span>
                         </div>
                     </li>
                     <li class="list-group-item">
                         <div class="input-group form-group">
                             <span class="">
-                                <b>@Html.DisplayNameFor(model => model.User.Address):</b>
-                                @Html.DisplayFor(model => model.User.Address)
+                                <b>@Html.DisplayNameFor(model => model.Address):</b>
+                                @Html.DisplayFor(model => model.Address)
                             </span>
                         </div>
                     </li>
@@ -84,7 +84,7 @@
         {
             <table class="table">
                 <thead>
-                    
+
                 </thead>
                 <tbody>
                     @foreach (var item in Model.Contents)
@@ -103,20 +103,21 @@
                                         }
                                     </div>
                                     <div class="col-md-9">
+                                        @Html.DisplayFor(model => model.FullName)
                                         <p>
-                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
+                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => Ditem.DateLocal) ]</i></a>
                                         </p>
                                         <p>
                                             @Html.DisplayFor(modelItem => item.Description)
-                                        </p>                                        
+                                        </p>
                                         <a asp-action="EditContent" asp-route-id="@item.Id" class="badge badge-success">Editar</a>
                                         <a asp-action="DeleteContent" asp-route-id="@item.Id" class="badge badge-danger">Eliminar</a>
-                                        <hr class="btn-light"/>
+                                        <hr class="btn-light" />
                                         <span>
                                             <a class="badge badge-light">
                                                 Me gusta <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Like)</span>
                                             </a>
-                                            <a asp-action="DetailsContent" asp-route-id="@item.Id" class="badge badge-light">
+                                            <a asp-action="DetailsContent" asp-route-id="@item.Id" class="badge badge-primary">
                                                 Ver Comentarios <span class="badge badge-primary"></span>
                                             </a>
                                         </span>

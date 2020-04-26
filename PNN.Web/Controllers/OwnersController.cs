@@ -1,4 +1,4 @@
-﻿using System;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -43,25 +43,24 @@ namespace PNN.Web.Controllers
         {
             //se hace una especie de consulta sql donde con Include toma forma de Join para relacionar la tabla owners con User
             //select * from owner inner join User
-            return View(_dataContext.Owners
-                .Include(o => o.User)
-                .Include(o => o.Contents));
-                //.ThenInclude(c => c.Comments)
+            return View(_dataContext.Users
+                .Include(o => o.Contents)
+                .ThenInclude(o => o.ContentType)
+                .Include(c => c.Comments));
         }
 
         //detalles del usuario tener encuenta la consulta a la bd
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var owner = await _dataContext.Owners
-                .Include(o => o.User)
+            var owner = await _dataContext.Users
                 .Include(o => o.Contents)
                 .ThenInclude(ct => ct.ContentType)
-                //.Include(c => c.User.Comments)
+                .Include(c => c.Comments)
                 .FirstOrDefaultAsync(m => m.Id == id);           
 
             if (owner == null)
@@ -108,15 +107,21 @@ namespace PNN.Web.Controllers
                     await _userHelper.AddUserToRoleAsync(userInDB, "Customer");
 
                     //como en la tabla de owner no tenemos nada agregamos la datos que necesitamos 
-                    var owner = new Owner
+                    var datos = new User
                     {
                         Contents = new List<Content>(),
-                        //Comments = new List<Comment>(),
-                        User = userInDB
+                        Comments = new List<Comment>(),
+                        Address = model.Address,
+                        Email = model.Username,
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        CellPhone = model.CellPhone,
+                        UserName = model.Username
+                        //User = userInDB
                     };
 
                     //agregamos el owner
-                    _dataContext.Owners.Add(owner);
+                    _dataContext.Users.Add(datos);
 
                     try
                     {
@@ -221,24 +226,25 @@ namespace PNN.Web.Controllers
         }
 
         //detalles del usuario tener encuenta la consulta a la bd
-        public async Task<IActionResult> AddContent(int? id)
+        public async Task<IActionResult> AddContent(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var owner = await _dataContext.Owners.FindAsync(id.Value);
-            if (owner == null)
+            var user = await _dataContext.Users.FindAsync(id.ToString());
+            if (user == null)
             {
                 return NotFound();
             }
 
+            var userInDB = await _userHelper.GetUserByEmailAsync(user.ToString());
             //instanciamos la clase ContentViewModel que creamos en la carpeta models, para el modelo del contenido
             var model = new ContentViewModel
             {
                 Date = DateTime.Today,
-                OwnerId = owner.Id,
+                UserId = userInDB.Id,
                 //creamos una clase ICombosHelps para poder traer la lista de ContentTypes
                 ContentTypes = _combosHelper.GetComboContentTypes(),
                 Parks = _combosHelper.GetComboParks()
@@ -251,8 +257,14 @@ namespace PNN.Web.Controllers
         //sobre cargamos el metodo AddContent para guardar pero le agregamos el modelo ContentViewModel
         public async Task<IActionResult> AddContent(ContentViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                if (model.ContentTypeId == 0)
+                {
+                    model.ContentTypes = _combosHelper.GetComboContentTypes();
+                    model.Parks = _combosHelper.GetComboParks();
+                    return View(model);
+                }
                 var path = string.Empty;
 
                 if (model.ImageFile != null)
@@ -265,7 +277,7 @@ namespace PNN.Web.Controllers
                 var content = await _converterHelper.ToContentAsync(model, path, true);
                 _dataContext.Contents.Add(content);
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"Details/{model.OwnerId}");
+                return RedirectToAction($"Details/{model.UserId}");
             }
             model.ContentTypes = _combosHelper.GetComboContentTypes();
             model.Parks = _combosHelper.GetComboParks();
@@ -281,7 +293,7 @@ namespace PNN.Web.Controllers
             }
 
             var content = await _dataContext.Contents
-                .Include(ct => ct.Owner)
+                .Include(ct => ct.User)
                 .Include(ct => ct.ContentType)
                 .Include(ct => ct.Park)
                 .Include(ct => ct.Location)
@@ -312,7 +324,7 @@ namespace PNN.Web.Controllers
                 var content = await _converterHelper.ToContentAsync(model, path, false);
                 _dataContext.Contents.Update(content);
                 await _dataContext.SaveChangesAsync();
-                return RedirectToAction($"Details/{model.OwnerId}");
+                return RedirectToAction($"Details/{model.UserId}");
             }
             model.ContentTypes = _combosHelper.GetComboContentTypes();
             model.Parks = _combosHelper.GetComboParks();
@@ -328,8 +340,7 @@ namespace PNN.Web.Controllers
             }
 
             var content = await _dataContext.Contents
-                .Include(ct => ct.Owner)
-                .ThenInclude(o => o.User)
+                .Include(ct => ct.User)
                 .Include(ct => ct.Comments)
                 .ThenInclude(ct => ct.Content)
                 .Include(t => t.ContentType)
@@ -428,3 +439,4 @@ namespace PNN.Web.Controllers
 
     }
 }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PNN.Web.Data.Entities.Owner>
+﻿@model IEnumerable<PNN.Web.Data.Entities.User>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,19 +13,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User.FirstName)
+                @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.LastName)
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.Email)
+                @Html.DisplayNameFor(model => model.Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.CellPhone)
+                @Html.DisplayNameFor(model => model.CellPhone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User.Address)
+                @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>
                 #Publicaciones
@@ -37,19 +37,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.User.FirstName)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.LastName)
+                @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Email)
+                @Html.DisplayFor(modelItem => item.Email)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.CellPhone)
+                @Html.DisplayFor(modelItem => item.CellPhone)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Address)
+                @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Contents.Count)

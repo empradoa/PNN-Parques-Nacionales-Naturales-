@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using PNN.web.Data;
 using PNN.Web.Data.Entities;
 using PNN.Web.Models;
@@ -26,17 +23,17 @@ namespace PNN.Web.Helpers
         {
             var content = new Content
             {
+                Comments = model.Comments,
+                Id = isNew ? 0 : model.Id,
                 Description = model.Description,
                 Date = DateTime.Now,
-                Id = isNew ? 0 : model.Id,
                 ImageUrl = path,
                 Like = model.Like,
                 DisLike = model.DisLike,
-                Comments = model.Comments,
-                Owner = await _dataContext.Owners.FindAsync(model.OwnerId),
+                User = await _dataContext.Users.FindAsync(model.UserId),
                 Park = await _dataContext.Parks.FindAsync(model.ParkId),
-                ContentType = await _dataContext.ContentTypes.FindAsync(model.ContentTypeId),
-                Location = await _dataContext.Locations.FindAsync(model.LocationId)
+                ContentType = await _dataContext.ContentTypes.FindAsync(model.ContentTypeId)
+                //Location = await _dataContext.Locations.FindAsync(model.LocationId)
             };
             return content;
         }
@@ -51,16 +48,16 @@ namespace PNN.Web.Helpers
                 Like = content.Like,
                 DisLike = content.DisLike,
                 Comments = content.Comments,
-                Owner = content.Owner,
+                User = content.User,
                 ContentType = content.ContentType,
                 Park = content.Park,
                 //Location = content.Location,
                 Id = content.Id,
-                OwnerId = content.Owner.Id,
+                UserId = content.User.Id,
                 ContentTypeId = content.ContentType.Id,
                 ContentTypes = _combosHelper.GetComboContentTypes(),
                 ParkId = content.Park.Id,
-                Parks = _combosHelper.GetComboParks(),
+                Parks = _combosHelper.GetComboParks()
                 //LocationId = content.Location.Id               
             };
         }
@@ -68,7 +65,7 @@ namespace PNN.Web.Helpers
         public async Task<Comment> ToCommentToContentAsync(CommentViewModel model, bool isNew)
         {
 
-           return new Comment
+            return new Comment
             {
                 Date = DateTime.Now,
                 Description = model.Description,
@@ -79,8 +76,9 @@ namespace PNN.Web.Helpers
         }
 
         //metodo para agregar comentario desde contenido o publicación de Comment a CommentViewModel
-        public CommentViewModel ToCommentToContentViewModel(Comment comment)        {
-            
+        public CommentViewModel ToCommentToContentViewModel(Comment comment)
+        {
+
             return new CommentViewModel
             {
                 Date = comment.Date,

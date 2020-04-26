@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PNN.Web.Models;
@@ -13,7 +9,7 @@ namespace PNN.Web.Controllers
     {
         public IActionResult Index()
         {
-            HttpContext.Session.SetString("Test","funciona");
+            HttpContext.Session.SetString("Test", "funciona");
             return View();
         }
 

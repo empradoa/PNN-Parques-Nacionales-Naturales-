@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace PNN.Web.Data.Entities
@@ -40,5 +37,8 @@ namespace PNN.Web.Data.Entities
 
         //relacion entre User y comment
         public ICollection<Comment> Comments { get; set; }
+
+        //relacion entre User y content
+        public ICollection<Content> Contents { get; set; }
     }
 }

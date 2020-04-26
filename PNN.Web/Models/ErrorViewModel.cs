@@ -1,5 +1,3 @@
-using System;
-
 namespace PNN.Web.Models
 {
     public class ErrorViewModel

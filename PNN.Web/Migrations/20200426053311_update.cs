@@ -222,18 +222,11 @@ namespace PNN.Web.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<string>(nullable: true),
-                    LocationId = table.Column<int>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Owners", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Owners_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Owners_AspNetUsers_UserId",
                         column: x => x.UserId,
@@ -295,7 +288,7 @@ namespace PNN.Web.Migrations
                     ContentTypeId = table.Column<int>(nullable: true),
                     ParkId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true),
-                    OwnerId = table.Column<int>(nullable: true)
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -313,15 +306,15 @@ namespace PNN.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Contents_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Contents_Parks_ParkId",
                         column: x => x.ParkId,
                         principalTable: "Parks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Contents_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -473,24 +466,19 @@ namespace PNN.Web.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Contents_OwnerId",
-                table: "Contents",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Contents_ParkId",
                 table: "Contents",
                 column: "ParkId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Managers_UserId",
-                table: "Managers",
+                name: "IX_Contents_UserId",
+                table: "Contents",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Owners_LocationId",
-                table: "Owners",
-                column: "LocationId");
+                name: "IX_Managers_UserId",
+                table: "Managers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Owners_UserId",
@@ -549,6 +537,9 @@ namespace PNN.Web.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "Owners");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -559,9 +550,6 @@ namespace PNN.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "ContentTypes");
-
-            migrationBuilder.DropTable(
-                name: "Owners");
 
             migrationBuilder.DropTable(
                 name: "Parks");

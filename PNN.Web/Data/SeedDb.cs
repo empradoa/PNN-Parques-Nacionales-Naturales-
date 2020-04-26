@@ -130,11 +130,11 @@ namespace PNN.Web.Data
             var location = _dataContext.Locations.FirstOrDefault();
             if (!_dataContext.Parks.Any())
             {
-                AddPark("Prefiero no registrar el parque", "","2020","", "", "", "", "","", "", manager, location);
+                AddPark("Prefiero no registrar el parque", "", "2020", "", "", "", "", "", "", "", manager, location);
                 await _dataContext.SaveChangesAsync();
             }
         }
-        private void AddPark(string name, string description, string creation, string been, string extension, string height,string temperature, string flora, string wildlife, string communities, Manager manager, Location location)
+        private void AddPark(string name, string description, string creation, string been, string extension, string height, string temperature, string flora, string wildlife, string communities, Manager manager, Location location)
         {
             _dataContext.Parks.Add(new Park
             {

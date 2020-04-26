@@ -5,7 +5,7 @@ namespace PNN.Web.Helpers
 {
     public interface ICombosHelper
     {
-        IEnumerable<SelectListItem> GetComboContentTypes(); 
+        IEnumerable<SelectListItem> GetComboContentTypes();
         IEnumerable<SelectListItem> GetComboParks();
     }
 }

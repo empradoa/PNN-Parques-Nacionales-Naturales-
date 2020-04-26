@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PNN.web.Data;
 
@@ -16,7 +14,7 @@ namespace PNN.Web.Helpers
         {
             _dataContext = dataContext;
         }
-        
+
         public IEnumerable<SelectListItem> GetComboContentTypes()
         {
             //listamos de la tabla contenttypes el datos Name, Id para pintarlos en el combo
@@ -25,7 +23,7 @@ namespace PNN.Web.Helpers
                 Text = ct.Name,
                 Value = $"{ct.Id}"
             })
-                .OrderBy(ct => ct.Text)
+                .OrderBy(ct => ct.Value)
                 .ToList();
 
             //insertamos la primera linea 0 para que el usuario sepa lo que va a seleccionar
@@ -51,8 +49,8 @@ namespace PNN.Web.Helpers
             //insertamos la primera linea 0 para que el usuario sepa lo que va a seleccionar
             //list.Insert(1, new SelectListItem
             //{
-                //Text = "Puede seleccionar un parque nacional si lo desea",
-                //Value = "1"
+            //Text = "Puede seleccionar un parque nacional si lo desea",
+            //Value = "1"
             //});
 
             return list;

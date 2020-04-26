@@ -17,5 +17,5 @@ namespace PNN.Web.Data.Entities
         public ICollection<Content> Contents { get; set; }
 
     }
-    
+
 }

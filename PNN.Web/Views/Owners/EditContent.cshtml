@@ -1,11 +1,11 @@
 ﻿@model PNN.Web.Models.ContentViewModel
-@using System;
 @{
     ViewData["Title"] = "Editar";
 }
 <br />
 <hr />
 <div class="row">
+    <div class="col-md-1"></div>
     <div class="col-md-4">
         <div class="fa-image" style="align-content: center;justify-content: center;">
             @if (!string.IsNullOrEmpty(Model.ImageUrl))
@@ -14,21 +14,21 @@
             }
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <h4>Editar Publicación</h4>
         <br />
         <form asp-action="EditContent" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" asp-for="OwnerId" />
+            <input type="hidden" asp-for="UserId" />
             <input type="hidden" asp-for="ImageUrl" />
 
-            <partial name="_Content" />
+            <partial name="_content" />
 
             <div class="form-group">
                 <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-action="Details" asp-route-id="@Model.OwnerId" class="btn btn-success">volver</a>
+                <a asp-action="Details" asp-route-id="@Model.UserId" class="btn btn-success">volver</a>
             </div>
         </form>
     </div>
+    <div class="col-md-3"></div>
 </div>

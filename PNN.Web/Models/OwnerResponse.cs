@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace PNN.Web.Models
+﻿namespace PNN.Web.Models
 {
     public class OwnerResponse
     {

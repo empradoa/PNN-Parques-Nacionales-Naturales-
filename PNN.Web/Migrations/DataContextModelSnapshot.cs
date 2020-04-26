@@ -182,9 +182,9 @@ namespace PNN.Web.Migrations
 
                     b.Property<int?>("LocationId");
 
-                    b.Property<int?>("OwnerId");
-
                     b.Property<int?>("ParkId");
+
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
@@ -192,9 +192,9 @@ namespace PNN.Web.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("ParkId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Contents");
                 });
@@ -250,13 +250,9 @@ namespace PNN.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("LocationId");
-
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("UserId");
 
@@ -509,13 +505,13 @@ namespace PNN.Web.Migrations
                         .WithMany("Contents")
                         .HasForeignKey("LocationId");
 
-                    b.HasOne("PNN.Web.Data.Entities.Owner", "Owner")
-                        .WithMany("Contents")
-                        .HasForeignKey("OwnerId");
-
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")
                         .WithMany("Contents")
                         .HasForeignKey("ParkId");
+
+                    b.HasOne("PNN.Web.Data.Entities.User", "User")
+                        .WithMany("Contents")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("PNN.web.Data.Entities.Manager", b =>
@@ -527,10 +523,6 @@ namespace PNN.Web.Migrations
 
             modelBuilder.Entity("PNN.Web.Data.Entities.Owner", b =>
                 {
-                    b.HasOne("PNN.Web.Data.Entities.Location", "Location")
-                        .WithMany("Owners")
-                        .HasForeignKey("LocationId");
-
                     b.HasOne("PNN.Web.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
