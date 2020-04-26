@@ -113,7 +113,7 @@ namespace PNN.Web.Controllers
             return View(contentType);
         }
 
-        // GET: ContentTypes/Delete/5
+        // GET: eliminar tipo de contenido
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -122,26 +122,23 @@ namespace PNN.Web.Controllers
             }
 
             var contentType = await _context.ContentTypes
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(ct => ct.Contents)
+                .FirstOrDefaultAsync(ct => ct.Id == id);
             if (contentType == null)
             {
                 return NotFound();
             }
 
-            return View(contentType);
-        }
+            if (contentType.Contents.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "No se puede eliminar este tipo de contenido");
+                return RedirectToAction(nameof(Index));
+            }
 
-        // POST: ContentTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var contentType = await _context.ContentTypes.FindAsync(id);
             _context.ContentTypes.Remove(contentType);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
         private bool ContentTypeExists(int id)
         {
             return _context.ContentTypes.Any(e => e.Id == id);

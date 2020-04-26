@@ -105,13 +105,13 @@
                                     <div class="col-md-9">
                                         @Html.DisplayFor(model => model.FullName)
                                         <p>
-                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => Ditem.DateLocal) ]</i></a>
+                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
                                         </p>
                                         <p>
                                             @Html.DisplayFor(modelItem => item.Description)
                                         </p>
                                         <a asp-action="EditContent" asp-route-id="@item.Id" class="badge badge-success">Editar</a>
-                                        <a asp-action="DeleteContent" asp-route-id="@item.Id" class="badge badge-danger">Eliminar</a>
+                                        <button data-id="@item.Id" class="badge badge-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>
                                         <hr class="btn-light" />
                                         <span>
                                             <a class="badge badge-light">
@@ -131,4 +131,25 @@
         }
     </div>
 </div>
+
+<partial name="_DeleteDialog" />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable();
+            // Delete item
+            var item_to_delete;
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Owners/DeleteContent/' + item_to_delete;
+            });
+        });
+    </script>
+}
 

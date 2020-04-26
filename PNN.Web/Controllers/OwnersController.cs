@@ -239,12 +239,12 @@ namespace PNN.Web.Controllers
                 return NotFound();
             }
 
-            var userInDB = await _userHelper.GetUserByEmailAsync(user.ToString());
+            //var userInDB = await _userHelper.GetUserByEmailAsync(user.ToString());
             //instanciamos la clase ContentViewModel que creamos en la carpeta models, para el modelo del contenido
             var model = new ContentViewModel
             {
-                Date = DateTime.Today,
-                UserId = userInDB.Id,
+                Date = DateTime.Now,
+                UserId = user.Id,
                 //creamos una clase ICombosHelps para poder traer la lista de ContentTypes
                 ContentTypes = _combosHelper.GetComboContentTypes(),
                 Parks = _combosHelper.GetComboParks()
@@ -437,6 +437,55 @@ namespace PNN.Web.Controllers
             return View(model);
         }
 
+        //metodo para eliminar comentarios a las publicaciones o contenidos
+        public async Task<IActionResult> DeleteCommentToContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var comment = await _dataContext.Comments
+                .Include(c => c.Content)
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id.Value);
+            if (comment == null)
+            {
+                return NotFound();
+            }
+
+            _dataContext.Comments.Remove(comment);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction($"{nameof(DetailsContent)}/{comment.Content.Id}");
+        }
+
+        //metodo para eliminar comentarios
+        public async Task<IActionResult> DeleteContent(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var content = await _dataContext.Contents
+                .Include(p => p.User)
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(p => p.Id == id.Value);
+            if (content == null)
+            {
+                return NotFound();
+            }
+
+            /*if (content.Comments.Count > 0)
+            {
+                ModelState.AddModelError(string.Empty, "La publicación no se puede eliminar porque tiene comentarios.");
+                return RedirectToAction($"{nameof(Details)}/{content.User.Id}");
+            }*/
+
+            _dataContext.Contents.Remove(content);
+            await _dataContext.SaveChangesAsync();
+            return RedirectToAction($"{nameof(Details)}/{content.User.Id}");
+        }
     }
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
