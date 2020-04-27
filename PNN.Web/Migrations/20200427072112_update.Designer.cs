@@ -10,7 +10,7 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200426053311_update")]
+    [Migration("20200427072112_update")]
     partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

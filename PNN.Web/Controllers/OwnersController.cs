@@ -107,21 +107,15 @@ namespace PNN.Web.Controllers
                     await _userHelper.AddUserToRoleAsync(userInDB, "Customer");
 
                     //como en la tabla de owner no tenemos nada agregamos la datos que necesitamos 
-                    var datos = new User
+                    var owner = new Owner
                     {
-                        Contents = new List<Content>(),
-                        Comments = new List<Comment>(),
-                        Address = model.Address,
-                        Email = model.Username,
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        CellPhone = model.CellPhone,
-                        UserName = model.Username
-                        //User = userInDB
+                        //Contents = new List<Content>(),
+                        //Comments = new List<Comment>(),
+                        User = userInDB
                     };
 
                     //agregamos el owner
-                    _dataContext.Users.Add(datos);
+                    _dataContext.Owners.Add(owner);
 
                     try
                     {
@@ -140,81 +134,75 @@ namespace PNN.Web.Controllers
             return View(model);
         }
 
-        // GET: Owners/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        //editar usuarios 
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var owner = await _dataContext.Owners.FindAsync(id);
-            if (owner == null)
+            var user = await _dataContext.Users
+                .Include(o => o.Contents)
+                .FirstOrDefaultAsync(m => m.Id == id.ToString());
+
+            var model = new EditUserViewModel
             {
-                return NotFound();
-            }
-            return View(owner);
+                Address = user.Address,
+                FirstName = user.FirstName,
+                Id = user.Id,
+                LastName = user.LastName,
+                CellPhone = user.CellPhone
+            };
+
+            return View(model);
         }
 
-        // POST: Owners/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] Owner owner)
+        public async Task<IActionResult> Edit(EditUserViewModel model)
         {
-            if (id != owner.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _dataContext.Update(owner);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OwnerExists(owner.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var user = await _dataContext.Users
+                    .FirstOrDefaultAsync(o => o.Id == model.Id);
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Address = model.Address;
+                user.CellPhone = model.CellPhone;
+
+                await _userHelper.UpdateUserAsync(user);
                 return RedirectToAction(nameof(Index));
             }
-            return View(owner);
+
+            return View(model);
         }
 
-        // GET: Owners/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+
+        // eliminar un usuario o owner
+        public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+                        
+            var user = await _dataContext.Users
+                .Include(o => o.Contents)
+                .FirstOrDefaultAsync(m => m.Id == id.ToString());
 
-            var owner = await _dataContext.Owners
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (owner == null)
+            if (user.Contents.Count > 0)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Index));
             }
+                    
+            var owner = await _dataContext.Owners
+                .Include(o => o.User)
+                .FirstOrDefaultAsync(o => o.User.Id == id.ToString());
 
-            return View(owner);
-        }
+            await _userHelper.DeleteUserAsync(user.Email);
 
-        // POST: Owners/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var owner = await _dataContext.Owners.FindAsync(id);
             _dataContext.Owners.Remove(owner);
             await _dataContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

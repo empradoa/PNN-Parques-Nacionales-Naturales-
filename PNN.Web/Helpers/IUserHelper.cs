@@ -28,5 +28,13 @@ namespace PNN.Web.Helpers
         //metodo para desloguear
         Task LogoutAsync();
 
+        //Eliminar un usuario de la bd
+        Task<bool> DeleteUserAsync(string email);
+
+        //actualizar datos de usuario 
+        Task<IdentityResult> UpdateUserAsync(User user);
+
+
+
     }
 }
