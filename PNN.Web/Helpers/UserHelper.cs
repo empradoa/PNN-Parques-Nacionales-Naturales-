@@ -104,7 +104,5 @@ namespace PNN.Web.Helpers
                 password,
                 false);// si es true bloquea por n numero de intentos
         }
-
-
     }
 }

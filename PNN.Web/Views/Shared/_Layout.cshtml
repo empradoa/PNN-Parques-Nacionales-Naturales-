@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -29,40 +29,40 @@
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contactanos</a></li>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Owners" asp-action="Index">Usuarios</a></li>
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Parks" asp-action="Index">Parques</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Zonas
-                            </a>
-                            <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
-                                <a class="nav-link" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
-                                <a class="nav-link" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Contenidos
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
-                                <a class="nav-link" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
-                                <a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
-                            </div>
-                        </li>
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Comments" asp-action="Index">Comentarios</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Owners" asp-action="Index">Usuarios</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Parks" asp-action="Index">Parques</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Zonas
+                        </a>
+                        <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
+                            <a class="nav-link" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
+                            <a class="nav-link" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Contenidos
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
+                            <a class="nav-link" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
+                            <a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
+                        </div>
+                    </li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Comments" asp-action="Index">Comentarios</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @* Si el usuario es valido loguea *@
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="ChangeUser">@User.Identity.Name</a></li>
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Salir</a></li>
+                    @* Si el usuario es valido loguea *@
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="ChangeUser">@User.Identity.Name</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">Salir</a></li>
                     }
                     else
                     {
-                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a></li>
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Account" asp-action="Login">Ingresar</a></li>
                     }
                 </ul>
             </div>
@@ -84,13 +84,17 @@
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
         </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
+                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+                crossorigin="anonymous">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"

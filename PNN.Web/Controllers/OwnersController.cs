@@ -44,9 +44,9 @@ namespace PNN.Web.Controllers
             //se hace una especie de consulta sql donde con Include toma forma de Join para relacionar la tabla owners con User
             //select * from owner inner join User
             return View(_dataContext.Users
-                .Include(o => o.Contents)
-                .ThenInclude(o => o.ContentType)
-                .Include(c => c.Comments));
+                .Include(u => u.Contents)
+                .ThenInclude(u => u.ContentType)
+                .Include(u => u.Comments));
         }
 
         //detalles del usuario tener encuenta la consulta a la bd
