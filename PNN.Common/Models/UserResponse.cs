@@ -4,9 +4,9 @@ using System.Text;
 
 namespace PNN.Common.Models
 {
-    class OwnerResponse
+    public class UserResponse
     { 
-        public int Id { get; set; }
+        public String Id { get; set; }
 
         public string FirstName { get; set; }
 
