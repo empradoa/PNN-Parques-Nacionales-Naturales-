@@ -21,11 +21,18 @@ namespace PNN.Web.Controllers.API
         }
 
         [HttpPost]
-        [Route("GetOwnerByEmail")]
-        public async Task<IActionResult> GetOwner(EmailRequest emailRequest)
+        [Route("GetUserByEmail")]
+        public async Task<IActionResult> GetUser(EmailRequest emailRequest)
         {
-            
-            var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email == emailRequest.Email);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var user = await _dataContext.Users
+                            .Include(u => u.Contents)
+                            .Include(u => u.Comments)
+                            .FirstOrDefaultAsync(u => u.Email == emailRequest.Email);
 
             if (user == null)
             {
