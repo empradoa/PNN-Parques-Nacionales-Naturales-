@@ -14,4 +14,8 @@
     <Folder Include="wwwroot\images\Contents\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PNN.Common\PNN.Common.csproj" />
+  </ItemGroup>
+
 </Project>
