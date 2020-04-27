@@ -34,6 +34,8 @@ namespace PNN.Web.Helpers
         //actualizar datos de usuario 
         Task<IdentityResult> UpdateUserAsync(User user);
 
+        //validamos el logeo
+        Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
 
     }
