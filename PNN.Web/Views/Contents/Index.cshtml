@@ -4,56 +4,130 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.3.1/css/all.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" />
+<link rel="stylesheet" href="~/css/animaciones.css" />
+<br />
+<hr />
+<div class="row">
+    <hr />
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="input-group form-group">
+            <h3>Publicaciones</h3>
+            <hr />
+            <a asp-action="AddContent" asp-route-id="" class="btn"><i class="fas fa-plus-circle"> Publicar</i></a>
+        </div>
+        <table class="table table-hover" id="MyTable">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="btn-light">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <section class="img-contenedor">
+                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                                        {
+                                            <center>
+                                                <img src="@Url.Content(item.ImageUrl)" alt="Image" />
+                                            </center>
+                                        }
+                                        else
+                                        {
+                                            <center>
+                                                <img src="~/images/Contents/noimagen.png" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                            </center>
+                                        }
+                                    </section>
+                                </div>
+                                <div class="col-md-9">
+                                    <i style="font-size:9px;" class="fas fa-user-alt btn-light"></i> @Html.DisplayFor(modelItem => item.User.FullName)
+                                    <p>
+                                        <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;" class="fas fa-calendar btn-light"> [ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
+                                    </p>
+                                    <p>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </p>
+                                    <span class="float-left">
+                                        <a class="btn btn-link">
+                                            <i class="fas fa-thumbs-up btn-primary" title="Me gusta"></i><span class="badge badge-light">@Html.DisplayFor(modelItem => item.Like)</span>
+                                        </a>
+                                        <a asp-action="DetailsContent" asp-route-id="@item.Id">
+                                            <i class="fas fa-comment btn-info" title="Comentarios"> Comentarios</i><span class="badge badge-light">@Html.DisplayFor(modelItem => item.Comments.Count)</span>
+                                        </a>
+                                    </span>
+                                     @if (item.User.Email == @User.Identity.Name)
+                                     {
+                                    <span class="float-right">
+                                        <a asp-action="EditContent" asp-route-id="@item.Id"><i class="fas fa-edit btn-success" title="Editar"> Editar</i></a>
+                                        <a data-id="@item.Id" class="deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"> Eliminar</i></a>
+                                    </span>
+                                     }
+                                    <hr class="btn-light" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+    <partial name="_DeleteDialog" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Like)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisLike)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Like)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisLike)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="//cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+        <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+        <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#MyTable').DataTable({
+                    "iDisplayLength": -1,
+                    "aLengthMenu": [[2, 5, 10, 50, 500, -1], [2, 5, 10, 50, 500, "Todos"]],
+                    "bLengthChange": true,
+                    "bPaginate": true,
+                    "responsive": true,
+                    "language": {
+                        "decimal": ".",
+                        "thousands": ",",
+                        "url": "../../js/Spanish.json",
+                        "select": {
+                            rows: {
+                                _: "[%d]",
+                                0: " ",
+                                1: "[1]"
+                            }
+                        }
+                    },
+                    "bDestroy": true,
+                    "bJQueryUI": true
+                });
+                // Delete item
+                var item_to_delete;
+                $('.deleteItem').click((e) => {
+                    item_to_delete = e.currentTarget.dataset.id;
+                });
+                $("#btnYesDelete").click(function () {
+                    window.location.href = '/Owners/DeleteContent/' + item_to_delete;
+                });
+                $('.slide_button').click(function () {
+                    $('.slide').animate({
+                        height: 'toggle'
+                    }, 1500, function () {
+                    });
+                });
+            });
+        </script>
+    }

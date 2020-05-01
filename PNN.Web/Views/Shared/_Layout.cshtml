@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        <link rel="stylesheet" href="//stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
@@ -25,32 +25,37 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">Acerca</a></li>
                     <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contactanos</a></li>
                     @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                     {
-                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Owners" asp-action="Index">Usuarios</a></li>
-                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
-                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Parks" asp-action="Index">Parques</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Zonas
-                        </a>
-                        <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
-                            <a class="nav-link" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
-                            <a class="nav-link" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Contenidos
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
-                            <a class="nav-link" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
-                            <a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
-                        </div>
-                    </li>
-                    <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Comments" asp-action="Index">Comentarios</a></li>
+                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Owners" asp-action="Index">Usuarios</a></li>
+                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Managers" asp-action="Index">Managers</a></li>
+                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Parks" asp-action="Index">Parques</a></li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Zonas
+                            </a>
+                            <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
+                                <a class="nav-link" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
+                                <a class="nav-link" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Contenidos
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
+                                <a class="nav-link" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
+                                <a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
+                            </div>
+                        </li>
+                        <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Comments" asp-action="Index">Comentarios</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a></li>
                     }
                 </ul>
                 <ul class="nav navbar-nav">
@@ -84,22 +89,13 @@
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
-                integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 
+        <script src="http://code.jquery.com/jquery-2.2.4.js"
+                integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
                 crossorigin="anonymous">
         </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd">
-        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+                integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+                crossorigin="anonymous"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
     </environment>
 

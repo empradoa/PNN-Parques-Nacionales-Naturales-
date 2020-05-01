@@ -3,7 +3,11 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.3.1/css/all.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" />
+<link rel="stylesheet" href="~/css/animaciones.css" />
 <br />
 <hr />
 <div class="row">
@@ -67,7 +71,6 @@
                 <br />
                 <a asp-action="Index" class="btn btn-success">Volver</a>
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-                <a asp-action="AddContent" asp-route-id="@Model.Id" class="btn btn-primary">Publicar</a>
             </div>
         </div>
 
@@ -75,59 +78,74 @@
     <div class="col-md-8">
         <div class="input-group form-group">
             <h3>Publicaciones</h3>
+            <hr />
+            <a asp-action="AddContent" asp-route-id="@Model.Id" class="btn"><i class="fas fa-plus-circle"> Publicar</i></a>
         </div>
         @if (Model.Contents.Count == 0)
         {
-            <h4>No hay contenido agregado</h4>
+        <h4>No hay contenido agregado</h4>
         }
         else
         {
-            <table class="table">
-                <thead>
-
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.Contents)
+        <table class="table table-hover" id="MyTable">
+            <thead>
+                <tr>
+                    <th>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Contents)
                     {
-                        <tr class="btn-light">
-                            <td>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                <tr class="btn-light">
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <section class="img-contenedor">
+                                    @if (!string.IsNullOrEmpty(item.ImageUrl))
                                         {
-                                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
-                                        }
-                                        else
-                                        {
-                                            <img src="~/images/Contents/noimagen.png" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
-                                        }
-                                    </div>
-                                    <div class="col-md-9">
-                                        @Html.DisplayFor(model => model.FullName)
-                                        <p>
-                                            <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;">[ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
-                                        </p>
-                                        <p>
-                                            @Html.DisplayFor(modelItem => item.Description)
-                                        </p>
-                                        <a asp-action="EditContent" asp-route-id="@item.Id" class="badge badge-success">Editar</a>
-                                        <button data-id="@item.Id" class="badge badge-danger deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="glyphicon glyphicon-trash"></i>Eliminar</button>
-                                        <hr class="btn-light" />
-                                        <span>
-                                            <a class="badge badge-light">
-                                                Me gusta <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Like)</span>
-                                            </a>
-                                            <a asp-action="DetailsContent" asp-route-id="@item.Id" class="badge badge-primary">
-                                                Ver Comentarios <span class="badge badge-primary"></span>
-                                            </a>
-                                        </span>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                    <center>
+                                        <img src="@Url.Content(item.ImageUrl)" alt="Image" />
+                                    </center>
+                                    }
+                                    else
+                                    {
+                                    <center>
+                                        <img src="~/images/Contents/noimagen.png" alt="Image" style="width:200px;height:200px;max-width: 100%; height: auto;" />
+                                    </center>
+                                }
+                                </section>
+                            </div>
+                            <div class="col-md-9">
+                                <i style="font-size:9px;" class="fas fa-user-alt btn-light"></i> @Html.DisplayFor(model => model.FullName)
+                                <p>
+                                    <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;" class="fas fa-calendar btn-light"> [ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
+                                </p>
+                                <p>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </p>
+                                <span class="float-left">
+                                    <a class="btn btn-link">
+                                        <i class="fas fa-thumbs-up btn-primary" title="Me gusta"></i><span class="badge badge-light">@Html.DisplayFor(modelItem => item.Like)</span>
+                                    </a>
+                                    <a asp-action="DetailsContent" asp-route-id="@item.Id">
+                                        <i class="fas fa-comment btn-info" title="Comentarios"> Comentarios</i>
+                                    </a>
+                                </span>
+                                <span class="float-right">
+                                    <a asp-action="EditContent" asp-route-id="@item.Id"><i class="fas fa-edit btn-success" title="Editar"> Editar</i></a>
+                                    <a data-id="@item.Id" class="deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"> Eliminar</i></a>
+                                </span>
+                                <hr class="btn-light" />
+                            </div>
+                        </div>
+                        <br /><br /><br />
+                        <div id="masTexto"></div>
+                    </td>
+                </tr>
                     }
-                </tbody>
-            </table>
+            </tbody>
+        </table>        
         }
     </div>
 </div>
@@ -136,11 +154,33 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#MyTable').DataTable();
+            $('#MyTable').DataTable({
+                "iDisplayLength": -1,
+                "aLengthMenu": [[2, 5, 10, 50, 500, -1], [2, 5, 10, 50, 500, "Todos"]],
+                "bLengthChange": true,
+                "bPaginate": true,
+                "responsive": true,
+                "language": {
+                    "decimal": ".",
+                    "thousands": ",",
+                    "url": "../../js/Spanish.json",
+                    "select": {
+                        rows: {
+                            _: "[%d]",
+                            0: " ",
+                            1: "[1]"
+                        }
+                    }
+                },
+                "bDestroy": true,
+                "bJQueryUI": true
+            });
             // Delete item
             var item_to_delete;
             $('.deleteItem').click((e) => {
@@ -148,6 +188,12 @@
             });
             $("#btnYesDelete").click(function () {
                 window.location.href = '/Owners/DeleteContent/' + item_to_delete;
+            });
+            $('.slide_button').click(function () {
+                $('.slide').animate({
+                    height: 'toggle'
+                }, 1500, function () {
+                });
             });
         });
     </script>

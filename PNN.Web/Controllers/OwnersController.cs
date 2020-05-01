@@ -187,25 +187,38 @@ namespace PNN.Web.Controllers
             {
                 return NotFound();
             }
-                        
+
             var user = await _dataContext.Users
                 .Include(o => o.Contents)
                 .FirstOrDefaultAsync(m => m.Id == id.ToString());
 
-            if (user.Contents.Count > 0)
+            try
             {
+                if (user == null)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                if (user.Contents.Count != 0 )
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                var owner = await _dataContext.Owners
+                    .Include(o => o.User)
+                    .FirstOrDefaultAsync(o => o.User.Id == id.ToString());
+
+                await _userHelper.DeleteUserAsync(user.Email);
+
+                _dataContext.Owners.Remove(owner);
+                await _dataContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-                    
-            var owner = await _dataContext.Owners
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(o => o.User.Id == id.ToString());
+            catch (Exception)
+            {
 
-            await _userHelper.DeleteUserAsync(user.Email);
-
-            _dataContext.Owners.Remove(owner);
-            await _dataContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+                throw;
+            }            
         }
 
         private bool OwnerExists(int id)

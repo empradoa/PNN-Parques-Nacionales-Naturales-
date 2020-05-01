@@ -32,9 +32,11 @@ namespace PNN.Web.Controllers
         }
 
         // GET: Contents
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _dataContext.Contents.ToListAsync());
+            return View(_dataContext.Contents
+                .Include(u => u.User)
+                .Include(u => u.Comments));
         }
 
         // GET: Contents/Details/5
@@ -46,6 +48,7 @@ namespace PNN.Web.Controllers
             }
 
             var content = await _dataContext.Contents
+                .Include(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (content == null)
             {
