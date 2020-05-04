@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
@@ -6,7 +7,7 @@ namespace PNN.Web.Data.Entities
 {
     public class User : IdentityUser
     {
-
+        
         [Display(Name = "Nombres")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
@@ -28,6 +29,11 @@ namespace PNN.Web.Data.Entities
         [Display(Name = "Dirección")]
         [MaxLength(100, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         public string Address { get; set; }
+
+        [Display(Name = "Alias")]
+        [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        public string Alias { get; set; }
 
         [Display(Name = "Nombres completos")]
         public string FullName => $"{FirstName} {LastName}";

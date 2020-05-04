@@ -323,6 +323,10 @@ namespace PNN.Web.Migrations
                     b.Property<string>("Address")
                         .HasMaxLength(100);
 
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
                     b.Property<string>("CellPhone")
                         .IsRequired()
                         .HasMaxLength(20);

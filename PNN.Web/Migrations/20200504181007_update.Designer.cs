@@ -10,7 +10,7 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200427072112_update")]
+    [Migration("20200504181007_update")]
     partial class update
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -324,6 +324,10 @@ namespace PNN.Web.Migrations
 
                     b.Property<string>("Address")
                         .HasMaxLength(100);
+
+                    b.Property<string>("Alias")
+                        .IsRequired()
+                        .HasMaxLength(50);
 
                     b.Property<string>("CellPhone")
                         .IsRequired()

@@ -93,7 +93,8 @@ namespace PNN.Web.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     CellPhone = model.CellPhone,
-                    UserName = model.Username
+                    UserName = model.Username,
+                    Alias = model.Alias
                 };
                 //implementamos el metodo de la IUserHelper para agregar usuario de las viewModel
                 var response = await _userHelper.AddUserAsync(user, model.Password);
@@ -153,6 +154,7 @@ namespace PNN.Web.Controllers
                 Id = user.Id,
                 LastName = user.LastName,
                 CellPhone = user.CellPhone
+
             };
 
             return View(model);
@@ -171,6 +173,7 @@ namespace PNN.Web.Controllers
                 user.LastName = model.LastName;
                 user.Address = model.Address;
                 user.CellPhone = model.CellPhone;
+                user.Alias = model.Alias;
 
                 await _userHelper.UpdateUserAsync(user);
                 return RedirectToAction(nameof(Index));

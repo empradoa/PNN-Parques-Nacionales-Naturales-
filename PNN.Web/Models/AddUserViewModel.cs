@@ -1,10 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace PNN.Web.Models
 {
     public class AddUserViewModel : EditUserViewModel
     {
+
+        [Display(Name = "Alias")]
+        [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
+        [Required(ErrorMessage = "El campo {0} es obligatorio.")]
+        Random rnd = new Random();
+        public string Alias => $"{FirstName}_{rnd.Next(0, 100)}";
+
         [Display(Name = "Email")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]

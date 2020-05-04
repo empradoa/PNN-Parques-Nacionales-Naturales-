@@ -23,5 +23,6 @@ namespace PNN.web.Data
         public DbSet<Park> Parks { get; set; }
         public DbSet<Manager> Managers { get; set; }
 
+
     }
 }

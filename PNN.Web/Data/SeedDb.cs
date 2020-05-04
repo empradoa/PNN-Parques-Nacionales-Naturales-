@@ -28,8 +28,8 @@ namespace PNN.Web.Data
             await CheckRoles();
             await CheckLocationsAsync();
             var manager = await CheckUserAsync("Eider", "Prado", "empradoa@gmail.com", "3506342747", "Calle Luna Calle Sol", "Admin");
-            var customer = await CheckUserAsync("Manuel", "Avendaño", "eiderprado@hotmail.com", "3506342747", "Calle Luna Calle Sol", "Customer");
-            var visit = await CheckUserAsync("Visit", "Visitante", "visit@hotmail.com", "350 634 2747", "Calle Luna Calle Sol", "Visit");
+            var customer = await CheckUserAsync("Manuel", "Avendaño", "eiderprado@hotmail.com", "3506342747", "Calle Luna Calle Sol","Customer");
+            var visit = await CheckUserAsync("Visit", "Visitante", "visit@hotmail.com", "350 634 2747", "Calle Luna Calle Sol","Visit");
             await CheckZoneTypesAsync();
             await CheckContentTypesAsync();
             await CheckOwnerAsync(customer);
@@ -57,7 +57,7 @@ namespace PNN.Web.Data
                     Email = email,
                     UserName = email,
                     CellPhone = phone,
-                    Address = address,
+                    Address = address
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
