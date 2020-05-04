@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<PNN.Web.Data.Entities.Content>
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -18,7 +17,10 @@
         <div class="input-group form-group">
             <h3>Publicaciones</h3>
             <hr />
-            <a asp-action="AddContent" asp-route-id="" class="btn"><i class="fas fa-plus-circle"> Publicar</i></a>
+            @if (@User.Identity.Name != null)
+            {
+                <a asp-action="AddContent" asp-route-id="" class="btn"><i class="fas fa-plus-circle"> Publicar</i></a>
+            }
         </div>
         <table class="table table-hover" id="MyTable">
             <thead>
@@ -50,7 +52,7 @@
                                     </section>
                                 </div>
                                 <div class="col-md-9">
-                                    <i style="font-size:9px;" class="fas fa-user-alt btn-light"></i> @Html.DisplayFor(modelItem => item.User.FullName)
+                                    <i style="font-size:9px;" class="fas fa-user-alt btn-light"> @Html.DisplayFor(modelItem => item.User.FullName)</i>
                                     <p>
                                         <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;" class="fas fa-calendar btn-light"> [ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
                                     </p>
@@ -59,20 +61,76 @@
                                     </p>
                                     <span class="float-left">
                                         <a class="btn btn-link">
-                                            <i class="fas fa-thumbs-up btn-primary" title="Me gusta"></i><span class="badge badge-light">@Html.DisplayFor(modelItem => item.Like)</span>
+                                            <i class="fas fa-thumbs-up btn-primary" title="Me gusta"> Like <span class="badge badge-light">@Html.DisplayFor(modelItem => item.Like)</span></i>
                                         </a>
+                                        @*
                                         <a asp-action="DetailsContent" asp-route-id="@item.Id">
-                                            <i class="fas fa-comment btn-info" title="Comentarios"> Comentarios</i><span class="badge badge-light">@Html.DisplayFor(modelItem => item.Comments.Count)</span>
+                                            <i class="fas fa-comment btn-info" title="Comentarios"> Comentarios <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Comments.Count) </span></i>
                                         </a>
+                                        *@
                                     </span>
-                                     @if (item.User.Email == @User.Identity.Name)
-                                     {
-                                    <span class="float-right">
-                                        <a asp-action="EditContent" asp-route-id="@item.Id"><i class="fas fa-edit btn-success" title="Editar"> Editar</i></a>
-                                        <a data-id="@item.Id" class="deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"> Eliminar</i></a>
-                                    </span>
-                                     }
+                                    @if (item.User.Email == @User.Identity.Name)
+                                    {
+                                        <span class="float-right">
+                                            <a asp-action="EditContent" asp-route-id="@item.Id"><i class="fas fa-edit btn-success" title="Editar"> </i></a>
+                                            <a data-id="@item.Id" class="deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"> </i></a>
+                                        </span>
+                                    }
                                     <hr class="btn-light" />
+
+                                    <table class="table" style="width:100%;font-size:12px;font-family: 'Arial';">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @if (item.Comments.Count == 1)
+                                                    {
+                                                        <h5>@Html.DisplayFor(modelItem => item.Comments.Count) Comentario</h5>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h5>@Html.DisplayFor(modelItem => item.Comments.Count) Comentarios</h5>
+                                                    }
+                                                    @if (@User.Identity.Name != null)
+                                                    {
+                                                    <form data-id="AddCommentToContent">
+                                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                                        <div class="input-group">
+                                                            <textarea data-id="@item.Id+Description" class="form-control describir" aria-label="With textarea" required placeholder="Añade un comentario"></textarea>
+                                                        </div>
+                                                        <br />
+                                                        <div class="form-group float-right">
+                                                            <a asp-action="Index" asp-route-id="@item.Id" class="btn btn-light">Cancelar</a>
+                                                            <input type="submit" data-id="@item.Id" class="btn btn-primary comentar" value="Comentar" />
+                                                        </div>
+                                                    </form>
+                                                    }
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (item.Comments.Count > 0)
+                                            {
+                                                @foreach (var item1 in item.Comments)//foreach (var item1 in item.Comments.Where(c => c.Content.Id == item.Id)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <a class="badge badge-info">@Html.DisplayFor(modelItem => item1.User.FullName) 
+                                                                    <i style="font-size:9px;" class="fas fa-calendar btn-light"> [  @Html.DisplayFor(modelItem => item1.DateLocal) ]</i></a>  
+                                                                     @Html.DisplayFor(modelItem => item1.Description)
+                                                                    <a class="btn btn-link">
+                                                                        <i class="fas fa-thumbs-up btn-primary" title="Me gusta"></i><span class="badge badge-light">@Html.DisplayFor(modelItem => item1.Like)</span>
+                                                                    </a>
+                                                                </div>
+                                                                <hr />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </td>
@@ -83,51 +141,100 @@
     </div>
     <div class="col-md-1"></div>
 </div>
-    <partial name="_DeleteDialog" />
+<partial name="_DeleteDialog" />
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-        <script src="//cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-        <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-        <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#MyTable').DataTable({
-                    "iDisplayLength": -1,
-                    "aLengthMenu": [[2, 5, 10, 50, 500, -1], [2, 5, 10, 50, 500, "Todos"]],
-                    "bLengthChange": true,
-                    "bPaginate": true,
-                    "responsive": true,
-                    "language": {
-                        "decimal": ".",
-                        "thousands": ",",
-                        "url": "../../js/Spanish.json",
-                        "select": {
-                            rows: {
-                                _: "[%d]",
-                                0: " ",
-                                1: "[1]"
-                            }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable({
+                "iDisplayLength": -1,
+                "aLengthMenu": [[2, 5, 10, 50, 500, -1], [2, 5, 10, 50, 500, "Todos"]],
+                "bLengthChange": true,
+                "bPaginate": true,
+                "responsive": true,
+                "language": {
+                    "decimal": ".",
+                    "thousands": ",",
+                    "url": "../../js/Spanish.json",
+                    "select": {
+                        rows: {
+                            _: "[%d]",
+                            0: " ",
+                            1: "[1]"
                         }
-                    },
-                    "bDestroy": true,
-                    "bJQueryUI": true
-                });
-                // Delete item
-                var item_to_delete;
-                $('.deleteItem').click((e) => {
-                    item_to_delete = e.currentTarget.dataset.id;
-                });
-                $("#btnYesDelete").click(function () {
-                    window.location.href = '/Owners/DeleteContent/' + item_to_delete;
-                });
-                $('.slide_button').click(function () {
-                    $('.slide').animate({
-                        height: 'toggle'
-                    }, 1500, function () {
+                    }
+                },
+                "bDestroy": true,
+                "bJQueryUI": true
+            });
+            var item_to_save;
+            $('.comentar').click((e) => {
+                item_to_save = e.currentTarget.dataset.id;
+            });
+            $('*[data-id = "AddCommentToContent"]').submit(function (e) {
+                e.preventDefault();
+                // Deshabilitamos el botón de Submit
+                var description = $('*[data-id = "' + item_to_save + '+Description"]').val();
+
+                console.log("descripción antes de entrar al condicional: "+description);
+                if (description == null) {
+                    $(".SubmitBtn").prop("disabled", false);
+                    alert("Debe escribir algo");
+                }
+                else {
+                    console.log("descripción despues de entrar al condicional: " + description);
+                    $.ajax({
+                        url: "@Url.Action("AddCommentToContent", "Contents")", // Url
+                        data: {
+                            Descripcion: description, // Parámetros
+                            Id: item_to_save
+                            // ...
+                        },
+                        type: "post",  // Verbo HTTP
+                        success: function (response) {
+                            
+                        }
+                    })
+                    // Se ejecuta si todo fue bien.
+                    .done(function (result) {
+                        if (result != null) {
+                            location.reload();
+                        }
+                        else {
+                            alert("error");
+                        }
+                    })
+                    // Se ejecuta si se produjo un error.
+                    .fail(function (xhr, status, error) {
+
+                    })
+                    // Hacer algo siempre, haya sido exitosa o no.
+                    .always(function () {
+
                     });
+                }
+                
+            });
+
+            // Delete item
+            var item_to_delete;
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Contents/DeleteContent/' + item_to_delete;
+            });
+            $('.slide_button').click(function () {
+                $('.slide').animate({
+                    height: 'toggle'
+                }, 1500, function () {
                 });
             });
-        </script>
-    }
+        });
+    </script>
+}

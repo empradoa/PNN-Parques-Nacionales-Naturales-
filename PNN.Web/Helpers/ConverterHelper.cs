@@ -89,11 +89,18 @@ namespace PNN.Web.Helpers
             };
         }
 
-        public class Toaster
+        //metodo para agregar comentario desde contenido o publicación de CommentViewModel a Comment
+        public async Task<Comment> CommentToContentAsync(Comment comment, bool isNew)
         {
-            public string Message { get; set; }
-            public string CssClass { get; set; }
-        }
 
+            return new Comment
+            {
+                Date = DateTime.Now,
+                Description = comment.Description,
+                Id = isNew ? 0 : comment.Id,
+                Content = await _dataContext.Contents.FindAsync(comment.Content),
+                User = await _dataContext.Users.FindAsync(comment.User)
+            };
+        }
     }
 }

@@ -1,0 +1,34 @@
+﻿@model PNN.Web.Models.ContentViewModel
+@{
+    ViewData["Title"] = "Editar";
+}
+<br />
+<hr />
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+        <div class="fa-image" style="align-content: center;justify-content: center;">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Url.Content(Model.ImageUrl)" alt="Image" style="height:100%; width: 100%;" />
+            }
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4>Editar Publicación</h4>
+        <br />
+        <form asp-action="EditContent" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="ImageUrl" />
+
+            <partial name="_content" />
+
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" asp-route-id="@Model.UserId" class="btn btn-success">volver</a>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>

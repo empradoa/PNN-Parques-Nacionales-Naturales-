@@ -4,7 +4,7 @@ using PNN.Web.Data.Entities;
 
 namespace PNN.Web.Models
 {
-    public class CommentViewModel : Content
+    public class CommentViewModel : Comment
     {
         public int ContentId { get; set; }
         public int ZoneId { get; set; }

@@ -1,0 +1,8 @@
+﻿@model PNN.Web.Models.CommentViewModel
+@{
+    ViewData["Title"] = "AddCommentToContent";
+}
+<div class="form-group">
+    <textarea asp-for="Description" class="form-control"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+</div>

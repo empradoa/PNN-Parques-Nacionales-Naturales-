@@ -1,8 +1,10 @@
-﻿namespace PNN.Web.Models
+﻿using System.Collections.Generic;
+using PNN.Web.Data.Entities;
+namespace PNN.Web.Models
 {
-    public class OwnerResponse
+    public class UserViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string FirstName { get; set; }
 
@@ -13,6 +15,8 @@
         public string CellPhone { get; set; }
 
         public string Email { get; set; }
+
+        public ICollection<Content> Contents { get; set; }
 
         public string FullName => $"{FirstName} {LastName}";
     }

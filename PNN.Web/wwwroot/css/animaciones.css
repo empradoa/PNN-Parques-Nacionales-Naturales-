@@ -23,6 +23,6 @@ transform:scale(1.25);
 }
 .img-contenedor {/*Ancho y altura son modificables al requerimiento de cada uno*/
 width:auto;
-height:180px;
+height:220px;
 overflow:hidden;
 }

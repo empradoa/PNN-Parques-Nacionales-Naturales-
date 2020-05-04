@@ -470,8 +470,10 @@ namespace PNN.Web.Controllers
 
             var content = await _dataContext.Contents
                 .Include(p => p.User)
+                .ThenInclude(p => p.Comments)
                 .Include(p => p.Comments)
                 .FirstOrDefaultAsync(p => p.Id == id.Value);
+
             if (content == null)
             {
                 return NotFound();
