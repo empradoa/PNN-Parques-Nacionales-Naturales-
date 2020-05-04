@@ -12,8 +12,7 @@
 <hr />
 <div class="row">
     <hr />
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-12">
         <div class="input-group form-group">
             <h3>Publicaciones</h3>
             <hr />
@@ -22,7 +21,7 @@
                 <a asp-action="AddContent" asp-route-id="" class="btn"><i class="fas fa-plus-circle"> Publicar</i></a>
             }
         </div>
-        <table class="table table-hover" id="MyTable">
+        <table class="table" id="MyTable12">
             <thead>
                 <tr>
                     <th>
@@ -52,7 +51,7 @@
                                     </section>
                                 </div>
                                 <div class="col-md-9">
-                                    <i style="font-size:9px;" class="fas fa-user-alt btn-light"> @Html.DisplayFor(modelItem => item.User.FullName)</i>
+                                    <i style="font-size:12px;" class="fas fa-user-alt btn-light"> @Html.DisplayFor(modelItem => item.User.FullName)</i>
                                     <p>
                                         <a class="badge badge-warning">@Html.DisplayFor(modelItem => item.ContentType.Name) <i style="font-size:9px;" class="fas fa-calendar btn-light"> [ @Html.DisplayFor(modelItem => item.DateLocal) ]</i></a>
                                     </p>
@@ -78,7 +77,7 @@
                                     }
                                     <hr class="btn-light" />
 
-                                    <table class="table" style="width:100%;font-size:12px;font-family: 'Arial';">
+                                    <table class="table" style="width:100%;font-size:14px;font-family: 'Arial';">
                                         <thead>
                                             <tr>
                                                 <th>
@@ -99,8 +98,8 @@
                                                         </div>
                                                         <br />
                                                         <div class="form-group float-right">
-                                                            <a asp-action="Index" asp-route-id="@item.Id" class="btn btn-light">Cancelar</a>
-                                                            <input type="submit" data-id="@item.Id" class="btn btn-primary comentar" value="Comentar" />
+                                                            <a data-id="@item.Id" class="btn btn-light cancelar">Cancelar</a>
+                                                            <input type="submit" data-id="@item.Id" disabled class="btn btn-primary comentar" value="Comentar" />
                                                         </div>
                                                     </form>
                                                     }
@@ -116,14 +115,13 @@
                                                         <td>
                                                             <div class="row">
                                                                 <div class="col-md-8">
-                                                                    <a class="badge badge-info">@Html.DisplayFor(modelItem => item1.User.FullName) 
+                                                                    <a class="badge badge-light">@Html.DisplayFor(modelItem => item1.User.FullName) 
                                                                     <i style="font-size:9px;" class="fas fa-calendar btn-light"> [  @Html.DisplayFor(modelItem => item1.DateLocal) ]</i></a>  
                                                                      @Html.DisplayFor(modelItem => item1.Description)
                                                                     <a class="btn btn-link">
                                                                         <i class="fas fa-thumbs-up btn-primary" title="Me gusta"></i><span class="badge badge-light">@Html.DisplayFor(modelItem => item1.Like)</span>
                                                                     </a>
                                                                 </div>
-                                                                <hr />
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -139,7 +137,6 @@
             </tbody>
         </table>
     </div>
-    <div class="col-md-1"></div>
 </div>
 <partial name="_DeleteDialog" />
 
@@ -171,6 +168,26 @@
                 },
                 "bDestroy": true,
                 "bJQueryUI": true
+            }); 
+
+
+            var item_to_describir;
+            $('.describir').click((e) => {
+                item_to_describir = e.currentTarget.dataset.id;
+                console.log("Probar: " + item_to_describir);
+            });
+
+            $('.describir').on('keyup', function () {
+                console.log("esta escribiendo...");
+                $(".comentar").prop("disabled", false);
+            });
+
+            var item_to_cancel;
+            $('.cancelar').click((e) => {
+                item_to_cancel = e.currentTarget.dataset.id;
+                //console.log("Probar: " + item_to_cancel);
+                $('*[data-id = "' + item_to_cancel + '+Description"]').val("");
+                $(".comentar").prop("disabled", true);
             });
             var item_to_save;
             $('.comentar').click((e) => {
@@ -181,13 +198,12 @@
                 // Deshabilitamos el botón de Submit
                 var description = $('*[data-id = "' + item_to_save + '+Description"]').val();
 
-                console.log("descripción antes de entrar al condicional: "+description);
+                //console.log("descripción antes de entrar al condicional: "+description);
                 if (description == null) {
-                    $(".SubmitBtn").prop("disabled", false);
-                    alert("Debe escribir algo");
+                    alert("Escriba un comentario");
                 }
                 else {
-                    console.log("descripción despues de entrar al condicional: " + description);
+                    //console.log("descripción despues de entrar al condicional: " + description);
                     $.ajax({
                         url: "@Url.Action("AddCommentToContent", "Contents")", // Url
                         data: {

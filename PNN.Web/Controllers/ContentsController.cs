@@ -38,8 +38,7 @@ namespace PNN.Web.Controllers
                 .Include(ct => ct.ContentType)
                 .Include(ct => ct.Comments)
                 .Include(ct => ct.User)
-                .ThenInclude(ct => ct.Comments)
-                .OrderBy(ct=> ct.ContentType));
+                .OrderByDescending(ct => ct.Date));
         }
 
 
