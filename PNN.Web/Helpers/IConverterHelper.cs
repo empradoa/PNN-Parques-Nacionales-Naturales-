@@ -18,5 +18,13 @@ namespace PNN.Web.Helpers
 
         // convierte de Comment a CommentViewModel
         CommentViewModel ToCommentToContentViewModel(Comment comment);
+
+
+        //metodos de converter helper para park
+        //convierte de ParkViewModel a Park
+        Task<Park> ToParkAsync(ParkViewModel model, string path, bool isNew);
+
+        // convierte de Park a ParkViewModel
+        ParkViewModel ToParkViewModel(Park content);
     }
 }

@@ -37,7 +37,8 @@ namespace PNN.Web.Helpers
             };
             return content;
         }
-
+              
+        //editar publicaciones
         public ContentViewModel ToContentViewModel(Content content)
         {
             return new ContentViewModel
@@ -100,6 +101,53 @@ namespace PNN.Web.Helpers
                 Id = isNew ? 0 : comment.Id,
                 Content = await _dataContext.Contents.FindAsync(comment.Content),
                 User = await _dataContext.Users.FindAsync(comment.User)
+            };
+        }
+
+        //convierte un objeto de la clase ContentViewModel en la clase Content
+        public async Task<Park> ToParkAsync(ParkViewModel model, string path, bool isNew)
+        {
+            var park = new Park
+            {
+                Name = model.Name,
+                Id = isNew ? 0 : model.Id,
+                Description = model.Description,
+                Creation = model.Creation,
+                ImageUrl = path,
+                Been = model.Been,
+                Extension = model.Extension,
+                Height = model.Height,
+                Temperature = model.Temperature,
+                Flora = model.Flora,
+                Wildlife = model.Wildlife,
+                Communities = model.Communities,
+                Like = 0,
+                DisLike = 0,
+                Manager = await _dataContext.Managers.FindAsync(model.ManagerId)
+                //Location = await _dataContext.Locations.FindAsync(model.LocationId)
+            };
+            return park;
+        }
+
+        //eiditar park
+        public ParkViewModel ToParkViewModel(Park park)
+        {
+            return new ParkViewModel
+            {
+                Name = park.Name,
+                Id = park.Id,
+                Description = park.Description,
+                Creation = park.Creation,
+                ImageUrl = park.ImageUrl,
+                Been = park.Been,
+                Extension = park.Extension,
+                Height = park.Height,
+                Temperature = park.Temperature,
+                Flora = park.Flora,
+                Wildlife = park.Wildlife,
+                Communities = park.Communities,
+                ManagerId = park.Manager.Id
+                //LocationId = content.Location.Id               
             };
         }
     }

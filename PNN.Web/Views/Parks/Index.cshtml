@@ -4,104 +4,134 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" href="//use.fontawesome.com/releases/v5.3.1/css/all.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/buttons/1.6.1/css/buttons.bootstrap4.min.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/keytable/2.5.1/css/keyTable.bootstrap4.min.css" />
+<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css" />
+<br />
+<div class="row">
+    <div class="col-md-12">
+        <div class="input-group form-group">
+            <h3>Parqies Naturales Nacionales</h3>
+            <hr />
+            <a asp-action="Create" class="btn"><i class="fas fa-plus-circle"> Nuevo</i></a>
+        </div>
+        <table class="table table-hover text-left" style="width:100%;font-size:15px;font-family: 'Arial';" id="MyTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                       Foto
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Creation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Extension)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Height)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Temperature)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Been)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Like)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:150px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Creation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Extension)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Height)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Temperature)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Been)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Like)
+                    </td>
+                    <td>
+                        <a asp-action="EditPark" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-edit btn-success" title="Editar"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-list btn-default" title="Detalles"></i></a>
+                        <button data-id="@item.Id" class="btn btn-link deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"></i></button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<partial name="_DeleteDialog" />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Creation)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ImageUrl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Been)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Extension)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Height)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Temperature)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Flora)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Wildlife)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Communities)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Like)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DisLike)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Creation)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ImageUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Been)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Extension)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Height)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Temperature)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Flora)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Wildlife)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Communities)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Like)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisLike)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.6.1/js/buttons.bootstrap4.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="//cdn.datatables.net/keytable/2.5.1/js/dataTables.keyTable.min.js"></script>
+    <script src="//cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#MyTable').DataTable({
+                "aLengthMenu": [[10, 50, 100, 500, -1], [10, 50, 100, 500, "Todos"]],
+                "bLengthChange": true,
+                "bPaginate": true,
+                "keys": true,
+                "responsive": true,
+                "language": {
+                    "decimal": ".",
+                    "thousands": ",",
+                    "url": "../../js/Spanish.json",
+                    "select": {
+                        rows: {
+                            _: "[%d]",
+                            0: " ",
+                            1: "[1]"
+                        }
+                    }
+                },
+                "bDestroy": true,
+                "bJQueryUI": true
+            });
+            // Delete item
+            var item_to_delete;
+            $('.deleteItem').click((e) => {
+                item_to_delete = e.currentTarget.dataset.id;
+            });
+            $("#btnYesDelete").click(function () {
+                window.location.href = '/Owners/Delete/' + item_to_delete;
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>

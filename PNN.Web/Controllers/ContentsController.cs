@@ -135,10 +135,10 @@ namespace PNN.Web.Controllers
                 .Include(ct => ct.Contents)
                 .FirstOrDefaultAsync(u => u.UserName.ToLower().Equals(User.Identity.Name.ToLower()));
 
-            var content = await _dataContext.Contents
+            /*var content = await _dataContext.Contents
                                 .Include(c => c.User)
                                 .Include(ct => ct.ContentType)
-                                .FirstOrDefaultAsync();
+                                .FirstOrDefaultAsync();*/
             if (user == null)
             {
                 return NotFound();
@@ -181,57 +181,6 @@ namespace PNN.Web.Controllers
             model.ContentTypes = _combosHelper.GetComboContentTypes();
             model.Parks = _combosHelper.GetComboParks();
             return View(model);
-        }
-
-        // GET: Contents/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var content = await _dataContext.Contents.FindAsync(id);
-            if (content == null)
-            {
-                return NotFound();
-            }
-            return View(content);
-        }
-
-        // POST: Contents/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Description,Date,ImageUrl,Like,DisLike")] Content content)
-        {
-            if (id != content.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _dataContext.Update(content);
-                    await _dataContext.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContentExists(content.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(content);
         }
 
         //detalles del usuario tener encuenta la consulta a la bd el Id no es el Id del owner sino del Content que viene de details del owner METODO GET
