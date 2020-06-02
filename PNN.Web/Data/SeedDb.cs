@@ -27,9 +27,9 @@ namespace PNN.Web.Data
             await _dataContext.Database.EnsureCreatedAsync();
             await CheckRoles();
             await CheckLocationsAsync();
-            var manager = await CheckUserAsync("Eider", "Prado", "empradoa@gmail.com", "3506342747", "Calle Luna Calle Sol", "Admin");
-            var customer = await CheckUserAsync("Manuel", "Avendaño", "eiderprado@hotmail.com", "3506342747", "Calle Luna Calle Sol","Customer");
-            var visit = await CheckUserAsync("Visit", "Visitante", "visit@hotmail.com", "350 634 2747", "Calle Luna Calle Sol","Visit");
+            var manager = await CheckUserAsync("Eider", "Prado", "empradoa@gmail.com", "3506342747", "Calle Luna Calle Sol", "Admin", "empradoa_1");
+            var customer = await CheckUserAsync("Manuel", "Avendaño", "eiderprado@hotmail.com", "3506342747", "Calle Luna Calle Sol","Customer", "eiderprado_1");
+            var visit = await CheckUserAsync("Visit", "Visitante", "visit@hotmail.com", "350 634 2747", "Calle Luna Calle Sol","Visit", "visit_0");
             await CheckZoneTypesAsync();
             await CheckContentTypesAsync();
             await CheckOwnerAsync(customer);
@@ -45,7 +45,7 @@ namespace PNN.Web.Data
             await _userHelper.CheckRoleAsync("Visit");
         }
 
-        private async Task<User> CheckUserAsync(string firstName, string lastName, string email, string phone, string address, string role)
+        private async Task<User> CheckUserAsync(string firstName, string lastName, string email, string phone, string address, string role, string alias)
         {
             var user = await _userHelper.GetUserByEmailAsync(email);
             if (user == null)
@@ -57,7 +57,8 @@ namespace PNN.Web.Data
                     Email = email,
                     UserName = email,
                     CellPhone = phone,
-                    Address = address
+                    Address = address,
+                    Alias = alias
                 };
 
                 await _userHelper.AddUserAsync(user, "123456");
