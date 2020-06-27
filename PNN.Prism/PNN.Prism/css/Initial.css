@@ -1,0 +1,126 @@
+^contentPage{
+  margin:0;
+  padding:0;
+  text-decoration:none;
+  list-style:none;
+}
+
+body{
+  /*  background: url(../img/Login.png);*/
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    }
+/*  -----------------------------------------  */
+/* -------------- CABEZOTE  ----------------   */
+header{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 100px;
+  /*background: rgba(255, 255, 6, 0.5);*/
+}
+/* -------------- FIN CABEZOTE  ------------   */
+/*  -----------------------------------------  */
+/* -------------- FIN Navegacion  -----------   */
+nav{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 100px;
+/*  background: rgba(50, 0,255, 0.5);*/
+}
+/* -------------- FIN Navegacion  -----------   */
+/*  -----------------------------------------  */
+/* -------------- Principal  ----------------   */
+div.princ{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 775px;
+  /*background: rgba(0, 100,255, 0.5);*/
+  padding: 40px 0 0 0;
+}
+
+StackLayout>image{
+    height: 30%;
+    width: 30%;
+    display: block;
+    margin: auto;
+}
+
+img{
+height: 97%;
+display:block;
+margin: auto;
+}
+/* -------------- FIN Principa  ------------   */
+/*  -----------------------------------------  */
+/* -------------- Botones  ----------------   */
+div.buttons{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 500px;
+/*  background: rgba(0, 0,255, 0.5);*/
+  padding: 50px 0 0 0;
+}
+
+button{
+  border: 0px;
+  text-decoration: none;
+}
+
+.Rectangulo{
+width: 95%;
+height: 135px;
+border-radius: 16px;
+background-color: #ffffff;
+margin: 0 0 0 23px;
+-webkit-box-shadow: 10px 57px 31px 0px rgba(0,0,0,0.11);
+-moz-box-shadow: 10px 57px 31px 0px rgba(0,0,0,0.11);
+box-shadow: 10px 37px 57px 0px rgba(0,0,0,0.11);
+}
+#Primary{
+margin-bottom: 50px;
+background-image: linear-gradient(135deg, #0ac4ba 0%, #2bda8e 100%) !important ;
+-webkit-box-shadow: 10px 10px 51px 0px rgba(43,218,142,0.3) !important;
+-moz-box-shadow: 10px 10px 51px 0px rgba(43,218,142,0.3) !important;
+box-shadow: 10px 10px 51px 0px rgba(43,218,142,0.3) !important;
+}
+
+p {
+  font-size: 35px;
+  font-family: "Roboto";
+  font-weight: bold;
+  text-align: center;
+  padding-top: 0px;
+}
+
+a{
+  color:#2bda8e  ;
+}
+
+/* -------------- FIN Botones  ------------   */
+/*  -----------------------------------------  */
+/* -------------- Bottom ----------------   */
+div.bottom{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 305px;
+  /*background: rgba(70, 0,255, 0.5);*/
+
+}
+/* -------------- FIN Botones  ------------   */
+/*  -----------------------------------------  */
+/* -------------- Bottom ----------------   */
+footer{
+  position: relative;
+  margin: auto;
+  width: auto;
+  height: 250px;
+/*  background: rgba(70, 255, 0, 0.5);*/
+
+}
+/* -------------- FIN Botones  ------------   */

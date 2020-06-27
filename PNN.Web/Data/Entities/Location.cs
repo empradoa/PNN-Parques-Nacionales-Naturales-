@@ -21,8 +21,14 @@ namespace PNN.Web.Data.Entities
 
         //relacion entre Location y (content, zone, park and owner)
         public ICollection<Content> Contents { get; set; }
-        public ICollection<Zone> Zones { get; set; }
-        public ICollection<Park> Parks { get; set; }
+
+        /* Se Comentarean para poder delimitar el area de los parks and zones
+          con la tabla intermedia Area
+         public ICollection<Zone> Zones { get; set; }
+         public ICollection<Park> Parks { get; set; }*/
+
+        public ICollection<Area> Area { get; set; }
+
         //public ICollection<Owner> Owners { get; set; }
     }
 }

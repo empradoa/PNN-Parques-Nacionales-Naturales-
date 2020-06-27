@@ -19,9 +19,9 @@
             <a asp-action="Create" class="btn"><i class="fas fa-plus-circle"> Nuevo</i></a>
         </div>
         <table class="table table-hover text-left" style="width:100%;font-size:15px;font-family: 'Arial';" id="MyTable">
-            <thead>
+            <thead id="Primary">
                 <tr>
-                    <th>
+                    <th >
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th>

@@ -129,6 +129,29 @@ namespace PNN.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("PNN.Web.Data.Entities.Area", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("LocationId");
+
+                    b.Property<int?>("ParkId");
+
+                    b.Property<int?>("ZoneId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("ParkId");
+
+                    b.HasIndex("ZoneId");
+
+                    b.ToTable("Areas");
+                });
+
             modelBuilder.Entity("PNN.Web.Data.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -291,8 +314,6 @@ namespace PNN.Web.Migrations
 
                     b.Property<int>("Like");
 
-                    b.Property<int?>("LocationId");
-
                     b.Property<int?>("ManagerId");
 
                     b.Property<string>("Name")
@@ -305,8 +326,6 @@ namespace PNN.Web.Migrations
                     b.Property<string>("Wildlife");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("ManagerId");
 
@@ -399,8 +418,6 @@ namespace PNN.Web.Migrations
 
                     b.Property<int>("Like");
 
-                    b.Property<int?>("LocationId");
-
                     b.Property<int?>("ManagerId");
 
                     b.Property<string>("Nombre")
@@ -412,8 +429,6 @@ namespace PNN.Web.Migrations
                     b.Property<int?>("ZoneTypeId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
 
                     b.HasIndex("ManagerId");
 
@@ -484,6 +499,22 @@ namespace PNN.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("PNN.Web.Data.Entities.Area", b =>
+                {
+                    b.HasOne("PNN.Web.Data.Entities.Location", "Location")
+                        .WithMany("Area")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("PNN.Web.Data.Entities.Park", "Park")
+                        .WithMany("Location")
+                        .HasForeignKey("ParkId");
+
+                    b.HasOne("PNN.Web.Data.Entities.Zone", "Zone")
+                        .WithMany("Locations")
+                        .HasForeignKey("ZoneId");
+                });
+
             modelBuilder.Entity("PNN.Web.Data.Entities.Comment", b =>
                 {
                     b.HasOne("PNN.Web.Data.Entities.Content", "Content")
@@ -534,10 +565,6 @@ namespace PNN.Web.Migrations
 
             modelBuilder.Entity("PNN.Web.Data.Entities.Park", b =>
                 {
-                    b.HasOne("PNN.Web.Data.Entities.Location", "Location")
-                        .WithMany("Parks")
-                        .HasForeignKey("LocationId");
-
                     b.HasOne("PNN.web.Data.Entities.Manager", "Manager")
                         .WithMany("Parks")
                         .HasForeignKey("ManagerId");
@@ -545,10 +572,6 @@ namespace PNN.Web.Migrations
 
             modelBuilder.Entity("PNN.Web.Data.Entities.Zone", b =>
                 {
-                    b.HasOne("PNN.Web.Data.Entities.Location", "Location")
-                        .WithMany("Zones")
-                        .HasForeignKey("LocationId");
-
                     b.HasOne("PNN.web.Data.Entities.Manager", "Manager")
                         .WithMany("Zones")
                         .HasForeignKey("ManagerId");

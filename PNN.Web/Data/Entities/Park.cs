@@ -68,7 +68,7 @@ namespace PNN.Web.Data.Entities
 
         //relacion entre tablas foreign keys
         public Manager Manager { get; set; }
-        public Location Location { get; set; }
+        public ICollection<Area> Location { get; set; }
 
 
         //relacion entre content y park

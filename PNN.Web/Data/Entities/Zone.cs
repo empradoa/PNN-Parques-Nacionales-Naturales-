@@ -38,7 +38,7 @@ namespace PNN.Web.Data.Entities
 
         //relacion entre tablas foreign keys
         public ZoneType ZoneType { get; set; }
-        public Location Location { get; set; }
+        public ICollection<Area> Locations { get; set; }
         public Park Park { get; set; }
         public Manager Manager { get; set; }
 

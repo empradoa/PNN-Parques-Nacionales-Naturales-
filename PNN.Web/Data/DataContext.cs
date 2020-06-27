@@ -22,6 +22,7 @@ namespace PNN.web.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Park> Parks { get; set; }
         public DbSet<Manager> Managers { get; set; }
+        public DbSet<Area> Areas { get; set; }
 
 
     }

@@ -96,7 +96,7 @@ namespace PNN.Web.Helpers
             return await _userManager.UpdateAsync(user);
         }
 
-        //estos son los datos que le pasan de user y password para para lidar el password
+        //estos son los datos que le pasan de user y password para para validar el password
         public async Task<SignInResult> ValidatePasswordAsync(User user, string password)
         {
             return await _signInManager.CheckPasswordSignInAsync(

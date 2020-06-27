@@ -18,7 +18,7 @@
 </head>
 <body style="padding-top:0px;">
     <div class="flex-wrap">
-        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#84BF04; opacity: 0.9;filter: alpha(opacity=100);">
+        <nav class="navbar navbar-expand-lg navbar-dark" id="Primary">
             <a class="navbar-brand" href="#">Parques Nacionales Naturales</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -37,18 +37,18 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Zonas
                             </a>
-                            <div class="dropdown-menu navbar-dark" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
-                                <a class="nav-link" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
-                                <a class="nav-link" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
+                            <div class="dropdown-menu navbar-dark" id="Primary" aria-labelledby="navbarDropdown" style="background-color:#84BF04;top:0;left:0;">
+                                <a class="nav-link" id="Primary" asp-area="" asp-controller="ZoneTypes" asp-action="Index">Tipos de Zonas</a>
+                                <a class="nav-link" id="Primary" asp-area="" asp-controller="Zones" asp-action="Index">Zonas</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Contenidos
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
-                                <a class="nav-link" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
-                                <a class="nav-link" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
+                            <div class="dropdown-menu" id="Primary" aria-labelledby="navbarDropdownMenuLink" style="background-color:#84BF04;top:0;left:0;">
+                                <a class="nav-link" id="Primary" asp-area="" asp-controller="ContentTypes" asp-action="Index">Tipo de Contenidos</a>
+                                <a class="nav-link" id="Primary" asp-area="" asp-controller="Contents" asp-action="Index">Publicaciones</a>
                             </div>
                         </li>
                         <li class="nav-item active"><a class="nav-link" asp-area="" asp-controller="Comments" asp-action="Index">Comentarios</a></li>

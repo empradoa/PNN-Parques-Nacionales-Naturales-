@@ -12,7 +12,7 @@ namespace PNN.Common.Models
         public DateTime Date { get; set; }
         public string ImageUrl { get; set; }
         public int Like { get; set; }
-        public string ContentType { get; set; }
+        public ContentTypeResponse ContentType { get; set; }
         public string Park { get; set; }
 
         public ICollection<CommentResponse> Comments { get; set; }

@@ -13,5 +13,7 @@ namespace PNN.Common.Models
         public DateTime Date { get; set; }
 
         public int Like { get; set; }
+
+        public UserResponse User { get; set; }
     }
 }

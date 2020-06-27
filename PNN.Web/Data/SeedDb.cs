@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using PNN.web.Data;
 using PNN.web.Data.Entities;
@@ -137,7 +138,7 @@ namespace PNN.Web.Data
         }
         private void AddPark(string name, string description, string creation, string been, string extension, string height, string temperature, string flora, string wildlife, string communities, Manager manager, Location location)
         {
-            _dataContext.Parks.Add(new Park
+            var park = new Park
             {
                 Name = name,
                 Description = description,
@@ -151,9 +152,14 @@ namespace PNN.Web.Data
                 Communities = communities,
                 Like = 0,
                 DisLike = 0,
-                Manager = manager,
-                Location = location
-            });
+                Manager = manager
+            };
+
+            park.Location = new List<Area> { new Area
+                                            {  Park = park ,
+                                               Location= location } };
+
+            _dataContext.Parks.Add(park);
         }
     }
 

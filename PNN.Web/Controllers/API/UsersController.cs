@@ -26,7 +26,7 @@ namespace PNN.Web.Controllers.API
 
         [HttpPost]
         [Route("GetUserByEmail")]
-        public async Task<IActionResult> GetUser(EmailRequest emailRequest)
+        public async Task<IActionResult> GetUserAsync(EmailRequest emailRequest)
         {
             if (!ModelState.IsValid)
             {
@@ -39,6 +39,7 @@ namespace PNN.Web.Controllers.API
                 .ThenInclude(ct => ct.ContentType)
                 .Include(u => u.Contents)
                 .ThenInclude(pk => pk.Park)
+                .ThenInclude(z=> z.Zones)
                 .Include(u => u.Contents)
                 .ThenInclude(ct => ct.Comments)
                 .FirstOrDefaultAsync(u => u.UserName.ToLower() == emailRequest.Email.ToLower());
@@ -58,7 +59,11 @@ namespace PNN.Web.Controllers.API
                     ImageUrl = ct.ImageFullPath,
                     Description = ct.Description,
                     Like = ct.Like,
-                    ContentType = ct.ContentType.Name,
+                    ContentType =  new ContentTypeResponse 
+                    {
+                        Id = ct.ContentType.Id,
+                        Name = ct.ContentType.Name
+                    },
                     Park = ct.Park.Name,
                     Comments = ct.Comments.Select(cm => new CommentResponse
                     {
