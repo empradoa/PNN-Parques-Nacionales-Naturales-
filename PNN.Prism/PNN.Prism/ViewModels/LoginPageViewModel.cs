@@ -11,6 +11,7 @@ namespace PNN.Prism.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
     {
+        private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
         private string _password;
         private bool _isRunning;
@@ -20,6 +21,7 @@ namespace PNN.Prism.ViewModels
         public LoginPageViewModel(INavigationService navigationService,
                                   IApiService apiService  ): base(navigationService)
         {
+            _navigationService = navigationService;
             _apiService = apiService;
             Title = "Login";
             IsEnabled = true;
@@ -63,28 +65,55 @@ namespace PNN.Prism.ViewModels
             IsRunning = true;
             IsEnabled = false;
 
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var connection = await _apiService.CheckConnectionAsync(url);
+
+            if (!connection) 
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error","Verifique su conexion a internet.","Aceptar");
+                return;
+            }
+
             var request = new TokenRequest {
                 Password = Password,
                 Username = Email
             };
 
-            var url = App.Current.Resources["UrlAPI"].ToString();
-
-
             var response = await _apiService.GetTokenAsync(url,"/Account","/CreateToken",request);
-
-            IsRunning = false;
-            IsEnabled = true;
 
             if (!response.IsSuccess) 
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Correo o Contraseña incorrecta.","Aceptar");
                 Password = String.Empty;
+                IsRunning = false;
+                IsEnabled = true;
+
                 return;
             }
-            var token = response.Result;
 
-            await App.Current.MainPage.DisplayAlert("Ok", "Fuck Yeah!!!", "Aceptar");
+            var token = response.Result;
+            var response2 = await _apiService.GetOwnerByEmailAsync(url,"api","/Users/GetUserByEmail","bearer",token.Token,Email);
+
+            if (!response2.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Problemas con los datos de Usuario, comuniquese con Soporte.", "Aceptar");
+                Password = String.Empty;
+                IsRunning = false;
+                IsEnabled = true;
+                return;
+            }
+
+            var user = response2.Result;
+            var parameters = new NavigationParameters
+            {
+                {"User", user}
+            };
+
+            IsRunning = false;
+            IsEnabled = true;
+            await _navigationService.NavigateAsync("PubsPage",parameters);
         }
     }
 }

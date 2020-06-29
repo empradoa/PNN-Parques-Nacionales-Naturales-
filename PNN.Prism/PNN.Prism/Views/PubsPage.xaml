@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="PNN.Prism.Views.PubsPage"
+             Title="{Binding Title}">
+
+    <StackLayout
+        Padding="10">
+        <Frame
+           CornerRadius="20"
+           HasShadow="True">
+            <StackLayout>
+               
+                                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image
+                        Grid.Column="0"
+                        HeightRequest="20"
+                        Source="ic_chevron_left"
+                        VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding PreviousImageCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                    <Image
+                        Grid.Column="1"
+                        Source="{Binding ImageUrl}"
+                        HeightRequest="300"
+                        Aspect="AspectFill"/>
+                    <Image
+                        Grid.Column="2"
+                        HeightRequest="20"
+                        Source="ic_chevron_right"
+                        VerticalOptions="Center">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding NextImageCommand}"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Text="Descripcion" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Pubs.Description}"/>
+                    <Label Grid.Column="0" Grid.Row="1" Text="Fecha:" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Pubs.Neighborhood}"/>
+                    <Label Grid.Column="0" Grid.Row="2" Text="Tipo" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Pubs.ContentType}"/>
+                    <Label Grid.Column="0" Grid.Row="3" Text="Lugar" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Pubs.Park, StringFormat='{0:C2}'}"/>
+                  
+                </Grid>
+                <Button IsEnabled="{Binding IsEnabled}"
+                        Command="{Binding CommentsCommand}" 
+                        Text="View More"/>
+                          
+            </StackLayout>
+        </Frame>
+        
+        <Label
+            FontAttributes="Bold"
+            FontSize="Large"
+            Text="Publicaciones"
+            TextColor="Black"/>
+        <ListView
+            HasUnevenRows="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            ItemsSource="{Binding Pubs}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPubCommand}"/>
+                            </Grid.GestureRecognizers>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Text="{Binding StartDate, StringFormat='{0:yyyy/MM/dd}'}"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Grid.Column="1"
+                                Text="{Binding EndDate, StringFormat='{0:yyyy/MM/dd}'}"
+                                VerticalOptions="Center"/>
+                            <Label
+                                Grid.Column="2"
+                                Text="{Binding Lessee.FullName}"
+                                VerticalOptions="Center"/>
+                            <Image
+                                Grid.Column="3"
+                                HeightRequest="20"
+                                Margin="0,5"
+                                Source="ic_chevron_right"/>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+  
+</ContentPage>

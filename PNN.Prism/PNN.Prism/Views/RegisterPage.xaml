@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="PNN.Prism.Views.RegisterPage"
+             Title="{Binding Title}">
+
+    <StackLayout>
+
+        <Entry
+            Placeholder="Escribe Tu Nombre."
+            Text="{Binding FirstName}"/>
+        <Entry
+            Placeholder="Escribe Tu Apellido."
+            Text="{Binding LastName}"/>
+        <Entry
+            Keyboard="Email"
+            Placeholder="Escribe Tu Email."
+            Text="{Binding Email}"/>
+        <Entry
+            Keyboard="Email"
+            Placeholder="Escribe Tu Direccion."
+            Text="{Binding Address}"/>
+        <Entry
+            Keyboard="Email"
+            Placeholder="Escribe Tu Celular (Con Indicativo +57)."
+            Text="{Binding CellPhone}"/>
+        <Entry      
+            IsPassword="True"
+            Placeholder="Escribe Tu Password."
+            Text="{Binding Password}"/>
+        <Entry      
+            IsPassword="True"
+            Placeholder="Verifica Tu Password."
+            Text="{Binding Passverified}"/>
+        <ActivityIndicator
+            IsRunning="{Binding IsRunning}"
+            VerticalOptions="CenterAndExpand"/>
+        <Button
+            IsEnabled="{Binding IsEnabled}"
+            Command="{Binding RegCommand}"
+            Text="Resgistrar"/>
+        
+    </StackLayout>
+    
+</ContentPage>

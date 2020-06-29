@@ -7,24 +7,20 @@
              Title="{Binding Title}">
    
     <StackLayout Padding="10">
-        <Image Source="../css/CNP1.png"></Image>
+        
         <Entry
             Keyboard="Email"
             Placeholder="Esctibe Tu Email."
-            StyleId="Primary"
             Text="{Binding Email}"/>
-        <Entry
-            StyleId="Primary"
+        <Entry      
             IsPassword="True"
-            Placeholder="Esctibe Tu Email."
+            Placeholder="Esctibe Tu Password."
             Text="{Binding Password}"/>
         <ActivityIndicator
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
         <Button
             IsEnabled="{Binding IsEnabled}"
-            StyleClass="Rectangulo"
-            StyleId="Primary"
             Command="{Binding LoginCommand}"
             Text="Login"/>
 

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Connectivity;
 using PNN.Common.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace PNN.Common.Services
 {
     public class ApiService : IApiService
     {
-        public async Task<Response<OwnerResponse>> GetOwnerByEmail(string urlBase, string servicePrefix, string controller, string tokenType, string accessToken, string email)
+        
+        public async Task<Response<UserResponse>> GetOwnerByEmailAsync(string urlBase, string servicePrefix, string controller, string tokenType, string accessToken, string email)
          {
             try
             {
@@ -30,15 +32,15 @@ namespace PNN.Common.Services
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return new Response<OwnerResponse>
+                    return new Response<UserResponse>
                     {
                         IsSuccess = false,
                         Message = result,
                     };
                 }
 
-                var owner = JsonConvert.DeserializeObject<OwnerResponse>(result);
-                return new Response<OwnerResponse>
+                var owner = JsonConvert.DeserializeObject<UserResponse>(result);
+                return new Response<UserResponse>
                 {
                     IsSuccess = true,
                     Result = owner
@@ -46,7 +48,7 @@ namespace PNN.Common.Services
             }
             catch (Exception ex)
             {
-                return new Response<OwnerResponse>
+                return new Response<UserResponse>
                 {
                     IsSuccess = false,
                     Message = ex.Message
@@ -58,7 +60,7 @@ namespace PNN.Common.Services
 
 
         public async Task<Response<TokenResponse>> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request)
-                {
+         {
                     try
                     {
                         var requestString = JsonConvert.SerializeObject(request);
@@ -97,8 +99,18 @@ namespace PNN.Common.Services
                         };
                     }
 
-                }
-            
+         }
+
+        public async Task<bool> CheckConnectionAsync(string url)
+        {
+            if (!CrossConnectivity.Current.IsConnected) 
+            {
+                return false;
+            }
+
+            return await CrossConnectivity.Current.IsRemoteReachable(url);
+        }
+
     }
         
 }

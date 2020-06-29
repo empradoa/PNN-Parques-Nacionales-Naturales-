@@ -8,7 +8,7 @@ namespace PNN.Common.Services
 {
     public interface IApiService
     {
-        Task<Response<OwnerResponse>> GetOwnerByEmail(
+        Task<Response<UserResponse>> GetOwnerByEmailAsync(
             string urlBase,
             string servicePrefix,
             string controller,
@@ -21,5 +21,7 @@ namespace PNN.Common.Services
             string servicePrefix,
             string controller,
             TokenRequest request);
+
+        Task<bool> CheckConnectionAsync(String url);
     }
 }
