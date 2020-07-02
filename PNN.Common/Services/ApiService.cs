@@ -39,11 +39,11 @@ namespace PNN.Common.Services
                     };
                 }
 
-                var owner = JsonConvert.DeserializeObject<UserResponse>(result);
+                var user = JsonConvert.DeserializeObject<UserResponse>(result);
                 return new Response<UserResponse>
                 {
                     IsSuccess = true,
-                    Result = owner
+                    Result = user
                 };
             }
             catch (Exception ex)

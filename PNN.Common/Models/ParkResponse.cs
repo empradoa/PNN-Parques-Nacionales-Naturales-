@@ -37,7 +37,7 @@ namespace PNN.Common.Models
 
         //relacion entre tablas foreign keys
         public ManagerResponse Manager { get; set; }
-        public ICollection<LocationResponse> Location { get; set; }
+        public ICollection<AreaResponse> Location { get; set; }
 
 
         //relacion entre content y park

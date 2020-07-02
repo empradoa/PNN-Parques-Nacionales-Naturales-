@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using PNN.Common.Models;
 using PNN.web.Data;
+using PNN.web.Data.Entities;
 using PNN.Web.Data.Entities;
 using PNN.Web.Models;
 
@@ -37,7 +40,7 @@ namespace PNN.Web.Helpers
             };
             return content;
         }
-              
+
         //editar publicaciones
         public ContentViewModel ToContentViewModel(Content content)
         {
@@ -149,6 +152,231 @@ namespace PNN.Web.Helpers
                 ManagerId = park.Manager.Id
                 //LocationId = content.Location.Id               
             };
+        }
+
+
+
+        //  conversiones de serializacion y deserializacion de los Api's
+
+        public ICollection<ParkResponse> ToListParkResponse(ICollection<Park> prk)
+        {
+            var Parks = new List<ParkResponse>();
+
+            if (Parks != null && Parks.Count != 0)
+            {
+
+                foreach (var p in prk)
+                {
+                    Parks.Add(ToParkResponse(p));
+                }
+
+            }
+
+            return Parks;
+        }
+
+        public ParkResponse ToParkResponse(Park p)
+        {
+            return p == null ? new ParkResponse { }
+                                : new ParkResponse 
+                                {
+                                    Name = p.Name,
+                                    Description = p.Description,
+                                    Creation = p.Creation,
+                                    ImageUrl = p.ImageUrl,
+                                    Been = p.Been,
+                                    Extension = p.Extension,
+                                    Height = p.Height,
+                                    Temperature = p.Temperature,
+                                    Flora = p.Flora,
+                                    Wildlife = p.Wildlife,
+                                    Communities = p.Communities,
+                                    Like = p.Like,
+                                    DisLike = p.DisLike,
+                                    Manager = ToManagerResponse(p.Manager),
+                                    Location = ToListAreaResponse(p.Location),
+                                    Contents = ToListContentResponse(p.Contents),
+                                    Zones = ToListZoneResponse(p.Zones)
+                                };
+        }   
+
+        public ICollection<ZoneResponse> ToListZoneResponse(ICollection<Zone> zn)
+        {
+            var zones = new List<ZoneResponse>();
+
+            if (zones != null && zones.Count != 0)
+            {
+
+                foreach (var z in zn)
+                {
+                    zones.Add(ToZoneResponse(z));
+                }
+
+            }
+
+            return zones;
+        }
+
+        public ZoneResponse ToZoneResponse(Zone z)
+        {
+            return z == null ? new ZoneResponse { }
+                                : new ZoneResponse
+                                {
+                                    Id = z.Id,
+                                    Nombre = z.Nombre,
+                                    ImageUrl = z.ImageUrl,
+                                    Description = z.Description,
+                                    Like = z.Like,
+                                    DisLike = z.DisLike,
+                                    ZoneType = ToZoneTyperespone(z.ZoneType),
+                                    Location = ToListAreaResponse(z.Locations),
+                                    Manager = ToManagerResponse(z.Manager),
+                                    Comments = ToListCommentsResponse(z.Comments)
+                                };
+        }
+
+        public ZoneTypesResponse ToZoneTyperespone(ZoneType zt)
+        {
+            return zt == null ? new ZoneTypesResponse { }
+                                : new ZoneTypesResponse
+                                {
+                                    Id = zt.Id,
+                                    Name = zt.Name
+                                };
+        }
+
+        public UserResponse ToUserResponse(User u)
+        {
+            return u == null ? new UserResponse { }
+                                : new UserResponse
+                                {
+                                    Id = u.Id,
+                                    FirstName = u.FirstName,
+                                    LastName = u.LastName,
+                                    Address = u.Address,
+                                    CellPhone = u.CellPhone,
+                                    Email = u.Email,
+                                    Contents = ToListContentResponse(u.Contents)
+                                };
+        }
+
+        public ICollection<ContentResponse> ToListContentResponse(ICollection<Content> cont)
+        {
+            var contents = new List<ContentResponse>();
+
+            if (contents != null && contents.Count != 0)
+            {
+                foreach (var c in cont)
+                {
+                    contents.Add(ToContentResponse(c));
+                }
+            }
+
+            return contents;
+        }
+
+        public ContentResponse ToContentResponse(Content c)
+        {
+            return c == null ? new ContentResponse { }
+                                : new ContentResponse
+                                {
+                                    Id = c.Id,
+                                    Description = c.Description,
+                                    Date = c.Date,
+                                    ImageUrl = c.ImageUrl,
+                                    Like = c.Like,
+                                    ContentType = ToContentTypeResponse(c.ContentType),
+                                    Park = c.Park.Name,
+                                    Comments = ToListCommentsResponse(c.Comments)
+
+                                };
+        }
+
+        public ICollection<CommentResponse> ToListCommentsResponse(ICollection<Comment> cmm)
+        {
+            var comments = new List<CommentResponse>();
+
+            if (comments != null && comments.Count != 0)
+            {
+                foreach (var c in cmm)
+                {
+                    comments.Add(ToCommentResponse(c));
+                }
+            }
+
+            return comments;
+        }
+
+        public CommentResponse ToCommentResponse(Comment cmm)
+        {
+            return cmm == null ? new CommentResponse { }
+                                : new CommentResponse
+                                {
+                                    Id = cmm.Id,
+                                    Description = cmm.Description,
+                                    Date = cmm.Date,
+                                    Like = cmm.Like,
+                                    User = ToUserResponse(cmm.User)
+                                };
+        }
+
+        public ContentTypeResponse ToContentTypeResponse(ContentType ct)
+        {
+            return ct == null ? new ContentTypeResponse { }
+                                : new ContentTypeResponse
+                                {
+                                    Id = ct.Id,
+                                    Name = ct.Name
+                                };
+        }
+
+        public ICollection<AreaResponse> ToListAreaResponse(ICollection<Area> Ar)
+        {
+            var Areas = new List<AreaResponse>();
+
+            if (Areas != null && Areas.Count != 0)
+            {
+
+                foreach (var a in Ar)
+                {
+                    Areas.Add(ToAreaResponse(a));
+                }
+
+            }
+
+            return Areas;
+        }
+
+        public AreaResponse ToAreaResponse(Area ar)
+        {
+            return ar == null ? new AreaResponse { }
+                            : new AreaResponse
+                                {
+                                    Id = ar.Id,
+                                    Location = ToLocationResponse(ar.Location),
+                                    Park = ToParkResponse(ar.Park),
+                                    Zone = ToZoneResponse(ar.Zone)
+                                };
+        }
+
+        public LocationResponse ToLocationResponse(Location l)
+        {
+            return l==null ? new LocationResponse { }
+                            : new LocationResponse {
+                            Id = l.Id,
+                            Latitude = l.Latitude,
+                            Longitude = l.Longitude
+                            };
+        }
+
+        public ManagerResponse ToManagerResponse(Manager manager)
+        {
+            return manager == null ? new ManagerResponse { }
+                                 : new ManagerResponse
+                                 {
+                                     Id = manager.Id,
+                                     User = ToUserResponse(manager.User)
+                                 };
         }
     }
 }
