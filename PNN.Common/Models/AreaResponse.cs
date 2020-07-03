@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace PNN.Common.Models
@@ -10,8 +11,9 @@ namespace PNN.Common.Models
 
         public virtual LocationResponse Location { get; set; }
 
-        public virtual ParkResponse Park { get; set; }
+        public int Park { get; set; }
 
-        public virtual ZoneResponse Zone { get; set; }
+        public int Zone { get; set; }
+
     }
 }

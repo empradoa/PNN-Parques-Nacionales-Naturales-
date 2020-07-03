@@ -37,7 +37,7 @@ namespace PNN.Web.Controllers.API
 
         [HttpPost]
         [Route("GetContentsAsync")]
-        public async Task<ActionResult<PublicationsResponse>> GetContentsAsync()
+        public async Task<ActionResult> GetContentsAsync()
         {
             if (!ModelState.IsValid)
             {

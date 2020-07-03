@@ -37,11 +37,17 @@ namespace PNN.Web.Helpers
         ZoneResponse ToZoneResponse(Zone z);
         ZoneTypesResponse ToZoneTyperespone(ZoneType zt);
         ManagerResponse ToManagerResponse(Manager manager);
+        User ToUser(UserResponse u);
         UserResponse ToUserResponse(User u);
+        ICollection<Content> ToListContent(ICollection<ContentResponse> cont);
+        Content ToContent(ContentResponse c);
         ICollection<ContentResponse> ToListContentResponse(ICollection<Content> cont);
         ContentResponse ToContentResponse(Content c);
+        ICollection<Comment> ToListComments(ICollection<CommentResponse> cmm);
+        Comment ToComment(CommentResponse cmm);
         ICollection<CommentResponse> ToListCommentsResponse(ICollection<Comment> cmm);
         CommentResponse ToCommentResponse(Comment cmm);
+        ContentType ToContentType(ContentTypeResponse ct);
         ContentTypeResponse ToContentTypeResponse(ContentType ct);
         ICollection<AreaResponse> ToListAreaResponse(ICollection<Area> loc);
         AreaResponse ToAreaResponse(Area ar);

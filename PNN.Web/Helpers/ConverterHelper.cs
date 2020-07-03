@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using PNN.Common.Models;
 using PNN.web.Data;
 using PNN.web.Data.Entities;
@@ -160,9 +162,9 @@ namespace PNN.Web.Helpers
 
         public ICollection<ParkResponse> ToListParkResponse(ICollection<Park> prk)
         {
-            var Parks = new List<ParkResponse>();
+            List<ParkResponse> Parks = new List<ParkResponse>();
 
-            if (Parks != null && Parks.Count != 0)
+            if (prk != null && prk.Count != 0)
             {
 
                 foreach (var p in prk)
@@ -177,34 +179,40 @@ namespace PNN.Web.Helpers
 
         public ParkResponse ToParkResponse(Park p)
         {
-            return p == null ? new ParkResponse { }
-                                : new ParkResponse 
-                                {
-                                    Name = p.Name,
-                                    Description = p.Description,
-                                    Creation = p.Creation,
-                                    ImageUrl = p.ImageUrl,
-                                    Been = p.Been,
-                                    Extension = p.Extension,
-                                    Height = p.Height,
-                                    Temperature = p.Temperature,
-                                    Flora = p.Flora,
-                                    Wildlife = p.Wildlife,
-                                    Communities = p.Communities,
-                                    Like = p.Like,
-                                    DisLike = p.DisLike,
-                                    Manager = ToManagerResponse(p.Manager),
-                                    Location = ToListAreaResponse(p.Location),
-                                    Contents = ToListContentResponse(p.Contents),
-                                    Zones = ToListZoneResponse(p.Zones)
-                                };
+            ParkResponse prk = new ParkResponse();
+
+            if (p != null)
+            {
+                prk = new ParkResponse
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    Creation = p.Creation,
+                    ImageUrl = p.ImageUrl,
+                    Been = p.Been,
+                    Extension = p.Extension,
+                    Height = p.Height,
+                    Temperature = p.Temperature,
+                    Flora = p.Flora,
+                    Wildlife = p.Wildlife,
+                    Communities = p.Communities,
+                    Like = p.Like,
+                    DisLike = p.DisLike,
+                    Manager = ToManagerResponse(p.Manager),
+                    Location = ToListAreaResponse(p.Location),
+                    Contents = ToListContentResponse(p.Contents),
+                    Zones = ToListZoneResponse(p.Zones)
+                };
+            }
+
+            return prk;
         }   
 
         public ICollection<ZoneResponse> ToListZoneResponse(ICollection<Zone> zn)
         {
             var zones = new List<ZoneResponse>();
 
-            if (zones != null && zones.Count != 0)
+            if (zn != null && zn.Count != 0)
             {
 
                 foreach (var z in zn)
@@ -219,8 +227,7 @@ namespace PNN.Web.Helpers
 
         public ZoneResponse ToZoneResponse(Zone z)
         {
-            return z == null ? new ZoneResponse { }
-                                : new ZoneResponse
+            return (z == null ? new ZoneResponse
                                 {
                                     Id = z.Id,
                                     Nombre = z.Nombre,
@@ -232,23 +239,38 @@ namespace PNN.Web.Helpers
                                     Location = ToListAreaResponse(z.Locations),
                                     Manager = ToManagerResponse(z.Manager),
                                     Comments = ToListCommentsResponse(z.Comments)
-                                };
+                                }
+                                : new ZoneResponse { });
         }
 
         public ZoneTypesResponse ToZoneTyperespone(ZoneType zt)
         {
-            return zt == null ? new ZoneTypesResponse { }
-                                : new ZoneTypesResponse
+            return (zt != null ? new ZoneTypesResponse
                                 {
                                     Id = zt.Id,
                                     Name = zt.Name
-                                };
+                                }
+                                : new ZoneTypesResponse { });
+        }
+
+        public User ToUser(UserResponse u)
+        {
+            return (u != null ? new User
+            {
+                Id = u.Id,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
+                Address = u.Address,
+                CellPhone = u.CellPhone,
+                Email = u.Email,
+                Contents = ToListContent(u.Contents)
+            }
+                                : new User { });
         }
 
         public UserResponse ToUserResponse(User u)
         {
-            return u == null ? new UserResponse { }
-                                : new UserResponse
+            return (u != null ? new UserResponse
                                 {
                                     Id = u.Id,
                                     FirstName = u.FirstName,
@@ -257,14 +279,55 @@ namespace PNN.Web.Helpers
                                     CellPhone = u.CellPhone,
                                     Email = u.Email,
                                     Contents = ToListContentResponse(u.Contents)
-                                };
+                                }
+                                : new UserResponse { });
+        }   
+
+        public ICollection<Content> ToListContent(ICollection<ContentResponse> cont)
+        {
+            var contents = new List<Content>();
+
+            if (cont != null && cont.Count != 0)
+            {
+                foreach (var c in cont)
+                {
+                    contents.Add(ToContent(c));
+                }
+            }
+
+            return contents;
+        }
+
+        public Content ToContent(ContentResponse c)
+        {
+            return (c != null ? new Content
+                                {
+                                    Id = c.Id,
+                                    Description = c.Description,
+                                    Date = c.Date,
+                                    ImageUrl = c.ImageUrl,
+                                    Like = c.Like,
+                                    ContentType = ToContentType(c.ContentType),
+                                    Park = _dataContext.Parks
+                                                        .Include(p => p.Manager)
+                                                        .ThenInclude(p => p.User)
+                                                        .Include (p=>  p.Location)
+                                                        .Include(p=> p.Contents)
+                                                        .ThenInclude(cnt => cnt.FirstOrDefault().ContentType)
+                                                        .Include(p=> p.Zones)
+                                                        .ThenInclude(z=> z.FirstOrDefault().ZoneType)
+                                                        .FirstOrDefault(p => p.Name.ToLower() == c.Park.ToLower() ),
+                                    Comments = ToListComments(c.Comments)
+
+                                }
+                                : new Content { });
         }
 
         public ICollection<ContentResponse> ToListContentResponse(ICollection<Content> cont)
         {
             var contents = new List<ContentResponse>();
 
-            if (contents != null && contents.Count != 0)
+            if (cont != null && cont.Count != 0)
             {
                 foreach (var c in cont)
                 {
@@ -277,8 +340,7 @@ namespace PNN.Web.Helpers
 
         public ContentResponse ToContentResponse(Content c)
         {
-            return c == null ? new ContentResponse { }
-                                : new ContentResponse
+            return (c != null ? new ContentResponse
                                 {
                                     Id = c.Id,
                                     Description = c.Description,
@@ -289,14 +351,43 @@ namespace PNN.Web.Helpers
                                     Park = c.Park.Name,
                                     Comments = ToListCommentsResponse(c.Comments)
 
-                                };
+                                }
+                                : new ContentResponse { });
+        }
+
+        public ICollection<Comment> ToListComments(ICollection<CommentResponse> cmm)
+        {
+            var comments = new List<Comment>();
+
+            if (cmm != null && cmm.Count != 0)
+            {
+                foreach (var c in cmm)
+                {
+                    comments.Add(ToComment(c));
+                }
+            }
+
+            return comments;
+        }
+
+        public Comment ToComment(CommentResponse cmm)
+        {
+            return (cmm != null ? new Comment
+                                    {
+                                        Id = cmm.Id,
+                                        Description = cmm.Description,
+                                        Date = cmm.Date,
+                                        Like = cmm.Like,
+                                        User = ToUser(cmm.User)
+                                    }
+                                  : new Comment { });
         }
 
         public ICollection<CommentResponse> ToListCommentsResponse(ICollection<Comment> cmm)
         {
             var comments = new List<CommentResponse>();
 
-            if (comments != null && comments.Count != 0)
+            if (cmm != null && cmm.Count != 0)
             {
                 foreach (var c in cmm)
                 {
@@ -309,32 +400,42 @@ namespace PNN.Web.Helpers
 
         public CommentResponse ToCommentResponse(Comment cmm)
         {
-            return cmm == null ? new CommentResponse { }
-                                : new CommentResponse
+            return (cmm != null ? new CommentResponse
+                                    {
+                                        Id = cmm.Id,
+                                        Description = cmm.Description,
+                                        Date = cmm.Date,
+                                        Like = cmm.Like,
+                                        User = ToUserResponse(cmm.User)
+                                    }
+                                  : new CommentResponse { });
+        }
+
+        public ContentType ToContentType(ContentTypeResponse ct)
+        {
+            return (ct != null ? new ContentType
                                 {
-                                    Id = cmm.Id,
-                                    Description = cmm.Description,
-                                    Date = cmm.Date,
-                                    Like = cmm.Like,
-                                    User = ToUserResponse(cmm.User)
-                                };
+                                    Id = ct.Id,
+                                    Name = ct.Name
+                                }
+                                 : new ContentType { });
         }
 
         public ContentTypeResponse ToContentTypeResponse(ContentType ct)
         {
-            return ct == null ? new ContentTypeResponse { }
-                                : new ContentTypeResponse
+            return (ct != null ? new ContentTypeResponse
                                 {
                                     Id = ct.Id,
                                     Name = ct.Name
-                                };
+                                }
+                                : new ContentTypeResponse { });
         }
 
         public ICollection<AreaResponse> ToListAreaResponse(ICollection<Area> Ar)
         {
             var Areas = new List<AreaResponse>();
 
-            if (Areas != null && Areas.Count != 0)
+            if (Ar != null && Ar.Count != 0)
             {
 
                 foreach (var a in Ar)
@@ -349,34 +450,35 @@ namespace PNN.Web.Helpers
 
         public AreaResponse ToAreaResponse(Area ar)
         {
-            return ar == null ? new AreaResponse { }
-                            : new AreaResponse
+            return (ar != null ? new AreaResponse
                                 {
                                     Id = ar.Id,
                                     Location = ToLocationResponse(ar.Location),
-                                    Park = ToParkResponse(ar.Park),
-                                    Zone = ToZoneResponse(ar.Zone)
-                                };
+                                    Park = ar.Park != null ? ar.Park.Id : default,
+                                    Zone = ar.Zone != null ? ar.Zone.Id : default
+                                }
+                                : new AreaResponse { });
         }
 
         public LocationResponse ToLocationResponse(Location l)
         {
-            return l==null ? new LocationResponse { }
-                            : new LocationResponse {
+            return (l!=null ? new LocationResponse 
+                            {
                             Id = l.Id,
                             Latitude = l.Latitude,
                             Longitude = l.Longitude
-                            };
+                            }
+                            : new LocationResponse { });
         }
 
         public ManagerResponse ToManagerResponse(Manager manager)
         {
-            return manager == null ? new ManagerResponse { }
-                                 : new ManagerResponse
+            return (manager != null ? new ManagerResponse
                                  {
                                      Id = manager.Id,
                                      User = ToUserResponse(manager.User)
-                                 };
+                                 }
+                                 : new ManagerResponse { });
         }
     }
 }
