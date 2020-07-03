@@ -111,6 +111,48 @@ namespace PNN.Common.Services
             return await CrossConnectivity.Current.IsRemoteReachable(url);
         }
 
+        public async Task<Response<PublicationsResponse>> GetContentsAsync(string urlBase, string servicePrefix, string controller, string tokenType, string accessToken)
+        {
+            try
+            {
+
+                var content = new StringContent(null, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<PublicationsResponse>
+                    {
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
+
+                var publications = JsonConvert.DeserializeObject<PublicationsResponse>(result);
+                return new Response<PublicationsResponse>
+                {
+                    IsSuccess = true,
+                    Result = publications
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<PublicationsResponse>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+        }
+
     }
         
 }

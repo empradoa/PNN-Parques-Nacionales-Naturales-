@@ -11,7 +11,8 @@ namespace PNN.Prism.ViewModels
 {
     public class PubsPageViewModel : ViewModelBase
     {
-        private UserResponse _User;
+        //private UserResponse _User;
+        private PublicationsResponse _Ps;
         private ObservableCollection<ContentResponse> _pubs;
         public PubsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
@@ -29,12 +30,13 @@ namespace PNN.Prism.ViewModels
         {
             base.OnNavigatedTo(parameters);
 
-            if (parameters.ContainsKey("User")) 
-            {
-                _User = parameters.GetValue<UserResponse>("User");
+            //_Params = parameters;
 
-                Pubs = new ObservableCollection<ContentResponse>(_User.Contents);
-            }
+            _Ps = parameters.GetValue<PublicationsResponse>("Publications");
+
+            Pubs = new ObservableCollection<ContentResponse>(_Ps.Contents);
+
+            return;
         }
     }
 }

@@ -105,10 +105,23 @@ namespace PNN.Prism.ViewModels
                 return;
             }
 
+            var response3 = await _apiService.GetContentsAsync(url, "api", "/Content/GetContentsAsync", "bearer", token.Token);
+
+            if (!response3.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Problemas con los contenidos, comuniquese con Soporte.", "Aceptar");
+
+                return;
+            }
+
+            var publics = response3.Result;
             var user = response2.Result;
+
             var parameters = new NavigationParameters
             {
-                {"User", user}
+                {"User", user},
+                {"Token",token},
+                {"Publications", publics}
             };
 
             IsRunning = false;

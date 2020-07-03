@@ -1,4 +1,5 @@
 ﻿using PNN.Common.Models;
+using PNN.Common.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -11,13 +12,17 @@ namespace PNN.Prism.ViewModels
     public class InitialPageViewModel : ViewModelBase
     {
         private bool _isEnabled;
+        private bool _isRunning;
         private DelegateCommand _loginCommand;
         private DelegateCommand _invCommand;
         private readonly INavigationService _navigationService;
+        private readonly IApiService _apiService;
 
-        public InitialPageViewModel(INavigationService navigationService) : base(navigationService)
+        public InitialPageViewModel(INavigationService navigationService,
+                                    IApiService apiService) : base(navigationService)
         {
             _navigationService = navigationService;
+            _apiService = apiService;
             Title = "Home";
             IsEnabled = true;
         }
@@ -31,6 +36,12 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public bool IsRunning
+        {
+            get => _isRunning;
+            set => SetProperty(ref _isRunning, value);
+        }
+
         private async void Initial()
         {
             await _navigationService.NavigateAsync("LoginPage");
@@ -38,20 +49,62 @@ namespace PNN.Prism.ViewModels
 
         private async void Invitado()
         {
-                        
+
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var connection = await _apiService.CheckConnectionAsync(url);
+
+            if (!connection)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", "Verifique su conexion a internet.", "Aceptar");
+                return;
+            }
+
+            var request = new TokenRequest
+            {
+                Password = "123456",
+                Username = "visit@hotmail.com"
+            };
+
+            var response = await _apiService.GetTokenAsync(url, "/Account", "/CreateToken", request);
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Correo o Contraseña incorrecta.", "Aceptar");
+                IsRunning = false;
+                IsEnabled = true;
+
+                return;
+            }
+
+            var token = response.Result;
+            var response2 = await _apiService.GetOwnerByEmailAsync(url, "api", "/Users/GetUserByEmail", "bearer", token.Token, "visit@hotmail.com");
+
+            if (!response2.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Problemas con los datos de Usuario, comuniquese con Soporte.", "Aceptar");
+                IsRunning = false;
+                IsEnabled = true;
+                return;
+            }
+
+            var response3 = await _apiService.GetContentsAsync(url, "api", "/Content/GetContentsAsync", "bearer", token.Token);
+
+            if (!response3.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "Problemas con los contenidos, comuniquese con Soporte.", "Aceptar");
+
+                return;
+            }
+
+            var publics = response3.Result;
+            var user = response2.Result;
+
             var parameters = new NavigationParameters
             {
-                {"User",new UserResponse
-                    {
-                        FirstName = "Invitado",
-                        LastName = "Aprobed",
-                        Address = "av nunca calle siempre",
-                        Email = "Invitado@cnp.org",
-                        CellPhone = "312 000 11 22",
-                        Contents = new List<ContentResponse>()
-
-                    }
-                }
+                {"User", user},
+                {"Token",token},
+                {"Publications", publics}
             };
 
             await _navigationService.NavigateAsync("PubsPage",parameters);

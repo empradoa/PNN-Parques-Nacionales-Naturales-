@@ -23,5 +23,13 @@ namespace PNN.Common.Services
             TokenRequest request);
 
         Task<bool> CheckConnectionAsync(String url);
+
+        Task<Response<PublicationsResponse>> GetContentsAsync(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken);
+
     }
 }

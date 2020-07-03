@@ -12,7 +12,11 @@
         <Image
             StyleClass="img"
             Source="/img/CNP1.png"></Image>
-        
+
+        <ActivityIndicator
+            IsRunning="{Binding IsRunning}"
+            VerticalOptions="CenterAndExpand"/>
+
         <Button
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding LoginCommand}"

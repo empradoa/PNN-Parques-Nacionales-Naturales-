@@ -36,29 +36,42 @@ namespace PNN.Web.Controllers.API
         }
 
         [HttpPost]
-        [Route("GetParks")]
-        public async Task<ActionResult<IEnumerable<ParkResponse>>> GetParksAsync()
+        [Route("GetContentsAsync")]
+        public async Task<ActionResult<PublicationsResponse>> GetContentsAsync()
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
+            var prk = await _dataContext.Parks
+                            .Include(z => z.Zones)
+                            .Include(c => c.Contents)
+                            .ThenInclude(cm => cm.Comments)
+                            .Include(z => z.Manager)
+                            .Include(c => c.Location)
+                            .ToListAsync();
 
-            var parks = await  _dataContext.Parks
-                .Include(z => z.Zones)
-                .Include(c => c.Contents)
-                .ThenInclude(cm => cm.Comments).ToListAsync();
+            var cnt = await _dataContext.Contents
+                            .Include(z => z.Comments)
+                            .Include(c => c.ContentType).ToListAsync();
 
-            var response = _converterHelper.ToListParkResponse(parks);
-            
 
-            if (parks == null)
+
+            var response = new PublicationsResponse
+            {
+                Parks = _converterHelper.ToListParkResponse(prk),
+                Contents = _converterHelper.ToListContentResponse(cnt)
+            };
+
+
+            if (response == null)
             {
                 return NotFound();
             }
 
             return Ok(response);
         }
+
     }
 }
