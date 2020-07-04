@@ -63,13 +63,13 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Label Grid.Column="0" Grid.Row="0" Text="Descripcion" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Pubs.Description}"/>
-                                    <Label Grid.Column="0" Grid.Row="1" Text="Fecha:" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Pubs.Date}"/>
+                                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Description}"/>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="Fecha" FontAttributes="Bold"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Date}"/>
                                     <Label Grid.Column="0" Grid.Row="2" Text="Tipo" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Pubs.ContentType}"/>
+                                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding ContentType.Name}"/>
                                     <Label Grid.Column="0" Grid.Row="3" Text="Lugar" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Pubs.Park}"/>
+                                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park}"/>
 
                                 </Grid>
                                 <Button IsEnabled="{Binding IsEnabled}"
