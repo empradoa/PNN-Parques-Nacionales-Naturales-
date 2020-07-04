@@ -55,9 +55,6 @@ namespace PNN.Common.Services
                 };
             }
         }
-    
-
-
 
         public async Task<Response<TokenResponse>> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request)
          {
@@ -71,7 +68,7 @@ namespace PNN.Common.Services
                         };
 
                         var url = $"{servicePrefix}{controller}";
-                        var response = await client.PostAsync(url, content);
+                        var response = await client.PostAsync(url,content);
                         var result = await response.Content.ReadAsStringAsync();
 
                         if (!response.IsSuccessStatusCode)
@@ -116,7 +113,7 @@ namespace PNN.Common.Services
             try
             {
 
-                var content = new StringContent(null, Encoding.UTF8, "application/json");
+                var content = new StringContent(String.Empty);
                 var client = new HttpClient
                 {
                     BaseAddress = new Uri(urlBase)

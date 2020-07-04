@@ -14,6 +14,8 @@ namespace PNN.Common.Models
 
         public int Like { get; set; }
 
-        public UserResponse User { get; set; }
+        public String UserName { get; set; }
+
+        public String User { get; set; }
     }
 }

@@ -378,7 +378,7 @@ namespace PNN.Web.Helpers
                                         Description = cmm.Description,
                                         Date = cmm.Date,
                                         Like = cmm.Like,
-                                        User = ToUser(cmm.User)
+                                        User = _dataContext.Users.FirstOrDefault(u => u.Id == cmm.User)
                                     }
                                   : new Comment { });
         }
@@ -406,7 +406,8 @@ namespace PNN.Web.Helpers
                                         Description = cmm.Description,
                                         Date = cmm.Date,
                                         Like = cmm.Like,
-                                        User = ToUserResponse(cmm.User)
+                                        UserName = cmm.User.UserName,
+                                        User = cmm.User.Id
                                     }
                                   : new CommentResponse { });
         }
