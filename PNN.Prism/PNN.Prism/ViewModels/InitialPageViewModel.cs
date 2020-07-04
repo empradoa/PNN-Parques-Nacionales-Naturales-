@@ -49,6 +49,8 @@ namespace PNN.Prism.ViewModels
 
         private async void Invitado()
         {
+            IsRunning = true;
+            IsEnabled = false;
 
             var url = App.Current.Resources["UrlAPI"].ToString();
             var connection = await _apiService.CheckConnectionAsync(url);
@@ -93,7 +95,8 @@ namespace PNN.Prism.ViewModels
             if (!response3.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Problemas con los contenidos, comuniquese con Soporte.", "Aceptar");
-
+                IsRunning = false;
+                IsEnabled = true;
                 return;
             }
 

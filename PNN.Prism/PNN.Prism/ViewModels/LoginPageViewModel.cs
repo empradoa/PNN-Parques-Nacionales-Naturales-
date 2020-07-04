@@ -110,7 +110,8 @@ namespace PNN.Prism.ViewModels
             if (!response3.IsSuccess)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Problemas con los contenidos, comuniquese con Soporte.", "Aceptar");
-
+                IsRunning = false;
+                IsEnabled = true;
                 return;
             }
 

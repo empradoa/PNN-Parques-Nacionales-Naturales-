@@ -48,7 +48,8 @@ namespace PNN.Web.Controllers.API
                             .Include(z => z.Zones)
                             .Include(c => c.Contents)
                             .ThenInclude(cm => cm.Comments)
-                            .Include(z => z.Manager)
+                            .Include(m => m.Manager)
+                            .ThenInclude(u => u.User)
                             .Include(c => c.Location)
                             .ToListAsync();
 

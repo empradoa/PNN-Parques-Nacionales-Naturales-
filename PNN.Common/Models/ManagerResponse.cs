@@ -8,7 +8,9 @@ namespace PNN.Common.Models
     {
         public int Id { get; set; }
 
-        public UserResponse User { get; set; }
+        public string User { get; set; }
+
+        public String FullName { get; set; }
 
     }
 }

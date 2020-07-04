@@ -406,8 +406,8 @@ namespace PNN.Web.Helpers
                                         Description = cmm.Description,
                                         Date = cmm.Date,
                                         Like = cmm.Like,
-                                        UserName = cmm.User.UserName,
-                                        User = cmm.User.Id
+                                        FullName = cmm.User?.FullName,
+                                        User = cmm.User?.Id
                                     }
                                   : new CommentResponse { });
         }
@@ -477,7 +477,8 @@ namespace PNN.Web.Helpers
             return (manager != null ? new ManagerResponse
                                  {
                                      Id = manager.Id,
-                                     User = ToUserResponse(manager.User)
+                                     User = manager.User.Id,
+                                     FullName = manager.User.FullName
                                  }
                                  : new ManagerResponse { });
         }
