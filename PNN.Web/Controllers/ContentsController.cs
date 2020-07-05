@@ -302,7 +302,7 @@ namespace PNN.Web.Controllers
             return RedirectToAction($"Index");
         }
 
-        //ver las publicaciones de los contenidos
+        //ver las publicaciones de los contenidos d
         public async Task<IActionResult> DetailsContent(int? id)
         {
             if (id == null)
