@@ -7,38 +7,65 @@
              Title="{Binding Title}">
     
 
-    <StackLayout Padding="10">
-        
-        <Image
-            StyleClass="img"
-            Source="/img/CNP1.png"></Image>
+    <StackLayout Padding="10,10" >
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <ActivityIndicator
+            <StackLayout Grid.Row="0">
+            <Image 
+            Source="CNP1" 
+            VerticalOptions="Center" />
+            </StackLayout>
+
+            <ActivityIndicator
+            Grid.Row="1"
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
 
-        <Button
+            <Button
+            Grid.Row="2"
+            HeightRequest="37"    
+            CornerRadius="30"
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding LoginCommand}"
             StyleClass="Rectangulo"
             StyleId="Primary"
             Text="Login"/>
-        
-        
+
+
             <Button
+            Grid.Row="3"
+            CornerRadius="30"
+            HeightRequest="37" 
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding InvCommand}"
             StyleClass="Rectangulo"
             Text="Invitado"/>
-        
-        <Label>
-           Aun no estas Registrado?
-            Registrate
-        </Label>
 
-        <Label>
-           Service terms
-        </Label>
+            <Label
+            Grid.Row="4"
+            Margin="0,70,0,0"
+            HorizontalOptions="Center"
+            Text="Aun no estas Registrado?        Registrate" >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RegisterCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <Label
+            Grid.Row="5"
+            Margin="0,70,0,0"
+            HorizontalOptions="Center"
+            Text="Service terms"/>
+            
+        </Grid>
         
     </StackLayout>
   

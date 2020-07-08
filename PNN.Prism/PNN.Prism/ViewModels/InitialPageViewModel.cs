@@ -15,6 +15,7 @@ namespace PNN.Prism.ViewModels
         private bool _isRunning;
         private DelegateCommand _loginCommand;
         private DelegateCommand _invCommand;
+        private DelegateCommand _regCommand;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiService;
 
@@ -29,6 +30,7 @@ namespace PNN.Prism.ViewModels
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Initial));
         public DelegateCommand InvCommand => _invCommand ?? (_invCommand = new DelegateCommand(Invitado));
+        public DelegateCommand RegisterCommand => _regCommand ?? (_regCommand = new DelegateCommand(register));
 
         public bool IsEnabled
         {
@@ -110,7 +112,21 @@ namespace PNN.Prism.ViewModels
                 {"Publications", publics}
             };
 
-            await _navigationService.NavigateAsync("PubsPage",parameters);
+
+            IsRunning = false;
+            IsEnabled = true;
+
+            await _navigationService.NavigateAsync("PubsPage", parameters);
+        }
+
+        private async void register()
+        {
+            var parameters = new NavigationParameters
+            {
+                {"User", new UserResponse{ } }
+            };
+
+            await _navigationService.NavigateAsync("RegisterPage",parameters);
         }
     }
 }

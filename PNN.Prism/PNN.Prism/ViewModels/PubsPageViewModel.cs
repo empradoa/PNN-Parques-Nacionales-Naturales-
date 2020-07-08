@@ -11,15 +11,16 @@ namespace PNN.Prism.ViewModels
 {
     public class PubsPageViewModel : ViewModelBase
     {
-        //private UserResponse _User;
+        private readonly INavigationService _navigationService;
         private PublicationsResponse _Ps;
-        private ObservableCollection<ContentResponse> _pubs;
+        private ObservableCollection<ContentItemViewModel> _pubs;
         public PubsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Publicaciones";
+            _navigationService = navigationService;
         }
 
-        public ObservableCollection<ContentResponse> Pubs
+        public ObservableCollection<ContentItemViewModel> Pubs
         {
             get => _pubs;
             set => SetProperty(ref _pubs, value);
@@ -34,7 +35,17 @@ namespace PNN.Prism.ViewModels
 
             _Ps = parameters.GetValue<PublicationsResponse>("Publications");
 
-            Pubs = new ObservableCollection<ContentResponse>(_Ps.Contents);
+            Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c=> new ContentItemViewModel(_navigationService) {
+                Id = c.Id,
+                Description = c.Description,
+                Date = c.Date,
+                ImageUrl = c.ImageUrl,
+                Like = c.Like,
+                ContentType = c.ContentType,
+                Park = c.Park,
+                Comments = c.Comments
+            } ).ToList());
+
 
             return;
         }

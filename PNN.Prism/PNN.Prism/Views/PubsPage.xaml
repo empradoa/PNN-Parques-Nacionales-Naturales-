@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageLoadin="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.PubsPage"
+             BackgroundColor="LightGray"
              Title="{Binding Title}">
 
     <StackLayout
@@ -12,70 +14,66 @@
         <ListView
             HasUnevenRows="True"
             IsRefreshing="{Binding IsRefreshing}"
-            ItemsSource="{Binding Pubs}">
+            ItemsSource="{Binding Pubs}"
+            SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Frame
                            CornerRadius="20"
-                           HasShadow="True">
+                           HasShadow="True"
+                            Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPubCommand}"/>
+                            </Frame.GestureRecognizers>
                             <StackLayout>
-
+                                <ffimageLoadin:CachedImage 
+                                        Source="{Binding ImageShow}"
+                                        LoadingPlaceholder="LoaderImage"
+                                        ErrorPlaceholder="ErrorImage"
+                                        CacheDuration="50"
+                                        RetryCount="3"
+                                        RetryDelay="600"
+                                        DownsampleToViewSize="True"
+                                        WidthRequest="200"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Image
-                                        Grid.Column="0"
-                                        HeightRequest="20"
-                                        Source="ic_chevron_left"
-                                        VerticalOptions="Center">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding PreviousImageCommand}"/>
-                                        </Image.GestureRecognizers>
-                                    </Image>
+                                    <Grid
+                                        Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Column="0" Grid.Row="0" Text="Descripcion" FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Description}"/>
+                                        <Label Grid.Column="0" Grid.Row="1" Text="Fecha" FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Date}"/>
+                                        <Label Grid.Column="0" Grid.Row="2" Text="Tipo" FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding ContentType.Name}"/>
+                                        <Label Grid.Column="0" Grid.Row="3" Text="Lugar" FontAttributes="Bold"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park}"/>
+
+                                    </Grid>
                                     <Image
                                         Grid.Column="1"
-                                        Source="{Binding Pubs.ImageShow}"
-                                        HeightRequest="300"
-                                        Aspect="AspectFill"/>
-                                    <Image
-                                        Grid.Column="2"
                                         HeightRequest="20"
-                                        Source="ic_chevron_right"
+                                        Source="ic_more_vert"
                                         VerticalOptions="Center">
                                         <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding NextImageCommand}"/>
+                                            <TapGestureRecognizer Command="{Binding ViewMoreCommand}"/>
                                         </Image.GestureRecognizers>
                                     </Image>
                                 </Grid>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Column="0" Grid.Row="0" Text="Descripcion" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Description}"/>
-                                    <Label Grid.Column="0" Grid.Row="1" Text="Fecha" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Date}"/>
-                                    <Label Grid.Column="0" Grid.Row="2" Text="Tipo" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding ContentType.Name}"/>
-                                    <Label Grid.Column="0" Grid.Row="3" Text="Lugar" FontAttributes="Bold"/>
-                                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park}"/>
-
-                                </Grid>
-                                <Button IsEnabled="{Binding IsEnabled}"
-                            Command="{Binding CommentsCommand}" 
-                            Text="View More"/>
-
+                                
                             </StackLayout>
                         </Frame>
                     </ViewCell>

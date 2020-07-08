@@ -15,7 +15,9 @@ namespace PNN.Common.Models
         public ContentTypeResponse ContentType { get; set; }
         public string Park { get; set; }
 
-        public string ImageShow => ImageUrl ?? "http://colombianp-001-site1.gtempurl.com/img/noimg.png";
+        public string ImageShow => string.IsNullOrEmpty(ImageUrl)
+            ? "http://colombianp-001-site1.gtempurl.com/img/noimg.png"
+            : $"http://colombianp-001-site1.gtempurl.com/{ImageUrl.Substring(1)}";
 
         public ICollection<CommentResponse> Comments { get; set; }
     }
