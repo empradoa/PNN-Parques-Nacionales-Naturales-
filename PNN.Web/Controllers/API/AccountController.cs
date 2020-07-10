@@ -84,5 +84,35 @@ namespace PNN.Web.Controllers.API
             });
         }
 
+        [HttpPost]
+        [Route("RecoverPassword")]
+        public async Task<IActionResult> RecoverPassword([FromBody] EmailRequest request) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = "Bad request"
+                });
+            }
+
+            var user = await _userHelper.GetUserByEmailAsync(request.Email);
+
+            if (user == null)
+            {
+                return BadRequest(new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = "Este Correo no ha Sido Asignado a Ningun Usuario."
+                });
+            }
+
+
+            //TODO falta  crear el token de recuperacionde password y el envio del correo
+
+            return Ok();
+        }
+
     }
 }

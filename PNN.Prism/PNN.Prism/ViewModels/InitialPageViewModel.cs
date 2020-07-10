@@ -125,12 +125,12 @@ namespace PNN.Prism.ViewModels
             {
                 {"User", new UserRequest{ 
                 
-                    FirstName= "Carlos",
+                /*    FirstName= "Carlos",
                     LastName= "Mendoza",
                     Email="Carlos@gmail.com",
                     Address= "calle Quien Av Donde # 1",
                     CellPhone="+57 310789245",
-                    Password= "1234567"
+                    Password= "1234567"*/
                 } }
 
             };
