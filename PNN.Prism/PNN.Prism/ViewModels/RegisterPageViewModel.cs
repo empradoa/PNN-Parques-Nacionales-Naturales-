@@ -13,12 +13,18 @@ namespace PNN.Prism.ViewModels
     {
         private bool _isEnabled;
         private bool _isRunning;
+        private string _address;
+        private string _cellPhone;
+        private string _email;
+        private string _firstName;
+        private string _lastName;
         private string _passverified;
         private string _password;
         private readonly IApiService _apiService;
         private readonly INavigationService _navigationService;
         private DelegateCommand _regCommand;
-        private UserResponse _user;
+        private UserRequest _user;
+        
 
         public RegisterPageViewModel(INavigationService navigationService,
                                         IApiService apiService) : base(navigationService)
@@ -55,7 +61,37 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        public UserResponse User
+        public string FirstName
+        {
+            get => _firstName;
+            set => SetProperty(ref _firstName, value);
+        }
+
+        public string LastName
+        {
+            get => _lastName;
+            set => SetProperty(ref _lastName, value);
+        }
+
+        public string Email
+        {
+            get => _email;
+            set => SetProperty(ref _email, value);
+        }
+
+        public string Address
+        {
+            get => _address;
+            set => SetProperty(ref _address, value);
+        }
+
+        public string CellPhone
+        {
+            get => _cellPhone;
+            set => SetProperty(ref _cellPhone, value);
+        }
+
+        public UserRequest User
         {
             get => _user;
             set => SetProperty(ref _user, value);
@@ -67,7 +103,7 @@ namespace PNN.Prism.ViewModels
 
             if (parameters.ContainsKey("User"))
             {
-                User = parameters.GetValue<UserResponse>("User");
+                User = parameters.GetValue<UserRequest>("User");
             }
 
         }
@@ -117,10 +153,41 @@ namespace PNN.Prism.ViewModels
                 return;
             }
 
+            IsRunning = true;
+            IsEnabled = false;
 
+            var request = new UserRequest
+            {
+                Address = Address,
+                CellPhone = CellPhone,
+                Email = Email,
+                FirstName = FirstName,
+                LastName = LastName,
+                Password = Password,
+                
+                
+            };
 
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var response = await _apiService.RegisterUserAsync(
+                url,
+                "/api",
+                "/Account/RegisterUser",
+                request);
 
-            await _navigationService.NavigateAsync("InitialPage");
+            IsRunning = false;
+            IsEnabled = true;
+
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+                return;
+            }
+
+            await App.Current.MainPage.DisplayAlert("Ok", response.Message, "Accept");
+            await _navigationService.GoBackAsync();
+
+            //await _navigationService.NavigateAsync("LoginPage");
         }
     }
 }

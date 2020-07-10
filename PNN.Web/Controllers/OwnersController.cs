@@ -74,7 +74,9 @@ namespace PNN.Web.Controllers
         // GET: Owners/Create
         public IActionResult Create()
         {
-            return View();
+            var u = new AddUserViewModel { RoleId = 2};
+
+            return View(u);
         }
 
         // Creamos el metodo para crear usuario que ereda de la AddUserViewModel del Owner

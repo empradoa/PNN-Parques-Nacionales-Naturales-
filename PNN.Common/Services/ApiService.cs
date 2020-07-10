@@ -12,9 +12,9 @@ namespace PNN.Common.Services
 {
     public class ApiService : IApiService
     {
-        
+
         public async Task<Response<UserResponse>> GetOwnerByEmailAsync(string urlBase, string servicePrefix, string controller, string tokenType, string accessToken, string email)
-         {
+        {
             try
             {
                 var request = new EmailRequest { Email = email };
@@ -57,50 +57,50 @@ namespace PNN.Common.Services
         }
 
         public async Task<Response<TokenResponse>> GetTokenAsync(string urlBase, string servicePrefix, string controller, TokenRequest request)
-         {
-                    try
+        {
+            try
+            {
+                var requestString = JsonConvert.SerializeObject(request);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response<TokenResponse>
                     {
-                        var requestString = JsonConvert.SerializeObject(request);
-                        var content = new StringContent(requestString, Encoding.UTF8, "application/json");
-                        var client = new HttpClient
-                        {
-                            BaseAddress = new Uri(urlBase)
-                        };
+                        IsSuccess = false,
+                        Message = result,
+                    };
+                }
 
-                        var url = $"{servicePrefix}{controller}";
-                        var response = await client.PostAsync(url,content);
-                        var result = await response.Content.ReadAsStringAsync();
+                var token = JsonConvert.DeserializeObject<TokenResponse>(result);
+                return new Response<TokenResponse>
+                {
+                    IsSuccess = true,
+                    Result = token
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response<TokenResponse>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
 
-                        if (!response.IsSuccessStatusCode)
-                        {
-                            return new Response<TokenResponse>
-                            {
-                                IsSuccess = false,
-                                Message = result,
-                            };
-                        }
-
-                        var token = JsonConvert.DeserializeObject<TokenResponse>(result);
-                        return new Response<TokenResponse>
-                        {
-                            IsSuccess = true,
-                            Result = token
-                        };
-                    }
-                    catch (Exception ex)
-                    {
-                        return new Response<TokenResponse>
-                        {
-                            IsSuccess = false,
-                            Message = ex.Message
-                        };
-                    }
-
-         }
+        }
 
         public async Task<bool> CheckConnectionAsync(string url)
         {
-            if (!CrossConnectivity.Current.IsConnected) 
+            if (!CrossConnectivity.Current.IsConnected)
             {
                 return false;
             }
@@ -150,6 +150,35 @@ namespace PNN.Common.Services
             }
         }
 
-    }
-        
+        public async Task<Response<object>> RegisterUserAsync(string urlBase, string servicePrefix, string controller,  UserRequest userRequest)
+        {
+            try
+            {
+                var request = userRequest;
+                var requestString = JsonConvert.SerializeObject(request);
+                var content = new StringContent(requestString, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var result = await response.Content.ReadAsStringAsync();
+                var obj = JsonConvert.DeserializeObject<Response<object>>(result);
+                return obj;
+
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message
+                };
+            }
+
+        }
+    }   
 }

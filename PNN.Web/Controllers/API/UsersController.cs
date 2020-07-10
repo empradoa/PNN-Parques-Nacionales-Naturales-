@@ -5,10 +5,12 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PNN.Common.Models;
 using PNN.web.Data;
+using PNN.Web.Data.Entities;
 using PNN.Web.Helpers;
 
 namespace PNN.Web.Controllers.API
@@ -20,11 +22,14 @@ namespace PNN.Web.Controllers.API
     {
         private readonly DataContext _dataContext;
         private readonly IConverterHelper _converterHelper;
+        private readonly IUserHelper _userHelper;
 
-        public UsersController(DataContext dataContext, IConverterHelper converterHelper)
+        public UsersController(DataContext dataContext, IConverterHelper converterHelper,
+                               IUserHelper userHelper)
         {
             _dataContext = dataContext;
             _converterHelper = converterHelper;
+            _userHelper = userHelper;
         }
 
         [HttpPost]
@@ -56,6 +61,8 @@ namespace PNN.Web.Controllers.API
 
             return Ok(response);
         }
-                       
+
+        
+
     }
 }

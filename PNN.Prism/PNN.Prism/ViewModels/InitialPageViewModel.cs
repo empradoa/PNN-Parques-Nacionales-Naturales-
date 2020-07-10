@@ -123,7 +123,16 @@ namespace PNN.Prism.ViewModels
         {
             var parameters = new NavigationParameters
             {
-                {"User", new UserResponse{ } }
+                {"User", new UserRequest{ 
+                
+                    FirstName= "Carlos",
+                    LastName= "Mendoza",
+                    Email="Carlos@gmail.com",
+                    Address= "calle Quien Av Donde # 1",
+                    CellPhone="+57 310789245",
+                    Password= "1234567"
+                } }
+
             };
 
             await _navigationService.NavigateAsync("RegisterPage",parameters);

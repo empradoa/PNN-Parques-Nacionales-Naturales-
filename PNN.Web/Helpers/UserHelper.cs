@@ -104,5 +104,39 @@ namespace PNN.Web.Helpers
                 password,
                 false);// si es true bloquea por n numero de intentos
         }
+
+        //Agregar usuario Con role
+        public async Task<User> AddUser(AddUserViewModel view, string role)
+        {
+            var user = new User 
+            {
+                Address     = view.Address,
+                Email       = view.Username,
+                FirstName   = view.FirstName,
+                LastName    = view.LastName,    
+                CellPhone   = view.CellPhone,
+                UserName    = view.Username,
+            };
+
+            var result = await AddUserAsync(user, view.Password);
+
+            if (result != IdentityResult.Success)
+            {
+                return null;
+            }
+
+            var newUser = await GetUserByEmailAsync(view.Username);
+            await AddUserToRoleAsync(newUser, role);
+
+            return newUser;
+        }
+
+        //Cambiar Password
+        public async Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+
     }
 }

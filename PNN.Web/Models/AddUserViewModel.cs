@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PNN.Web.Models
 {
@@ -31,6 +33,13 @@ namespace PNN.Web.Models
         [StringLength(20, MinimumLength = 6, ErrorMessage = "El campo {0} debe contener entre {2} y {1} caracteres.")]
         [Compare("Password")]
         public string PasswordConfirm { get; set; }
+
+       
+        [Display(Name = "Registrar Como")]
+        [Range(1,int.MaxValue,ErrorMessage ="Debe Seleccionar un rol")]
+        public int RoleId { get; set; }
+
+        public IEnumerable<SelectListItem> Roles { get; set; }
     }
 
 }

@@ -7,5 +7,6 @@ namespace PNN.Web.Helpers
     {
         IEnumerable<SelectListItem> GetComboContentTypes();
         IEnumerable<SelectListItem> GetComboParks();
+        IEnumerable<SelectListItem> GetComboRoles();
     }
 }

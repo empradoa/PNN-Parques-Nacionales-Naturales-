@@ -55,5 +55,19 @@ namespace PNN.Web.Helpers
 
             return list;
         }
+
+        public IEnumerable<SelectListItem> GetComboRoles()
+        {
+            //listamos de la tabla contenttypes el datos Name, Id para pintarlos en el combo
+            var list = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "0", Text = "(Seleccione un Rol...)" },
+                new SelectListItem { Value = "1", Text = "Admin" },
+                new SelectListItem { Value = "2", Text = "Usuario" }
+            };
+
+            return list;
+        }
+
     }
 }

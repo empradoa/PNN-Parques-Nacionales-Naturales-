@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using PNN.web.Data;
 using PNN.Web.Helpers;
 using PNN.Web.Models;
 
@@ -16,15 +17,21 @@ namespace PNN.Web.Controllers
     {
         private readonly IUserHelper _userHelper;
         private readonly IConfiguration _configuration;
+        private readonly DataContext _dataContext;
+        private readonly ICombosHelper _combosHelper;
 
         //inyectamos de la clase IUserHelper
         //con la inyección IConfiguration accedemos a los datos del Token del appsettings.json
         public AccountController(
                                IUserHelper userHelper,
-                               IConfiguration configuration)
+                               IConfiguration configuration,
+                               DataContext dataContext,
+                               ICombosHelper combosHelper)
         {
             _userHelper = userHelper;
             _configuration = configuration;
+            _dataContext = dataContext;
+            _combosHelper = combosHelper;
         }
 
         [HttpGet]
@@ -107,6 +114,133 @@ namespace PNN.Web.Controllers
 
             return BadRequest();
         }
+
+        public IActionResult Register()
+        {
+            var view = new AddUserViewModel
+            {
+                RoleId = 2,
+                Roles = _combosHelper.GetComboRoles()
+            };
+
+            return View(view);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(AddUserViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var role = "Customer";
+                if (view.RoleId == 1)
+                {
+                    role = "Admin";
+                }
+
+                var user = await _userHelper.AddUser(view, role);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "este Email ya ha sido Registrado.");
+                    return View(view);
+                }
+
+                         
+
+                var loginViewModel = new LoginViewModel
+                {
+                    Password = view.Password,
+                    RememberMe = false,
+                    Username = view.Username
+                };
+
+                var result2 = await _userHelper.LoginAsync(loginViewModel);
+
+                if (result2.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+
+            return View(view);
+        }
+
+
+        public async Task<IActionResult> ChangeUser()
+        {
+            var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var view = new EditUserViewModel
+            {
+                Address = user.Address,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                CellPhone = user.CellPhone
+            };
+
+            return View(view);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangeUser(EditUserViewModel view)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+
+                user.FirstName = view.FirstName;
+                user.LastName = view.LastName;
+                user.Address = view.Address;
+                user.CellPhone = view.CellPhone;
+
+                await _userHelper.UpdateUserAsync(user);
+                return RedirectToAction("Index", "Home");
+            }
+
+            return View(view);
+        }
+
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userHelper.GetUserByEmailAsync(User.Identity.Name);
+                if (user != null)
+                {
+                    var result = await _userHelper.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("ChangeUser");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, result.Errors.FirstOrDefault().Description);
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User no found.");
+                }
+            }
+
+            return View(model);
+        }
+
+
+
 
     }
 

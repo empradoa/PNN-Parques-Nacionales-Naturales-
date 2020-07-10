@@ -31,5 +31,11 @@ namespace PNN.Common.Services
             string tokenType,
             string accessToken);
 
+        Task<Response<object>> RegisterUserAsync(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            UserRequest userRequest);
+
     }
 }

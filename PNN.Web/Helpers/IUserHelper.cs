@@ -37,6 +37,10 @@ namespace PNN.Web.Helpers
         //validamos el logeo
         Task<SignInResult> ValidatePasswordAsync(User user, string password);
 
+        //Agregar usuario Con role
+        Task<User> AddUser(AddUserViewModel view, string role);
 
+        //Cambiar Password
+        Task<IdentityResult> ChangePasswordAsync(User user, string oldPassword, string newPassword);
     }
 }
