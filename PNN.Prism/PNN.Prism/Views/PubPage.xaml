@@ -8,17 +8,17 @@
              Title="{Binding Title}">
 
     <StackLayout
-        Padding="10,10">
+        Padding="10">
         <ffimageLoadin:CachedImage 
-        Source="{Binding Content.ImageShow}"
-        LoadingPlaceholder="LoaderImage"
-        ErrorPlaceholder="ErrorImage"
         CacheDuration="50"
+        DownsampleToViewSize="True" 
+        ErrorPlaceholder="ErrorImage"
+        HeightRequest="250"
+        LoadingPlaceholder="LoaderImage"   
         RetryCount="3"
         RetryDelay="600"
-        DownsampleToViewSize="True"
-        WidthRequest="500"/>
-                
+        Source="{Binding Content.ImageShow}" />
+     
         <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

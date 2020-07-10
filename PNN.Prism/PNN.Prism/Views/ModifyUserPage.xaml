@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
-             xmlns:busyindicator="clr-namespace:Syncfusion.SfBusyIndicator.XForms;assembly=Syncfusion.SfBusyIndicator.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.ModifyUserPage"
              BackgroundColor="{StaticResource colorBackgroud}"
@@ -94,18 +93,7 @@
                         Text="Change Password"/>
                 </StackLayout>
             </StackLayout>
-            <busyindicator:SfBusyIndicator  
-                AnimationType="Gear"
-                AbsoluteLayout.LayoutBounds=".5,.5,.5,.5"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="{StaticResource colorDanger}"
-                HorizontalOptions="Center"
-                TextColor="{StaticResource colorFontInverse}"
-                IsVisible="{Binding IsRunning}"
-                Title="Saving..."
-                VerticalOptions="Center"
-                ViewBoxWidth="80"
-                ViewBoxHeight="80" />
+            
         </AbsoluteLayout>
     </ScrollView>
 
