@@ -14,7 +14,7 @@ namespace PNN.Common.Models
         public int Like { get; set; }
         public ContentTypeResponse ContentType { get; set; }
         public string Park { get; set; }
-        public string UserName { get; set; }
+        public string FullName { get; set; }
 
         public string UserAlias { get; set; }
 
