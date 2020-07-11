@@ -349,8 +349,9 @@ namespace PNN.Web.Helpers
                                     Like = c.Like,
                                     ContentType = ToContentTypeResponse(c.ContentType),
                                     Park = c.Park.Name,
-                                    Comments = ToListCommentsResponse(c.Comments)
-
+                                    Comments = ToListCommentsResponse(c.Comments),
+                                    UserName = c.User.UserName,
+                                    UserAlias = c.User.Alias
                                 }
                                 : new ContentResponse { });
         }

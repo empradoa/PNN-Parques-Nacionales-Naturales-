@@ -2,14 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
-             xmlns:ffimageLoadin="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.PubPage"
              Title="{Binding Title}">
 
     <StackLayout
         Padding="10">
-        <ffimageLoadin:CachedImage 
+        <ffimageLoading:CachedImage
         CacheDuration="50"
         DownsampleToViewSize="True" 
         ErrorPlaceholder="ErrorImage"
@@ -18,7 +18,9 @@
         RetryCount="3"
         RetryDelay="600"
         Source="{Binding Content.ImageShow}" />
-     
+
+
+
         <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

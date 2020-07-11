@@ -14,6 +14,9 @@ namespace PNN.Common.Models
         public int Like { get; set; }
         public ContentTypeResponse ContentType { get; set; }
         public string Park { get; set; }
+        public string UserName { get; set; }
+
+        public string UserAlias { get; set; }
 
         public string ImageShow => string.IsNullOrEmpty(ImageUrl)
             ? "http://colombianp-001-site1.gtempurl.com/img/noimg.png"

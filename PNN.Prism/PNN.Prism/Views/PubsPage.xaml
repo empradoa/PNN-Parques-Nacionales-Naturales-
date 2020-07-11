@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              xmlns:ffimageLoadin="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffTransformation="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.PubsPage"
              BackgroundColor="LightGray"
@@ -22,7 +23,8 @@
                         <Frame
                            CornerRadius="20"
                            HasShadow="True"
-                            Margin="0,0,0,5">
+                           HeightRequest="250" 
+                           Margin="0,0,0,5">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SelectPubCommand}"/>
                             </Frame.GestureRecognizers>
@@ -35,7 +37,11 @@
                                         RetryCount="3"
                                         RetryDelay="600"
                                         DownsampleToViewSize="True"
-                                        WidthRequest="200"/>
+                                        WidthRequest="200">
+                                        <ffimageLoadin:CachedImage.Transformations>
+                                            <ffTransformation:CircleTransformation />
+                                        </ffimageLoadin:CachedImage.Transformations>
+                                </ffimageLoadin:CachedImage>    
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
