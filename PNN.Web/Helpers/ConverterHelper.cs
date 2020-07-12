@@ -350,7 +350,7 @@ namespace PNN.Web.Helpers
                                     ContentType = ToContentTypeResponse(c.ContentType),
                                     Park = c.Park.Name,
                                     Comments = ToListCommentsResponse(c.Comments),
-                                    FullName = $"{ c.User.FirstName} {c.User.LastName }",
+                                    FullName = c.User.FullName,
                                     UserAlias = c.User.Alias
                                 }
                                 : new ContentResponse { });

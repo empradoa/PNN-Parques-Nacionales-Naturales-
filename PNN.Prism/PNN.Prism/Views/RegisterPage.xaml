@@ -11,30 +11,30 @@
         <Entry
             Margin="5"
             Placeholder="Escribe Tu Nombre."
-            Text="{Binding User.FirstName}"/>
+            Text="{Binding FirstName}"/>
         <Entry
             Margin="5"
             Placeholder="Escribe Tu Apellido."
-            Text="{Binding User.LastName}"/>
+            Text="{Binding LastName}"/>
         <Entry
             Margin="5"
             Keyboard="Email"
             Placeholder="Escribe Tu Email."
-            Text="{Binding User.Email}"/>
+            Text="{Binding Email}"/>
         <Entry 
             Margin="5"
             Placeholder="Escribe Tu Direccion."
-            Text="{Binding User.Address}"/>
+            Text="{Binding Address}"/>
         <Entry
             Margin="5"
             Keyboard="Numeric"
             Placeholder="Escribe Tu Celular (Con Indicativo +57)."
-            Text="{Binding User.CellPhone}"/>
+            Text="{Binding CellPhone}"/>
         <Entry  
             Margin="5"
             IsPassword="True"
             Placeholder="Escribe Tu Password."
-            Text="{Binding User.Password}"/>
+            Text="{Binding Password}"/>
         <Entry 
             Margin="5"
             IsPassword="True"

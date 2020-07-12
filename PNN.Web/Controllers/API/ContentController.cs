@@ -54,8 +54,9 @@ namespace PNN.Web.Controllers.API
                             .ToListAsync();
 
             var cnt = await _dataContext.Contents
-                            .Include(z => z.Comments)
-                            .Include(c => c.ContentType).ToListAsync();
+                            .Include(cm => cm.Comments)
+                            .Include(c => c.ContentType)
+                            .Include(u => u.User).ToListAsync();
 
 
 

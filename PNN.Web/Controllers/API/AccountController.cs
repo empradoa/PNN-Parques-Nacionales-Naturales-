@@ -54,6 +54,10 @@ namespace PNN.Web.Controllers.API
                 });
             }
 
+            Random rnd = new Random();
+            // Obtiene un número natural (incluye el 0) aleatorio entre 0 e int.MaxValue
+            int alt = rnd.Next(1000);
+
             User u = new User
             {
                 FirstName = userRequest.FirstName,
@@ -62,8 +66,7 @@ namespace PNN.Web.Controllers.API
                 UserName = userRequest.Email,
                 CellPhone = userRequest.CellPhone,
                 Address = userRequest.Address,
-                Alias = "${userRequest.FirstName}_${userRequest.LastName}"
-
+                Alias = $"{userRequest.FirstName}_{userRequest.LastName}{alt}"
             };
 
             var result = await _userHelper.AddUserAsync(u, userRequest.Password);

@@ -7,7 +7,8 @@
              x:Class="PNN.Prism.Views.PubPage"
              Title="{Binding Title}">
 
-    <StackLayout
+    <ScrollView>
+        <StackLayout
         Padding="10">
         <ffimageLoading:CachedImage
         CacheDuration="50"
@@ -21,7 +22,7 @@
 
 
 
-        <Grid>
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -75,75 +76,75 @@
 
             
 
-        </Grid>
+            </Grid>
 
-        <ListView
+            <ListView
                     Grid.Column="1" 
                     Grid.Row="5"
                 HasUnevenRows="True"
                 IsRefreshing="{Binding IsRefreshing}"
                 ItemsSource="{Binding Content.Comments}"
                 SeparatorVisibility="None">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Frame>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image 
-                                      Grid.Column="0" 
-                                      HorizontalOptions="CenterAndExpand"
-                                      VerticalOptions="CenterAndExpand"
-                                      Source="ic_account_circle"/>
-                                <!-- <Label 
-                                        Grid.Column="1"
-                                        Text="{Binding Descripcion}"/> -->
-                                <Grid 
-                                        Grid.Column="1">
-                                    
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Label
-                                            Grid.Row="0" 
-                                            Text="{Binding Description}"/>
-                                    
-                                    <Label
-                                            Grid.Row="1" 
-                                            Text="{Binding FullName}"/>
-                                    <Grid
-                                        Grid.Row="2" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame>
+                                <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image 
+                                    </Grid.ColumnDefinitions>
+                                    <Image 
                                           Grid.Column="0" 
-                                          HeightRequest="30" 
-                                          VerticalOptions="StartAndExpand"  
-                                          Source="ic_favorite"/>
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand"
+                                          Source="ic_account_circle"/>
+                                    <!-- <Label 
+                                            Grid.Column="1"
+                                            Text="{Binding Descripcion}"/> -->
+                                    <Grid 
+                                        Grid.Column="1">
+                                    
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
                                         <Label
-                                            Grid.Column="1" 
-                                            Text="{Binding Like}"/>
+                                                Grid.Row="0" 
+                                                Text="{Binding Description}"/>
+
                                         <Label
-                                            HorizontalOptions="End"
-                                            Grid.Column="2" 
-                                            Text="{Binding Date}"/>
+                                                Grid.Row="1" 
+                                                Text="{Binding FullName}"/>
+                                            <Grid
+                                                Grid.Row="2" >
+                                               <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Image 
+                                                  Grid.Column="0" 
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="ic_favorite"/>
+                                                <Label
+                                                    Grid.Column="1" 
+                                                    Text="{Binding Like}"/>
+                                                <Label
+                                                    HorizontalOptions="End"
+                                                    Grid.Column="2" 
+                                                    Text="{Binding Date}"/>
+                                            </Grid>
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-    </StackLayout>
-
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

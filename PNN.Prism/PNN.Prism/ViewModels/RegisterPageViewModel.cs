@@ -110,25 +110,25 @@ namespace PNN.Prism.ViewModels
 
         private async void Register()
         {
-            if (string.IsNullOrEmpty(User.FirstName))
+            if (string.IsNullOrEmpty(FirstName))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Digite un Nombre.", "Aceptar");
                 return;
             }
 
-            if (string.IsNullOrEmpty(User.LastName))
+            if (string.IsNullOrEmpty(LastName))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Digite un Apellido.", "Aceptar");
                 return;
             }
 
-            if (string.IsNullOrEmpty(User.CellPhone))
+            if (string.IsNullOrEmpty(CellPhone))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Digite un Numero Celular.", "Aceptar");
                 return;
             }
 
-            if (string.IsNullOrEmpty(User.Email))
+            if (string.IsNullOrEmpty(Email))
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Digite un Email.", "Aceptar");
                 return;
