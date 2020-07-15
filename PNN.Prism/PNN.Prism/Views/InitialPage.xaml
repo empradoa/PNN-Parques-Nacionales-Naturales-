@@ -52,11 +52,12 @@
 
 
             <Button
-            Grid.Row="3"
+            BackgroundColor="White"    
+            Command="{Binding InvCommand}"
             CornerRadius="30"
+            Grid.Row="3"    
             HeightRequest="37" 
             IsEnabled="{Binding IsEnabled}"
-            Command="{Binding InvCommand}"
             StyleClass="Rectangulo"
             Text="Invitado"/>
 
