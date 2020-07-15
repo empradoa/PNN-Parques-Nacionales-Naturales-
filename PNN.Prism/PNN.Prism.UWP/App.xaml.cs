@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Syncfusion.SfRotator.XForms.UWP;
+using Syncfusion.XForms.UWP.Border;
+using Syncfusion.XForms.UWP.Buttons;
+using Syncfusion.XForms.UWP.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -28,6 +33,8 @@ namespace PNN.Prism.UWP
         /// </summary>
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mjg1MDkwQDMxMzgyZTMyMmUzMEpOdVZxSjRzL3lkdXN2K0ZVMERkUjdwakczQWhTUXVzSUN4TCtCckhGd1E9");
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -51,6 +58,15 @@ namespace PNN.Prism.UWP
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
+
+                List<Assembly> assembliesToInclude = new List<Assembly>();
+
+                assembliesToInclude.Add(typeof(SfGradientViewRenderer).GetTypeInfo().Assembly);
+
+                assembliesToInclude.Add(typeof(SfRotatorRenderer).GetTypeInfo().Assembly);
+
+                assembliesToInclude.Add(typeof(SfButtonRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(SfBorderRenderer).GetTypeInfo().Assembly);
 
                 Xamarin.Forms.Forms.Init(e);
 

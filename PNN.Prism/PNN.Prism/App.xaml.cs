@@ -24,6 +24,8 @@ namespace PNN.Prism
 
         protected override async void OnInitialized()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mjg2OTY1QDMxMzgyZTMyMmUzMFhvVWo3U2F1R3J4TUQwK1FuZGNWSUw2Y0hZcE9YazQwUjlKV0U1Y0pRcnM9");
+
             InitializeComponent();
 
             await NavigationService.NavigateAsync("NavigationPage/InitialPage");

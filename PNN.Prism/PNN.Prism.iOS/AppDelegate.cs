@@ -1,6 +1,10 @@
 ﻿using Foundation;
 using Prism;
 using Prism.Ioc;
+using Syncfusion.SfRotator.XForms.iOS;
+using Syncfusion.XForms.iOS.Border;
+using Syncfusion.XForms.iOS.Buttons;
+using Syncfusion.XForms.iOS.Graphics;
 using UIKit;
 
 
@@ -22,7 +26,13 @@ namespace PNN.Prism.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
+            new SfRotatorRenderer();
+            new SfGradientViewRenderer();
+            new SfBorderRenderer();
+            new SfButtonRenderer();
+
             LoadApplication(new App(new iOSInitializer()));
 
             return base.FinishedLaunching(app, options);
