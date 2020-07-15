@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageLoadin="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffTransformation="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="PNN.Prism.Views.ParksPage"
+             Title="{Binding Title}">
+    <StackLayout
+        Padding="10">
+
+        <ListView  
+            BackgroundColor="Transparent"
+            HasUnevenRows="True"
+            IsRefreshing="{Binding IsRefreshing}"
+            ItemsSource="{Binding Parks}"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame
+                           CornerRadius="20"
+                           HasShadow="True"
+                           HeightRequest="200" 
+                           Margin="0,0,0,5">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectPubCommand}"/>
+                            </Frame.GestureRecognizers>
+                            <StackLayout>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="200"  />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackLayout Grid.Column="0">
+                                        <ffimageLoadin:CachedImage
+                                        CacheDuration="50"    
+                                        DownsampleToViewSize="True"
+                                        ErrorPlaceholder="ErrorImage"
+                                        LoadingPlaceholder="LoaderImage"
+                                        RetryCount="3"
+                                        RetryDelay="600" 
+                                        Source="{Binding ImageFullPath}"
+                                        VerticalOptions="FillAndExpand"    
+                                        WidthRequest="200">
+                                            <ffimageLoadin:CachedImage.Transformations>
+                                                <ffTransformation:CircleTransformation />
+                                            </ffimageLoadin:CachedImage.Transformations>
+                                        </ffimageLoadin:CachedImage>
+                                    </StackLayout>
+
+                                    <Grid Grid.Column="1">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Name}" FontAttributes="Bold"/>
+                                        
+                                        <Image 
+                                                  Grid.Column="0" 
+                                                  Grid.Row="1"   
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="temperatura"/>
+                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Temperature}" FontAttributes="Bold"/>
+
+                                        <Image 
+                                                  Grid.Column="0" 
+                                                  Grid.Row="2"   
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="ic_filter"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Height}"/>
+                                        
+                                        <Image 
+                                                  Grid.Column="0" 
+                                                  Grid.Row="3"   
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="ic_straighten"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Extension}" FontAttributes="Bold"/>
+
+                                        <Grid Grid.Column="0" Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Image 
+                                                  Grid.Column="0" 
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="ic_favorite"/>
+                                            <Label
+                                                    Grid.Column="1" 
+                                                    Text="{Binding Like}"/>
+
+                                        </Grid>
+
+                                        <Grid Grid.Column="1" Grid.Row="4">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Image 
+                                                  Grid.Column="0" 
+                                                  HeightRequest="30" 
+                                                  VerticalOptions="StartAndExpand"  
+                                                  Source="malo"/>
+                                            <Label
+                                                    Grid.Column="1" 
+                                                    Text="{Binding DisLike}"/>
+                                            
+                                        </Grid>
+
+                                    </Grid>
+
+                                </Grid>
+
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+
+</ContentPage>

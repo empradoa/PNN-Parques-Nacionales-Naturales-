@@ -31,34 +31,36 @@
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
 
-            <Sfbuttons:SfButton
+            <Sfbuttons:SfButton 
+            CornerRadius="30"    
             Grid.Row="2"
             HeightRequest="37"    
-            CornerRadius="30"
+            HasShadow="True"    
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding LoginCommand}"
             StyleClass="Rectangulo"
-            StyleId="Primary"
-            Text="Login">
+            Text="Login" >
                 <Sfbuttons:SfButton.BackgroundGradient>
-                    <gradient:SfRadialGradientBrush Radius="150">
-                        <gradient:SfRadialGradientBrush.GradientStops>
+                    <gradient:SfLinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                        <gradient:SfLinearGradientBrush.GradientStops>
                             <gradient:SfGradientStop Color="#0ac4ba" Offset="0"/>
                             <gradient:SfGradientStop Color="#2bda8e" Offset="1"/>
-                        </gradient:SfRadialGradientBrush.GradientStops>
-                    </gradient:SfRadialGradientBrush>
+                        </gradient:SfLinearGradientBrush.GradientStops>
+                    </gradient:SfLinearGradientBrush>
                 </Sfbuttons:SfButton.BackgroundGradient>
             </Sfbuttons:SfButton>
 
 
-            <Button
+            <Sfbuttons:SfButton
             BackgroundColor="White"    
             Command="{Binding InvCommand}"
             CornerRadius="30"
-            Grid.Row="3"    
+            Grid.Row="3"   
+            HasShadow="True"    
             HeightRequest="37" 
             IsEnabled="{Binding IsEnabled}"
             StyleClass="Rectangulo"
+            TextColor="Black"    
             Text="Invitado"/>
 
             <Label

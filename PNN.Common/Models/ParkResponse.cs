@@ -13,8 +13,8 @@ namespace PNN.Common.Models
         public string ImageUrl { get; set; }
 
         public string ImageFullPath => string.IsNullOrEmpty(ImageUrl)
-            ? null
-            : $"https://TDB.azurewebsites.net{ImageUrl.Substring(1)}";
+            ? "http://colombianp-001-site1.gtempurl.com/img/noimg.png"
+            : $"http://colombianp-001-site1.gtempurl.com/{ImageUrl.Substring(1)}";
 
         public string Been { get; set; }
 

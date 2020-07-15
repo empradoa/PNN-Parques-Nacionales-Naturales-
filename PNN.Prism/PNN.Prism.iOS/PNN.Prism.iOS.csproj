@@ -250,5 +250,29 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_favorite.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_filter.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_event_available.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_dehaze.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_style.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_straighten.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\temperatura.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\malo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_landscape.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

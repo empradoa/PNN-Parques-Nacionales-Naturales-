@@ -57,7 +57,7 @@
                                     <Grid
                                         Grid.Column="1">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="17"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
@@ -67,14 +67,33 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        <Label Grid.Column="0" Grid.Row="0" Text="{Binding FullName}" FontAttributes="Bold"/>
-                                        <Label Grid.Column="0" Grid.Row="1" Text="Descripcion" FontAttributes="Bold"/>
-                                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Description}"/>
-                                        <Label Grid.Column="0" Grid.Row="2" Text="Lugar" FontAttributes="Bold"/>
+                                        
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" FontAttributes="Bold"/>
+
+                                        <Label Grid.Column="1" Grid.Row="1" HeightRequest="100" Text="{Binding Description}" />
+                                                                                
+                                        <Image
+                                        Grid.Column="0" 
+                                        Grid.Row="2"
+                                        HeightRequest="20"
+                                        Source="ic_landscape"
+                                        VerticalOptions="Center"/>
                                         <Label Grid.Column="1" Grid.Row="2" Text="{Binding Park}"/>
-                                        <Label Grid.Column="0" Grid.Row="3" Text="Fecha" FontAttributes="Bold"/>
-                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Date}"/>
-                                        <Label Grid.Column="0" Grid.Row="4" Text="Tipo" FontAttributes="Bold"/>
+                                        
+                                        <Image
+                                        Grid.Column="0" 
+                                        Grid.Row="3"
+                                        HeightRequest="20"
+                                        Source="ic_event_available"
+                                        VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"/>
+                                        
+                                        <Image
+                                        Grid.Column="0" 
+                                        Grid.Row="4"
+                                        HeightRequest="20"
+                                        Source="ic_style"
+                                        VerticalOptions="Center"/>
                                         <Label Grid.Column="1" Grid.Row="4" Text="{Binding ContentType.Name}"/>
                                         
 

@@ -38,6 +38,7 @@ namespace PNN.Prism.ViewModels
             Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c=> new ContentItemViewModel(_navigationService) {
                 Id = c.Id,
                 Description = c.Description,
+                FullName = c.FullName,
                 Date = c.Date,
                 ImageUrl = c.ImageUrl,
                 Like = c.Like,
