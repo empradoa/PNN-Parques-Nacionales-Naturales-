@@ -85,6 +85,9 @@ namespace PNN.Web
             services.AddScoped<IConverterHelper, ConverterHelper>();
             //agregamos el IImageHelper lo inyectamos aqui
             services.AddScoped<IImageHelper, ImageHelper>();
+            //agregamos el IMailHelper lo inyectamos aqui
+            services.AddScoped<IMailHelper, MailHelper>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

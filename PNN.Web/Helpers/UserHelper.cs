@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using PNN.Web.Data.Entities;
 using PNN.Web.Models;
@@ -108,14 +109,16 @@ namespace PNN.Web.Helpers
         //Agregar usuario Con role
         public async Task<User> AddUser(AddUserViewModel view, string role)
         {
-            var user = new User 
+
+            var user = new User
             {
-                Address     = view.Address,
-                Email       = view.Username,
-                FirstName   = view.FirstName,
-                LastName    = view.LastName,    
-                CellPhone   = view.CellPhone,
-                UserName    = view.Username,
+                Address = view.Address,
+                Email = view.Username,
+                FirstName = view.FirstName,
+                LastName = view.LastName,
+                CellPhone = view.CellPhone,
+                UserName = view.Username,
+                Alias = GenerateAlias(view.FirstName, view.LastName)
             };
 
             var result = await AddUserAsync(user, view.Password);
@@ -137,6 +140,46 @@ namespace PNN.Web.Helpers
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }
 
+        //genera la validacion por email
+        public async Task<IdentityResult> ConfirmEmailAsync(User user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
 
+        //genera el token de confirmacion por correo
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        //genera la forma para poder validar el token por id
+        public async Task<User> GetUserByIdAsync(string userId)
+        {
+            return await _userManager.FindByIdAsync(userId);
+        }
+
+        //Genera el Token para restablecer el password
+        public async Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        //restablece o cambia el password
+        public async Task<IdentityResult> ResetPasswordAsync(User user, string token, string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
+        }
+
+        //genera el Alias
+        public String GenerateAlias(string F, string L) 
+        {
+            Random rnd = new Random();
+            // Obtiene un número natural (incluye el 0) aleatorio entre 0 e int.MaxValue
+            int alt = rnd.Next(1000);
+
+            var alias = $"{F}_{L}{alt}";
+
+            return alias;
+        }
     }
 }
