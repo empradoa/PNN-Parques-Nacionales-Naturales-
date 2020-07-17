@@ -70,8 +70,16 @@
                                         
                                         <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" FontAttributes="Bold"/>
 
-                                        <Label Grid.Column="1" Grid.Row="1" HeightRequest="100" Text="{Binding Description}" />
-                                                                                
+                                        <Label Grid.Column="1" Grid.Row="1" 
+                                               
+                                               HeightRequest="100"
+                                               Text="{Binding Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
+                                               TextType="Html"
+                                               VerticalOptions="FillAndExpand"
+                                               FlowDirection="MatchParent"/>
+                                                                                 
+                                      
+                                                                                    
                                         <Image
                                         Grid.Column="0" 
                                         Grid.Row="2"

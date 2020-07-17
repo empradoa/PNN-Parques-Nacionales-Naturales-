@@ -37,6 +37,8 @@ namespace PNN.Web
             //configurar propiedades del usuario
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
+                cfg.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                cfg.SignIn.RequireConfirmedEmail = false; //TODO:debe ser true para requerir confirmacion de email. 
                 cfg.User.RequireUniqueEmail = true;
                 cfg.Password.RequireDigit = false;
                 cfg.Password.RequiredUniqueChars = 0;
@@ -44,6 +46,7 @@ namespace PNN.Web
                 cfg.Password.RequireNonAlphanumeric = false;
                 cfg.Password.RequireUppercase = false;
             })
+                .AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<DataContext>();
 
 

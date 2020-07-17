@@ -8,5 +8,10 @@ namespace PNN.Prism.Views
         {
             InitializeComponent();
         }
+
+        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
