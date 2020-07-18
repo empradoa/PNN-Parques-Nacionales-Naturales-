@@ -44,6 +44,8 @@ namespace PNN.Prism
             containerRegistry.RegisterForNavigation<PubPage, PubPageViewModel>();
             containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
             containerRegistry.RegisterForNavigation<ParksPage, ParksPageViewModel>();
+            containerRegistry.RegisterForNavigation<ParkPage, ParkPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
         }
     }
 }

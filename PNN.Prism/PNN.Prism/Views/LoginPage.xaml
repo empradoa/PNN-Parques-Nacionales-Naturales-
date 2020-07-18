@@ -38,14 +38,11 @@
         
         
 
-        <Label>
-            Aun no estas Registrado?  Registrate
+        <Label
+            Text="¿olvido Su Conmtraseña?  Recuperar">
         </Label>
 
-        <Label>
-            Service terms
-        </Label>
-
+       
     </StackLayout>
 
 </ContentPage>

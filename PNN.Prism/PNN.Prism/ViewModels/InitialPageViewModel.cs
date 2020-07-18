@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using PNN.Common.Services;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -46,7 +48,7 @@ namespace PNN.Prism.ViewModels
 
         private async void Initial()
         {
-            await _navigationService.NavigateAsync("LoginPage");
+            await _navigationService.NavigateAsync("/NavigationPage/LoginPage");
         }
 
         private async void Invitado()
@@ -105,37 +107,25 @@ namespace PNN.Prism.ViewModels
             var publics = response3.Result;
             var user = response2.Result;
 
-            var parameters = new NavigationParameters
-            {
-                {"User", user},
-                {"Token",token},
-                {"Publications", publics}
-            };
-
+            Settings.User = JsonConvert.SerializeObject(user);
+            Settings.Token = JsonConvert.SerializeObject(token);
+            Settings.Pubs = JsonConvert.SerializeObject(publics);
 
             IsRunning = false;
             IsEnabled = true;
 
-            await _navigationService.NavigateAsync("PubsPage", parameters);
+            await _navigationService.NavigateAsync("/NavigationPage/PubsPage");
         }
 
         private async void register()
         {
             var parameters = new NavigationParameters
             {
-                {"User", new UserRequest{ 
-                
-                /*    FirstName= "Carlos",
-                    LastName= "Mendoza",
-                    Email="Carlos@gmail.com",
-                    Address= "calle Quien Av Donde # 1",
-                    CellPhone="+57 310789245",
-                    Password= "1234567"*/
-                } }
+                {"User", new UserRequest{} }
 
             };
 
-            await _navigationService.NavigateAsync("RegisterPage",parameters);
+            await _navigationService.NavigateAsync("/RegisterPage", parameters);
         }
     }
 }

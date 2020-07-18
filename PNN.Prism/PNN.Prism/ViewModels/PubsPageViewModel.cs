@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -18,8 +20,10 @@ namespace PNN.Prism.ViewModels
         {
             Title = "Publicaciones";
             _navigationService = navigationService;
+            LoadPubs();
         }
 
+        
         public ObservableCollection<ContentItemViewModel> Pubs
         {
             get => _pubs;
@@ -27,28 +31,27 @@ namespace PNN.Prism.ViewModels
 
         }
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+
+        private void LoadPubs()
         {
-            base.OnNavigatedTo(parameters);
+            _Ps = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
 
-            //_Params = parameters;
-
-            _Ps = parameters.GetValue<PublicationsResponse>("Publications");
-
-            Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c=> new ContentItemViewModel(_navigationService) {
-                Id = c.Id,
+            Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c => new ContentItemViewModel(_navigationService)
+            {
+                
+                Comments = c.Comments,
+                ContentType = c.ContentType,
+                Date = c.Date,
                 Description = c.Description,
                 FullName = c.FullName,
-                Date = c.Date,
+                Id = c.Id,
                 ImageUrl = c.ImageUrl,
                 Like = c.Like,
-                ContentType = c.ContentType,
                 Park = c.Park,
-                Comments = c.Comments
-            } ).ToList());
-
-
-            return;
+                UserAlias = c.UserAlias
+                
+            }).ToList());
         }
+
     }
 }

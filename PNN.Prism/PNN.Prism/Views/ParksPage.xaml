@@ -25,7 +25,7 @@
                            HeightRequest="200" 
                            Margin="0,0,0,5">
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding SelectPubCommand}"/>
+                                <TapGestureRecognizer Command="{Binding SelectParkCommand}"/>
                             </Frame.GestureRecognizers>
                             <StackLayout>
 

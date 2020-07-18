@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using PNN.Common.Services;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -118,16 +120,13 @@ namespace PNN.Prism.ViewModels
             var publics = response3.Result;
             var user = response2.Result;
 
-            var parameters = new NavigationParameters
-            {
-                {"User", user},
-                {"Token",token},
-                {"Publications", publics}
-            };
+            Settings.User = JsonConvert.SerializeObject(user);
+            Settings.Token = JsonConvert.SerializeObject(token);
+            Settings.Pubs = JsonConvert.SerializeObject(publics);
 
             IsRunning = false;
             IsEnabled = true;
-            await _navigationService.NavigateAsync("PubsPage",parameters);
+            await _navigationService.NavigateAsync("/NavigationPage/PubsPage");
         }
     }
 }
