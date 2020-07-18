@@ -274,5 +274,20 @@
   <ItemGroup>
     <BundleResource Include="Resources\ic_landscape.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_pin_drop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Conparks.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_exit_to_app.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_home.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_person_pin.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
