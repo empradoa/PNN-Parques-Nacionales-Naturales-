@@ -39,13 +39,13 @@ namespace PNN.Prism
             containerRegistry.RegisterForNavigation<InitialPage, InitialPageViewModel>();
             containerRegistry.RegisterForNavigation<LoginPage, LoginPageViewModel>();
             containerRegistry.RegisterForNavigation<PubsPage, PubsPageViewModel>();
-
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
             containerRegistry.RegisterForNavigation<PubPage, PubPageViewModel>();
             containerRegistry.RegisterForNavigation<ModifyUserPage, ModifyUserPageViewModel>();
             containerRegistry.RegisterForNavigation<ParksPage, ParksPageViewModel>();
             containerRegistry.RegisterForNavigation<ParkPage, ParkPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<CnpMasterDetailPage, CnpMasterDetailPageViewModel>();
         }
     }
 }

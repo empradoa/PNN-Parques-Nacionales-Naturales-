@@ -4,8 +4,7 @@
              xmlns:prism="clr-namespace:Prism.DryIoc;assembly=Prism.DryIoc.Forms"
              x:Class="PNN.Prism.App">
   <Application.Resources>
-        <StyleSheet Source="/css/Initial.css" />
-
+        
       <ResourceDictionary>
 
             <x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String>

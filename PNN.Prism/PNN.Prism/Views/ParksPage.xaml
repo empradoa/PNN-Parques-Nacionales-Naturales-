@@ -31,7 +31,7 @@
 
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="200"  />
+                                        <ColumnDefinition Width="90"  />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
@@ -91,7 +91,8 @@
                                                   Source="ic_straighten"/>
                                         <Label Grid.Column="1" Grid.Row="3" Text="{Binding Extension}" FontAttributes="Bold"/>
 
-                                        <Grid Grid.Column="0" Grid.Row="4">
+                                        <Grid Grid.Column="0" Grid.Row="4"
+                                              HorizontalOptions="CenterAndExpand">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
@@ -100,15 +101,19 @@
                                             <Image 
                                                   Grid.Column="0" 
                                                   HeightRequest="30" 
+                                                  Margin="15,0,0,0"
                                                   VerticalOptions="StartAndExpand"  
                                                   Source="ic_favorite"/>
                                             <Label
                                                     Grid.Column="1" 
-                                                    Text="{Binding Like}"/>
+                                                    HorizontalOptions="CenterAndExpand"
+                                                    Text="{Binding Like}"
+                                                    VerticalOptions="CenterAndExpand" />
 
                                         </Grid>
 
-                                        <Grid Grid.Column="1" Grid.Row="4">
+                                        <Grid Grid.Column="1" Grid.Row="4"
+                                              HorizontalOptions="CenterAndExpand">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
@@ -116,12 +121,13 @@
                                             
                                             <Image 
                                                   Grid.Column="0" 
-                                                  HeightRequest="30" 
-                                                  VerticalOptions="StartAndExpand"  
+                                                  HeightRequest="20" 
+                                                  VerticalOptions="EndAndExpand"  
                                                   Source="malo"/>
                                             <Label
                                                     Grid.Column="1" 
-                                                    Text="{Binding DisLike}"/>
+                                                    Text="{Binding DisLike}"
+                                                    VerticalOptions="CenterAndExpand" />
                                             
                                         </Grid>
 

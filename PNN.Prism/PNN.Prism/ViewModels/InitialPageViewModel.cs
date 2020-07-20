@@ -32,7 +32,7 @@ namespace PNN.Prism.ViewModels
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Initial));
         public DelegateCommand InvCommand => _invCommand ?? (_invCommand = new DelegateCommand(Invitado));
-        public DelegateCommand RegisterCommand => _regCommand ?? (_regCommand = new DelegateCommand(register));
+        public DelegateCommand RegisterCommand => _regCommand ?? (_regCommand = new DelegateCommand(Register));
 
         public bool IsEnabled
         {
@@ -48,7 +48,7 @@ namespace PNN.Prism.ViewModels
 
         private async void Initial()
         {
-            await _navigationService.NavigateAsync("/NavigationPage/LoginPage");
+            await _navigationService.NavigateAsync("LoginPage");
         }
 
         private async void Invitado()
@@ -114,10 +114,10 @@ namespace PNN.Prism.ViewModels
             IsRunning = false;
             IsEnabled = true;
 
-            await _navigationService.NavigateAsync("/NavigationPage/PubsPage");
+            await _navigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
         }
 
-        private async void register()
+        private async void Register()
         {
             var parameters = new NavigationParameters
             {
@@ -125,7 +125,7 @@ namespace PNN.Prism.ViewModels
 
             };
 
-            await _navigationService.NavigateAsync("/RegisterPage", parameters);
+            await _navigationService.NavigateAsync("RegisterPage", parameters);
         }
     }
 }

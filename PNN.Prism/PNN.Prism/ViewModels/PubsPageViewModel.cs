@@ -16,13 +16,15 @@ namespace PNN.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private PublicationsResponse _Ps;
         private ObservableCollection<ContentItemViewModel> _pubs;
+        
         public PubsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Publicaciones";
             _navigationService = navigationService;
             LoadPubs();
+            
         }
-
+        
         
         public ObservableCollection<ContentItemViewModel> Pubs
         {

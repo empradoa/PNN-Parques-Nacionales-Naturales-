@@ -15,7 +15,6 @@
         <ListView
             BackgroundColor="Transparent"
             HasUnevenRows="True"
-            IsRefreshing="{Binding IsRefreshing}"
             ItemsSource="{Binding Pubs}"
             SeparatorVisibility="None">
             <ListView.ItemTemplate>

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace PNN.Prism.ViewModels
 {
     public class LoginPageViewModel : ViewModelBase
@@ -118,7 +119,7 @@ namespace PNN.Prism.ViewModels
             }
 
             var publics = response3.Result;
-            var user = response2.Result;
+            var user =  response2.Result;
 
             Settings.User = JsonConvert.SerializeObject(user);
             Settings.Token = JsonConvert.SerializeObject(token);
@@ -126,7 +127,9 @@ namespace PNN.Prism.ViewModels
 
             IsRunning = false;
             IsEnabled = true;
-            await _navigationService.NavigateAsync("/NavigationPage/PubsPage");
+
+            
+            await _navigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
         }
     }
 }

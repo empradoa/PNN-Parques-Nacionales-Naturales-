@@ -7,7 +7,7 @@ using System.Text;
 
 namespace PNN.Prism.ViewModels
 {
-    class MenuItemViewModel:Menu
+    public class MenuItemViewModel:Menu
     {
         private readonly INavigationService _navigationService;
         private DelegateCommand _selectMenuCommand;
@@ -21,9 +21,9 @@ namespace PNN.Prism.ViewModels
 
         private async void SelectMenu()
         {
-            if (PageName.Equals("Login"))
+            if (PageName.Equals("InitialPage"))
             {
-                await _navigationService.NavigateAsync("/NavigationPage/LoginPage");
+                await _navigationService.NavigateAsync("/NavigationPage/InitialPage");
                 return;
             }
 
