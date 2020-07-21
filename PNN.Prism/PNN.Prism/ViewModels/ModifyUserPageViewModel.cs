@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PNN.Common.Helpers;
 using PNN.Common.Models;
+using PNN.Common.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
@@ -17,17 +18,27 @@ namespace PNN.Prism.ViewModels
         private bool _isEnabled;
         private UserResponse _user;
         private DelegateCommand _saveCommand;
+        private DelegateCommand _changePasswordCommand;
 
         private readonly INavigationService _navigationServices;
+        private readonly IApiService _apiServices;
 
-        public ModifyUserPageViewModel(INavigationService navigationServices) : base(navigationServices)
+        public  ModifyUserPageViewModel(INavigationService navigationServices,
+                                        IApiService apiServices ) : base(navigationServices)
         {
             _navigationServices = navigationServices;
+            _apiServices = apiServices;
             Title = "User";
             User = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            IsEnabled = true;
+            ValidateUser();
+
         }
 
+
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(SaveAsync));
+
+        public DelegateCommand ChangePasswordCommand => _changePasswordCommand ?? (_changePasswordCommand = new DelegateCommand(ChangePassword));
 
         public UserResponse User
         {
@@ -54,6 +65,49 @@ namespace PNN.Prism.ViewModels
             {
                 return;
             }
+
+            IsRunning = true;
+            IsEnabled = false;
+
+            var userRequest = new UserRequest
+            {
+                Address = User.Address,
+                Email = User.Email,
+                FirstName = User.FirstName,
+                LastName = User.LastName,
+                Password = "12345678", // It doesn't matter what is sent here. It is only for the model to be valid
+                CellPhone = User.CellPhone
+            };
+
+            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var response = await _apiServices.PutAsync(
+                url,
+                "/api",
+                "/Account",
+                userRequest,
+                "bearer",
+                token.Token);
+
+            IsRunning = false;
+            IsEnabled = true;
+
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert(
+                    "Error",
+                    response.Message,
+                    "Accept");
+                return;
+            }
+
+            Settings.User = JsonConvert.SerializeObject(User);
+
+            await App.Current.MainPage.DisplayAlert(
+                "Ok",
+                "User updated sucessfully.",
+                "Accept");
         }
 
         private async Task<bool> ValidateDataAsync()
@@ -96,8 +150,26 @@ namespace PNN.Prism.ViewModels
 
             return true;
         }
-    }
 
+        private async void ChangePassword()
+        {
+            await _navigationServices.NavigateAsync("ChangePasswordPage");
+        }
+
+
+        public async void ValidateUser()
+        {
+            if (User.Email == "visit@hotmail.com")
+            {
+
+
+                await App.Current.MainPage.DisplayAlert("Alerta", "Para modificar sus datos debe iniciar Sesion Con una Cuenta diferente a la de invitado.", "Aceptar");
+
+                await _navigationServices.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
+            }
+        }
+      
+    }
 
 }
 

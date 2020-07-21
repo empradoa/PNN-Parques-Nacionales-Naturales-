@@ -46,6 +46,7 @@ namespace PNN.Prism
             containerRegistry.RegisterForNavigation<ParkPage, ParkPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<CnpMasterDetailPage, CnpMasterDetailPageViewModel>();
+            containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
         }
     }
 }
