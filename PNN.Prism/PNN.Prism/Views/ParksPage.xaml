@@ -6,6 +6,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.ParksPage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
     <StackLayout
         Padding="10">

@@ -19,6 +19,7 @@ namespace PNN.Prism.ViewModels
         private string _password;
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRemember;
         private DelegateCommand _loginCommand;
 
         public LoginPageViewModel(INavigationService navigationService,
@@ -28,6 +29,7 @@ namespace PNN.Prism.ViewModels
             _apiService = apiService;
             Title = "Login";
             IsEnabled = true;
+            IsRemember = true;
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
@@ -38,6 +40,13 @@ namespace PNN.Prism.ViewModels
             get => _password;
             set => SetProperty(ref _password, value);
         }
+
+        public bool IsRemember
+        {
+            get => _isRemember;
+            set => SetProperty(ref _isRemember, value);
+        }
+
 
         public bool IsRunning
         {

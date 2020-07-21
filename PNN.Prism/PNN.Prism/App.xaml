@@ -8,8 +8,32 @@
       <ResourceDictionary>
 
             <x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String>
-          
-      </ResourceDictionary>
+
+            <!-- Colors -->
+            <Color x:Key="colorBackgroud">#FFFFFF</Color>
+            <Color x:Key="colorPrimary">#2BDA8E</Color>
+            <Color x:Key="colorSecondary">#0AC4BA</Color>
+            <Color x:Key="colorDanger">#DCF763</Color>
+            <Color x:Key="colorAccent">#786868</Color>
+            <Color x:Key="colorFont">#000000</Color>
+            <Color x:Key="colorFontInverse">#FFFFFF</Color>
+
+            <!-- Styles -->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource colorPrimary}" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="{StaticResource colorFontInverse}" />
+            </Style>
+
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource colorFont}" />
+            </Style>
+
+            <Style x:Key="SecondaryButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource colorSecondary}" />
+            </Style>
+
+        </ResourceDictionary>
 
     </Application.Resources>
 </prism:PrismApplication>

@@ -6,10 +6,11 @@
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.LoginPage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
-   
+
     <StackLayout Padding="10">
-        
+
         <Entry
             Keyboard="Email"
             Placeholder="Esctibe Tu Email."
@@ -20,7 +21,34 @@
             Text="{Binding Password}"/>
         <ActivityIndicator
             IsRunning="{Binding IsRunning}"
+            Color="{StaticResource colorPrimary}"
             VerticalOptions="CenterAndExpand"/>
+
+
+        <StackLayout
+            HorizontalOptions="Center"
+            Orientation="Horizontal">
+            
+            <Label
+            Text="Rememberme in this device"
+            VerticalOptions="Center"/>
+            
+            <CheckBox
+            IsChecked="{Binding IsRemember}"/>
+            
+        </StackLayout>
+
+        <Label
+            HorizontalOptions="Center"
+            FontAttributes="Bold"
+            Text="Forgot your password?"
+            TextColor="{StaticResource colorPrimary}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
+
+
         <Sfbuttons:SfButton
             CornerRadius="20"
             IsEnabled="{Binding IsEnabled}"

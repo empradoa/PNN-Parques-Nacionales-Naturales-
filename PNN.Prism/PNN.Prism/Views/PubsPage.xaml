@@ -6,7 +6,7 @@
              xmlns:ffTransformation="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.PubsPage"
-             BackgroundColor="LightGray"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
     <StackLayout

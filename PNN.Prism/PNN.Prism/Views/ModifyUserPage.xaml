@@ -1,9 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.ModifyUserPage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
     <ScrollView>
@@ -18,17 +21,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Label
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="Document"
-                        VerticalOptions="Center"/>
-                    <Entry
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Placeholder="Document..."
-                        Text="{Binding Owner.Document}"/>
-
+                    
                     <Label
                         Grid.Row="1"
                         Grid.Column="0"
@@ -38,7 +31,7 @@
                         Grid.Row="1"
                         Grid.Column="1"
                         Placeholder="First Name..."
-                        Text="{Binding Owner.FirstName}"/>
+                        Text="{Binding User.FirstName}"/>
 
                     <Label
                         Grid.Row="2"
@@ -49,8 +42,19 @@
                         Grid.Row="2"
                         Grid.Column="1"
                         Placeholder="Last name..."
-                        Text="{Binding Owner.LastName}"/>
+                        Text="{Binding User.LastName}"/>
 
+                    <Label
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Text="Cellphone"
+                        VerticalOptions="Center"/>
+                    <Entry
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Placeholder="Cellphone..."
+                        Text="{Binding User.CellPhone}"/>
+                    
                     <Label
                         Grid.Row="3"
                         Grid.Column="0"
@@ -60,38 +64,42 @@
                         Grid.Row="3"
                         Grid.Column="1"
                         Placeholder="Address..."
-                        Text="{Binding Owner.Address}"/>
-
-                    <Label
-                        Grid.Row="4"
-                        Grid.Column="0"
-                        Text="Phone"
-                        VerticalOptions="Center"/>
-                    <Entry
-                        Grid.Row="4"
-                        Grid.Column="1"
-                        Keyboard="Telephone"
-                        Placeholder="Phonenumber..."
-                        Text="{Binding Owner.PhoneNumber}"/>
+                        Text="{Binding User.Address}"/>
+                    
                 </Grid>
 
                 <StackLayout
                     Orientation="Horizontal"
                     VerticalOptions="EndAndExpand">
-                    <Button
+                   
+                    <Sfbuttons:SfButton 
+                        CornerRadius="30"    
+                        Grid.Row="2"
+                        HeightRequest="37"    
+                        HasShadow="True" 
+                        HorizontalOptions="FillAndExpand"
+                        IsEnabled="{Binding IsEnabled}"
                         Command="{Binding SaveCommand}"
-                        HorizontalOptions="FillAndExpand"
-                        IsEnabled="{Binding IsEnabled}"
-                        Text="Save"/>
+                        Text="Guardar" >
+                            <Sfbuttons:SfButton.BackgroundGradient>
+                                <gradient:SfLinearGradientBrush StartPoint="0, 0.5" EndPoint="1, 0.5">
+                                    <gradient:SfLinearGradientBrush.GradientStops>
+                                        <gradient:SfGradientStop Color="#0ac4ba" Offset="0"/>
+                                        <gradient:SfGradientStop Color="#2bda8e" Offset="1"/>
+                                    </gradient:SfLinearGradientBrush.GradientStops>
+                                </gradient:SfLinearGradientBrush>
+                            </Sfbuttons:SfButton.BackgroundGradient>
+                     </Sfbuttons:SfButton>
 
-                    <Button
-                        Command="{Binding ChangePasswordCommand}"
-                        HorizontalOptions="FillAndExpand"
-                        IsEnabled="{Binding IsEnabled}"
-                        Style="{StaticResource secondaryButton}"
-                        Text="Change Password"/>
+                        <Button
+                            Command="{Binding ChangePasswordCommand}"
+                            CornerRadius="30" 
+                            HorizontalOptions="FillAndExpand"
+                            IsEnabled="{Binding IsEnabled}"
+                            Text="Change Password"/>
+                    
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
             
         </AbsoluteLayout>
     </ScrollView>

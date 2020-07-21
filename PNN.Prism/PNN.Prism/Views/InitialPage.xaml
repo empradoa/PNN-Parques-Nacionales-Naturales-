@@ -6,6 +6,7 @@
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.InitialPage"
+             BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
     
 
@@ -60,7 +61,7 @@
             HeightRequest="37" 
             IsEnabled="{Binding IsEnabled}"
             StyleClass="Rectangulo"
-            TextColor="Black"    
+            TextColor="{StaticResource colorFont}"    
             Text="Invitado"/>
 
             <Label
