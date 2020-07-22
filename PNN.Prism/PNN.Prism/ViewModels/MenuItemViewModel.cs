@@ -1,4 +1,5 @@
-﻿using PNN.Common.Models;
+﻿using PNN.Common.Helpers;
+using PNN.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -23,6 +24,7 @@ namespace PNN.Prism.ViewModels
         {
             if (PageName.Equals("InitialPage"))
             {
+                Settings.IsRemembered = false;
                 await _navigationService.NavigateAsync("/NavigationPage/InitialPage");
                 return;
             }

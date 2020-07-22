@@ -137,6 +137,7 @@ namespace PNN.Prism.ViewModels
             Settings.User = JsonConvert.SerializeObject(user);
             Settings.Token = JsonConvert.SerializeObject(token);
             Settings.Pubs = JsonConvert.SerializeObject(publics);
+            Settings.IsRemembered = IsRemember;
 
             IsRunning = false;
             IsEnabled = true;

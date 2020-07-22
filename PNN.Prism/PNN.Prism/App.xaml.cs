@@ -7,6 +7,10 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using PNN.Common.Services;
+using PNN.Common.Models;
+using PNN.Common.Helpers;
+using Newtonsoft.Json;
+using System;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace PNN.Prism
@@ -28,7 +32,17 @@ namespace PNN.Prism
 
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/InitialPage");
+            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            if (Settings.IsRemembered && token?.Expiration > DateTime.Now)
+            {
+                await NavigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
+            }
+            else
+            {
+                await NavigationService.NavigateAsync("NavigationPage/InitialPage");
+            }
+
+            
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
