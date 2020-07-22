@@ -9,68 +9,77 @@
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
-    <StackLayout Padding="10">
+    <ScrollView>
+        <AbsoluteLayout>
+            <StackLayout 
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                Padding="10">
 
-        <Entry
-            Keyboard="Email"
-            Placeholder="Esctibe Tu Email."
-            Text="{Binding Email}"/>
-        <Entry      
-            IsPassword="True"
-            Placeholder="Esctibe Tu Password."
-            Text="{Binding Password}"/>
-        <ActivityIndicator
-            IsRunning="{Binding IsRunning}"
-            Color="{StaticResource colorPrimary}"
-            VerticalOptions="CenterAndExpand"/>
+                <Image
+                    Margin="20"
+                    Source="CNP1"
+                    WidthRequest="230"/>
 
-
-        <StackLayout
-            HorizontalOptions="Center"
-            Orientation="Horizontal">
-            
-            <Label
-            Text="Rememberme in this device"
-            VerticalOptions="Center"/>
-            
-            <CheckBox
-            IsChecked="{Binding IsRemember}"/>
-            
-        </StackLayout>
-
-        <Label
-            HorizontalOptions="Center"
-            FontAttributes="Bold"
-            Text="Forgot your password?"
-            TextColor="{StaticResource colorPrimary}">
-            <Label.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
-            </Label.GestureRecognizers>
-        </Label>
+                <Entry
+                    Keyboard="Email"
+                    Placeholder="Escribe Tu Email."
+                    Text="{Binding Email}"/>
+                <Entry      
+                    IsPassword="True"
+                    Placeholder="Escribe Tu Password."
+                    Text="{Binding Password}"/>
+                
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning}"
+                    Color="{StaticResource colorPrimary}"
+                    VerticalOptions="CenterAndExpand"/>
 
 
-        <Sfbuttons:SfButton
-            CornerRadius="20"
-            IsEnabled="{Binding IsEnabled}"
-            Command="{Binding LoginCommand}"
-            Text="Login">
-            <Sfbuttons:SfButton.BackgroundGradient>
-                <gradient:SfRadialGradientBrush Radius="15">
-                    <gradient:SfRadialGradientBrush.GradientStops>
-                        <gradient:SfGradientStop Color="#0ac4ba" Offset="0"/>
-                        <gradient:SfGradientStop Color="#2bda8e" Offset="1"/>
-                    </gradient:SfRadialGradientBrush.GradientStops>
-                </gradient:SfRadialGradientBrush>
-            </Sfbuttons:SfButton.BackgroundGradient>
-       </Sfbuttons:SfButton>
-        
-        
+                <StackLayout
+                    HorizontalOptions="Center"
+                    Orientation="Horizontal">
 
-        <Label
-            Text="¿Olvido Su Contraseña?  Recuperar">
-        </Label>
+                    <Label
+                    Text="Rememberme in this device"
+                    VerticalOptions="Center"/>
 
-       
-    </StackLayout>
+                    <CheckBox
+                    IsChecked="{Binding IsRemember}"/>
+
+                </StackLayout>
+
+                <Label
+                    HorizontalOptions="Center"
+                    FontAttributes="Bold"
+                    Text="Forgot your password?"
+                    TextColor="{StaticResource colorPrimary}">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+
+                <Sfbuttons:SfButton
+                    CornerRadius="20"
+                    IsEnabled="{Binding IsEnabled}"
+                    Command="{Binding LoginCommand}"
+                    Text="Login">
+                    <Sfbuttons:SfButton.BackgroundGradient>
+                        <gradient:SfRadialGradientBrush Radius="15">
+                            <gradient:SfRadialGradientBrush.GradientStops>
+                                <gradient:SfGradientStop Color="#0ac4ba" Offset="0"/>
+                                <gradient:SfGradientStop Color="#2bda8e" Offset="1"/>
+                            </gradient:SfRadialGradientBrush.GradientStops>
+                        </gradient:SfRadialGradientBrush>
+                    </Sfbuttons:SfButton.BackgroundGradient>
+                </Sfbuttons:SfButton>
+
+
+
+
+            </StackLayout>
+        </AbsoluteLayout>
+    </ScrollView>
 
 </ContentPage>

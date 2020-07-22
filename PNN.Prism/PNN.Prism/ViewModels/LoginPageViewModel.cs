@@ -21,6 +21,7 @@ namespace PNN.Prism.ViewModels
         private bool _isEnabled;
         private bool _isRemember;
         private DelegateCommand _loginCommand;
+        private DelegateCommand _forgotPasswordCommand;
 
         public LoginPageViewModel(INavigationService navigationService,
                                   IApiService apiService  ): base(navigationService)
@@ -33,6 +34,9 @@ namespace PNN.Prism.ViewModels
         }
 
         public DelegateCommand LoginCommand => _loginCommand ?? (_loginCommand = new DelegateCommand(Login));
+
+        public DelegateCommand ForgotPasswordCommand => _forgotPasswordCommand ?? (_forgotPasswordCommand = new DelegateCommand(ForgotPassword));
+
 
         public string Email { get; set; }
         public string Password 
@@ -140,5 +144,11 @@ namespace PNN.Prism.ViewModels
             
             await _navigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
         }
+
+        private async void ForgotPassword()
+        {
+            await _navigationService.NavigateAsync("RememberPasswordPage");
+        }
+
     }
 }

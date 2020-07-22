@@ -31,6 +31,13 @@ namespace PNN.Common.Services
             string tokenType,
             string accessToken);
 
+        Task<Response<object>> RecoverPasswordAsync(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            EmailRequest emailRequest);
+
+
         Task<Response<object>> RegisterUserAsync(
             string urlBase,
             string servicePrefix,
