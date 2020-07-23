@@ -28,6 +28,36 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+
+        <dt>
+           Latitud
+        </dt>
+        <dd>
+            @if (Model.Locations != null)
+            {
+                Html.DisplayFor(model => model.Locations.FirstOrDefault().Location.Latitude);
+            }
+            else
+            {
+                <H6>0.000000</H6>
+             }
+
+        </dd>
+
+        <dt>
+           Longuitud
+        </dt>
+        <dd>
+            @if (Model.Locations != null)
+            {
+                Html.DisplayFor(model => model.Locations.FirstOrDefault().Location.Longitude);
+            }
+            else
+            {
+                <H6>0.000000</H6>
+            }
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Like)
         </dt>

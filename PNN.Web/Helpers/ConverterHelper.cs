@@ -185,6 +185,7 @@ namespace PNN.Web.Helpers
             {
                 prk = new ParkResponse
                 {
+                    Id   = p.Id,
                     Name = p.Name,
                     Description = p.Description,
                     Creation = p.Creation,
@@ -199,7 +200,7 @@ namespace PNN.Web.Helpers
                     Like = p.Like,
                     DisLike = p.DisLike,
                     Manager = ToManagerResponse(p.Manager),
-                    Location = ToListAreaResponse(p.Location),
+                    Location = ToListAreaResponse(p.Locations),
                     Contents = ToListContentResponse(p.Contents),
                     Zones = ToListZoneResponse(p.Zones)
                 };
@@ -311,7 +312,7 @@ namespace PNN.Web.Helpers
                                     Park = _dataContext.Parks
                                                         .Include(p => p.Manager)
                                                         .ThenInclude(p => p.User)
-                                                        .Include (p=>  p.Location)
+                                                        .Include (p=>  p.Locations)
                                                         .Include(p=> p.Contents)
                                                         .ThenInclude(cnt => cnt.FirstOrDefault().ContentType)
                                                         .Include(p=> p.Zones)
@@ -456,6 +457,7 @@ namespace PNN.Web.Helpers
                                 {
                                     Id = ar.Id,
                                     Location = ToLocationResponse(ar.Location),
+                                    Name = ar.Park != null ? ar.Park.Name : ar.Zone.Nombre,
                                     Park = ar.Park != null ? ar.Park.Id : default,
                                     Zone = ar.Zone != null ? ar.Zone.Id : default
                                 }

@@ -11,6 +11,8 @@ namespace PNN.Common.Models
 
         public virtual LocationResponse Location { get; set; }
 
+        public string Name { get; set; }
+
         public int Park { get; set; }
 
         public int Zone { get; set; }

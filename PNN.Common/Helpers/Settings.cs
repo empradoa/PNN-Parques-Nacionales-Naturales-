@@ -12,6 +12,8 @@ namespace PNN.Common.Helpers
         private const string _user = "User";
         private const string _token = "Token";
         private const string _pubs = "Pubs";
+        private const string _areas = "Areas";
+
         private const string _isRemembered = "IsRemembered";
         private static readonly bool _boolDefault = false;
 
@@ -35,6 +37,12 @@ namespace PNN.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault( _user, _stringDefault);
             set => AppSettings.AddOrUpdateValue(  _user, value);
+        }
+
+        public static string Areas
+        {
+            get => AppSettings.GetValueOrDefault(_areas, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_areas, value);
         }
 
         public static bool IsRemembered

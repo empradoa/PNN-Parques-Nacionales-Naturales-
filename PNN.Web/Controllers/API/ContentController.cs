@@ -50,7 +50,8 @@ namespace PNN.Web.Controllers.API
                             .ThenInclude(cm => cm.Comments)
                             .Include(m => m.Manager)
                             .ThenInclude(u => u.User)
-                            .Include(c => c.Location)
+                            .Include(c => c.Locations)
+                            .DefaultIfEmpty()
                             .ToListAsync();
 
             var cnt = await _dataContext.Contents
@@ -58,12 +59,17 @@ namespace PNN.Web.Controllers.API
                             .Include(c => c.ContentType)
                             .Include(u => u.User).ToListAsync();
 
-
+            var area = await _dataContext.Areas
+                                        .Include(a => a.Park)
+                                        .Include(a => a.Location)
+                                        .Include(a => a.Zone)
+                                        .ToListAsync();
 
             var response = new PublicationsResponse
             {
                 Parks = _converterHelper.ToListParkResponse(prk),
-                Contents = _converterHelper.ToListContentResponse(cnt)
+                Contents = _converterHelper.ToListContentResponse(cnt),
+                Areas = _converterHelper.ToListAreaResponse(area)
             };
 
 

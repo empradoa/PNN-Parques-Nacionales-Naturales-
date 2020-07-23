@@ -11,7 +11,9 @@ namespace PNN.Common.Models
     public class PublicationsResponse 
     {
         public ICollection<ContentResponse> Contents { get; set; }
-        public ICollection<ParkResponse> Parks { get; set; } 
-        
+        public ICollection<ParkResponse> Parks { get; set; }
+
+        public ICollection<AreaResponse> Areas { get; set; }
+
     }
 }

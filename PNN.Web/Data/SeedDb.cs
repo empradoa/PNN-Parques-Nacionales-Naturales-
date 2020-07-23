@@ -160,7 +160,7 @@ namespace PNN.Web.Data
                 Manager = manager
             };
 
-            park.Location = new List<Area> { new Area
+            park.Locations = new List<Area> { new Area
                                             {  Park = park ,
                                                Location= location } };
 
