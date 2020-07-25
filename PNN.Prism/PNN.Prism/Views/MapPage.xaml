@@ -11,7 +11,7 @@
     <StackLayout>
         <maps:Map
             x:Name="MyMap"
-            IsShowingUser="true"
+            IsShowingUser="False"
             MapType="Street"/>
     </StackLayout>
 

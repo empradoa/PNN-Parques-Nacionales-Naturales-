@@ -136,7 +136,9 @@ namespace PNN.Web.Helpers
             if (model.latitud != null && model.longuitud != null)
             {
                 park.Locations = new List<Area> { new Area {
+                                 Id = isNew ? 0 :(int) model.Locations?.FirstOrDefault().Id ,
                                  Location = new Location{
+                                    Id        = isNew ? 0:(int) model.Locations?.FirstOrDefault().Location.Id,
                                     Latitude  = double.Parse(model.latitud,CultureInfo.InvariantCulture),
                                     Longitude = double.Parse(model.longuitud,CultureInfo.InvariantCulture)
                                                       },
@@ -192,7 +194,9 @@ namespace PNN.Web.Helpers
             if (zone.latitud != null && zone.longuitud != null)
             {
                 z.Locations = new List<Area> { new Area {
-                                 Location = new Location{ 
+                                 Id = isNew ? 0 :(int) zone.Locations?.FirstOrDefault().Id ,
+                                 Location = new Location{
+                                    Id        = isNew ? 0:(int) zone.Locations?.FirstOrDefault().Location.Id,
                                     Latitude  = double.Parse(zone.latitud,CultureInfo.InvariantCulture),
                                     Longitude = double.Parse(zone.longuitud,CultureInfo.InvariantCulture)
                                                       },
