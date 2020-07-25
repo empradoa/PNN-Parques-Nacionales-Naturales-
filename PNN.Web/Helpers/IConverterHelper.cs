@@ -30,6 +30,12 @@ namespace PNN.Web.Helpers
         // convierte de Park a ParkViewModel
         ParkViewModel ToParkViewModel(Park content);
 
+        //convierte de Zone ViewModel to zone
+        Zone ToZoneAsync(ZoneViewModel zone, bool isNew);
+
+        //convierte de Zone to Zone ViewModel
+        ZoneViewModel ToZoneViewModel(Zone zone);
+
         //conversiones para deserializacion y serializacion en los API's
         ICollection<ParkResponse> ToListParkResponse(ICollection<Park> prk);
         ParkResponse ToParkResponse(Park p);

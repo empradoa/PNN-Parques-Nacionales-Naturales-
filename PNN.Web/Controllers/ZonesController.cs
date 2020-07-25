@@ -4,16 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PNN.web.Data;
 using PNN.Web.Data.Entities;
+using PNN.Web.Helpers;
+using PNN.Web.Models;
 
 namespace PNN.Web.Controllers
 {
     public class ZonesController : Controller
     {
         private readonly DataContext _context;
+        private readonly IConverterHelper _converterHelper;
 
-        public ZonesController(DataContext context)
+        public ZonesController(DataContext context,
+                               IConverterHelper converterHelper)
         {
             _context = context;
+            _converterHelper = converterHelper;
         }
 
         // GET: Zones
@@ -51,11 +56,11 @@ namespace PNN.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,ImageUrl,Description,Like,DisLike")] Zone zone)
+        public async Task<IActionResult> Create(ZoneViewModel zone)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(zone);
+                _context.Add(_converterHelper.ToZoneAsync(zone, true));
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -71,11 +76,12 @@ namespace PNN.Web.Controllers
             }
 
             var zone = await _context.Zones.FindAsync(id);
+
             if (zone == null)
             {
                 return NotFound();
             }
-            return View(zone);
+            return View(_converterHelper.ToZoneViewModel(zone));
         }
 
         // POST: Zones/Edit/5
@@ -83,7 +89,7 @@ namespace PNN.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,ImageUrl,Description,Like,DisLike")] Zone zone)
+        public async Task<IActionResult> Edit(int id, ZoneViewModel zone)
         {
             if (id != zone.Id)
             {
@@ -93,8 +99,8 @@ namespace PNN.Web.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {
-                    _context.Update(zone);
+                {                    
+                    _context.Update(_converterHelper.ToZoneAsync(zone, false));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

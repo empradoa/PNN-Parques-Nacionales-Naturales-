@@ -1,0 +1,103 @@
+﻿<div class="modal fade" id="deleteDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Seleccionar Coordenadas</h5>
+
+
+                <div id="map" style="height:300px; width:100%;"></div>
+                                
+                <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZnGkhL--bUGKbcagJ0uGDu-kuy4OvLX4&callback=initMap">
+                </script>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="btnYesDelete">Agregar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  @section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+                    // Initialize and add the map
+                    var Bog = { lat: 4.710967, lng: -74.072004 }; 
+                    var marker;
+
+                    function initMap() {
+                        // The location of Uluru
+                        //4.710967, -74.072004
+                        // The map, centered at Uluru
+                        var map = new google.maps.Map(
+                            document.getElementById('map'), { zoom: 4, center: Bog });
+                        // The marker, positioned at Uluru
+                        marker = new google.maps.Marker({ position: Bog, map: map });
+
+                        google.maps.event.addListener(map, 'click', function(event) {
+                            var result = [event.latLng.lat(), event.latLng.lng()];
+                            transition(result);
+                         });
+                    }
+
+                                                      
+
+                    var numDeltas = 100;
+                    var delay = 10; //milliseconds
+                    var i = 0;
+                    var deltaLat;
+                    var deltaLng;
+
+                    function transition(result){
+                        i = 0;
+                        deltaLat = (result[0] - Bog.lat) / numDeltas;
+                        deltaLng = (result[1] - Bog.lng) / numDeltas;
+                        moveMarker();
+                    }
+
+                    function moveMarker() {
+                        Bog.lat += deltaLat;
+                        Bog.lng += deltaLng;
+                        var latlng = new google.maps.LatLng(Bog.lat, Bog.lng);
+                        marker.setTitle("Latitude:" + Bog.lat + " | Longitude:" + Bog.lng);
+                        marker.setPosition(latlng);
+                        if (i != numDeltas) {
+                            i++;
+                            setTimeout(moveMarker, delay);
+                        }
+
+                        var lat = Bog.lat;
+                        var lng = Bog.lng;
+
+                        myFunc("Lat" , lat);
+                        myFunc("Long", lng);
+
+                    }
+
+                   /*function addMarker(location, map) {
+                        // Add the marker at the clicked location, and add the next-available label
+                        // from the array of alphabetical characters.
+                        var marker = new google.maps.Marker({
+                            position: location,
+                            map: map
+                        });
+
+                        marker.setMap(marker);
+
+                        var lat = location.lat;
+                        var lng = location.lng;
+
+                        myFunc("Lat", lat);
+                        myFunc("Long", lng);
+
+                    }*/
+                                        
+                    function myFunc(variable,coord) {
+                        var s = document.getElementById(variable);
+                        s.value = coord;
+                    }
+
+                    
+
+                </script>
+ }

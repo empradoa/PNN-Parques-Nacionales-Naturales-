@@ -15,5 +15,10 @@ namespace PNN.Web.Models
         [Display(Name = "Imagen")]
         public IFormFile ImageFile { get; set; }
 
+        public string latitud { get; set; }
+
+        public string longuitud { get; set; }
+
+
     }
 }

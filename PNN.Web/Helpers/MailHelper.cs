@@ -39,7 +39,7 @@ namespace PNN.Web.Helpers
             using (var client = new SmtpClient())
             {
                 //client.CheckCertificateRevocation = false; // evita que genere error por la validacion de Ssl
-                client.Connect(smtp, int.Parse(port), true);
+                client.Connect(smtp, int.Parse(port), false);
                 client.Authenticate(from, password);
                 client.Send(message);
                 client.Disconnect(true);

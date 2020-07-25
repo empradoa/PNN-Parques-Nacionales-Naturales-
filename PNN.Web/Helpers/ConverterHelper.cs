@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -131,6 +132,18 @@ namespace PNN.Web.Helpers
                 Manager = await _dataContext.Managers.FindAsync(model.ManagerId)
                 //Location = await _dataContext.Locations.FindAsync(model.LocationId)
             };
+
+            if (model.latitud != null && model.longuitud != null)
+            {
+                park.Locations = new List<Area> { new Area {
+                                 Location = new Location{
+                                    Latitude  = double.Parse(model.latitud,CultureInfo.InvariantCulture),
+                                    Longitude = double.Parse(model.longuitud,CultureInfo.InvariantCulture)
+                                                      },
+                                 Park = park }
+                            };
+            }
+
             return park;
         }
 
@@ -151,8 +164,61 @@ namespace PNN.Web.Helpers
                 Flora = park.Flora,
                 Wildlife = park.Wildlife,
                 Communities = park.Communities,
-                ManagerId = park.Manager.Id
-                //LocationId = content.Location.Id               
+                ManagerId = park.Manager.Id,
+                //LocationId = content.Location.Id   
+                latitud = park.Locations?.FirstOrDefault().Location.Latitude.ToString(),
+                longuitud = park.Locations?.FirstOrDefault().Location.Longitude.ToString()
+            };
+        }
+
+
+        public Zone ToZoneAsync(ZoneViewModel zone, bool isNew)
+        {
+            var z = new Zone
+            {
+                Id = isNew ? 0 : zone.Id,
+                Nombre = zone.Nombre,
+                ImageUrl = zone.ImageUrl,
+                Description = zone.Description,
+                Like = zone.Like,
+                DisLike = zone.DisLike,
+                ZoneType = zone.ZoneType,
+                Park = zone.Park,
+                Manager = zone.Manager,
+                Comments = zone.Comments
+            };
+
+
+            if (zone.latitud != null && zone.longuitud != null)
+            {
+                z.Locations = new List<Area> { new Area {
+                                 Location = new Location{ 
+                                    Latitude  = double.Parse(zone.latitud,CultureInfo.InvariantCulture),
+                                    Longitude = double.Parse(zone.longuitud,CultureInfo.InvariantCulture)
+                                                      },
+                                 Zone = z }
+                            };
+            }
+
+            return z;
+        }
+
+        public ZoneViewModel ToZoneViewModel(Zone zone)
+        {
+            return new ZoneViewModel {
+                Id          = zone.Id,
+                Nombre      = zone.Nombre,
+                ImageUrl    = zone.ImageUrl,
+                Description = zone.Description,
+                Like        = zone.Like,
+                DisLike     = zone.DisLike,
+                ZoneType    = zone.ZoneType,
+                Locations   = zone.Locations,
+                Park        = zone.Park,
+                Manager     = zone.Manager,
+                Comments    = zone.Comments,
+                latitud     = zone.Locations?.FirstOrDefault().Location.Latitude.ToString(),
+                longuitud   = zone.Locations?.FirstOrDefault().Location.Longitude.ToString()
             };
         }
 
@@ -485,5 +551,7 @@ namespace PNN.Web.Helpers
                                  }
                                  : new ManagerResponse { });
         }
+
+        
     }
 }
