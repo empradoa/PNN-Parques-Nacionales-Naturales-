@@ -25,7 +25,7 @@ namespace PNN.Prism.ViewModels
             
             _navigationService = navigationService;
             _apiService = apiService;
-            Title = "Recover Password";
+            Title = "Recuperar Password";
             IsEnabled = true;
         }
 

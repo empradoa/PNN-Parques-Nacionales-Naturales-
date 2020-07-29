@@ -3,8 +3,186 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:Sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              x:Class="PNN.Prism.Views.ParkPage"
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
-  
+
+    <ScrollView>
+        <AbsoluteLayout>
+            <StackLayout 
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                Padding="10">
+
+                <ffimageLoading:CachedImage
+                    CacheDuration="50"
+                    DownsampleToViewSize="True" 
+                    ErrorPlaceholder="ErrorImage"
+                    HeightRequest="250"
+                    LoadingPlaceholder="LoaderImage"   
+                    RetryCount="3"
+                    RetryDelay="600"
+                    Source="{Binding Park.ImageFullPath}" />
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Park.Name}"  
+                           FontAttributes="Bold" HeightRequest="30" />
+
+                    <Image 
+                        Grid.Column="0" 
+                        Grid.Row="1"   
+                        HeightRequest="30" 
+                        VerticalOptions="StartAndExpand"  
+                        Source="temperatura"/>
+                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Park.Temperature}" FontAttributes="Bold"/>
+
+                    <Image 
+                        Grid.Column="0" 
+                        Grid.Row="2"   
+                        HeightRequest="30" 
+                        VerticalOptions="StartAndExpand"  
+                        Source="ic_filter"/>
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Park.Height}"/>
+
+                    <Image 
+                        Grid.Column="0" 
+                        Grid.Row="3"   
+                        HeightRequest="30" 
+                        VerticalOptions="StartAndExpand"  
+                        Source="ic_straighten"/>
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park.Extension}" FontAttributes="Bold"/>
+
+                    <Grid Grid.Column="0" Grid.Row="4"
+                                              HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image 
+                            Grid.Column="0" 
+                            HeightRequest="30" 
+                            Margin="15,0,0,0"
+                            VerticalOptions="StartAndExpand"  
+                            Source="ic_favorite"/>
+                        <Label
+                            Grid.Column="1" 
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{Binding Park.Like}"
+                            VerticalOptions="CenterAndExpand" />
+
+                    </Grid>
+
+                    <Grid Grid.Column="1" Grid.Row="4"
+                                              HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image 
+                            Grid.Column="0" 
+                            HeightRequest="20" 
+                            VerticalOptions="EndAndExpand"  
+                            Source="malo"/>
+                        <Label
+                            Grid.Column="1" 
+                            Text="{Binding Park.DisLike}"
+                            VerticalOptions="CenterAndExpand" />
+
+                    </Grid>
+
+                </Grid>
+
+
+                <Label Text="Zonas" Style="{StaticResource Title}"/>
+
+                <ListView
+                    Grid.Column="1" 
+                    Grid.Row="5"
+                    BackgroundColor="#F2F2F2"
+                HasUnevenRows="True"
+                HeightRequest="1500"   
+                IsRefreshing="{Binding IsRefreshing}"
+                ItemsSource="{Binding Zones}"
+                SeparatorVisibility="None"    
+                VerticalScrollBarVisibility="Default">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="20"
+                                       HasShadow="True"
+                                       Margin="5,5,5,5">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding ZoneCommand}"/>
+                                    </Frame.GestureRecognizers>
+
+
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="100"/>
+                                            <RowDefinition Height="15"/>
+                                        </Grid.RowDefinitions>
+
+                                        <StackLayout>
+                                            <ffimageLoading:CachedImage
+                                                CacheDuration="50"    
+                                                DownsampleToViewSize="True"
+                                                ErrorPlaceholder="ErrorImage"
+                                                Grid.Row="0"
+                                                HorizontalOptions="FillAndExpand"
+                                                LoadingPlaceholder="LoaderImage"
+                                                RetryCount="3"
+                                                RetryDelay="600" 
+                                                Source="{Binding ImageFullPath}"
+                                                VerticalOptions="FillAndExpand"
+                                                WidthRequest="200"/>
+                                        </StackLayout>
+
+                                        <Label Grid.Row="1" Text="{Binding Nombre}" />
+                                    </Grid>
+
+
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Label Text="Descripcion" Style="{StaticResource Title}"/>
+                
+                <Label Text="{Binding Park.Description}" HorizontalOptions="FillAndExpand"/>
+                            
+
+                <Label Text="Flora" Style="{StaticResource Title}"/>
+
+                <Label Text="{Binding Park.Flora}" HorizontalOptions="FillAndExpand"/>
+
+                <Label Text="Fauna" Style="{StaticResource Title}"/>
+
+                <Label Text="{Binding Park.Wildlife}" HorizontalOptions="FillAndExpand"/>
+
+                <Label Text="Comunidades" Style="{StaticResource Title}"/>
+
+                <Label Text="{Binding Park.Communities}" HorizontalOptions="FillAndExpand"/>
+
+            </StackLayout>
+        </AbsoluteLayout>
+    </ScrollView>
+
 </ContentPage>

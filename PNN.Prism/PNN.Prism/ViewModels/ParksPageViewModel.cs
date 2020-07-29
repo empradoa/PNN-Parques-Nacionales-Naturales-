@@ -57,6 +57,11 @@ namespace PNN.Prism.ViewModels
                 Zones = c.Zones
                 
             }).ToList());
+
+            var e = Parks.First(p=>p.Name == "Prefiero no registrar el parque");
+
+            Parks.Remove(e);
+
         }
     }
 }

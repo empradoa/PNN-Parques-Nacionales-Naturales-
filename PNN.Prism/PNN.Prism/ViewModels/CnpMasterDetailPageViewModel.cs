@@ -51,14 +51,14 @@ namespace PNN.Prism.ViewModels
                 {
                     Icon = "ic_person_pin",
                     PageName = "ModifyUserPage",
-                    Title = "Modify User"
+                    Title = "Modificar Datos"
                 },
 
                 new Menu
                 {
                     Icon = "ic_exit_to_app",
                     PageName ="InitialPage",
-                    Title = "Log out"
+                    Title = "Cerrar Sesion"
                 }
             };
 

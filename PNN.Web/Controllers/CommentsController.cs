@@ -51,7 +51,7 @@ namespace PNN.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Description,Date,Like,DisLike")] Comment comment)
+        public async Task<IActionResult> Create( Comment comment)
         {
             if (ModelState.IsValid)
             {

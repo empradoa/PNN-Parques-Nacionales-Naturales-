@@ -41,7 +41,7 @@
                     Orientation="Horizontal">
 
                     <Label
-                    Text="Rememberme in this device"
+                    Text="Recordarme?"
                     VerticalOptions="Center"/>
 
                     <CheckBox
@@ -52,7 +52,7 @@
                 <Label
                     HorizontalOptions="Center"
                     FontAttributes="Bold"
-                    Text="Forgot your password?"
+                    Text="Olvido Su Contraseña?"
                     TextColor="{StaticResource colorPrimary}">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"/>
@@ -64,7 +64,7 @@
                     CornerRadius="20"
                     IsEnabled="{Binding IsEnabled}"
                     Command="{Binding LoginCommand}"
-                    Text="Login">
+                    Text="Iniciar Sesion">
                     <Sfbuttons:SfButton.BackgroundGradient>
                         <gradient:SfRadialGradientBrush Radius="15">
                             <gradient:SfRadialGradientBrush.GradientStops>

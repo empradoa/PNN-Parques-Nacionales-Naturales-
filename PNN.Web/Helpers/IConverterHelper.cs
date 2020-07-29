@@ -31,7 +31,7 @@ namespace PNN.Web.Helpers
         ParkViewModel ToParkViewModel(Park content);
 
         //convierte de Zone ViewModel to zone
-        Zone ToZoneAsync(ZoneViewModel zone, bool isNew);
+        Task<Zone> ToZoneAsync(ZoneViewModel zone, bool isNew);
 
         //convierte de Zone to Zone ViewModel
         ZoneViewModel ToZoneViewModel(Zone zone);

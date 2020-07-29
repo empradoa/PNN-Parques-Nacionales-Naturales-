@@ -61,6 +61,13 @@ namespace PNN.Common.Services
             string tokenType,
             string accessToken);
 
-
+        Task<Response<object>> AddComment(
+           string urlBase, 
+           string servicePrefix, 
+           string controller, 
+           CommentRequest comment, 
+           string tokenType, 
+           string accessToken);
     }
+
 }

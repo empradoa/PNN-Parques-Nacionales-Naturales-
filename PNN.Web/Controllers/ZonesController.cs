@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -60,7 +61,8 @@ namespace PNN.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(_converterHelper.ToZoneAsync(zone, true));
+                var z = await _converterHelper.ToZoneAsync(zone, true);
+                _context.Add(z);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -99,8 +101,15 @@ namespace PNN.Web.Controllers
             if (ModelState.IsValid)
             {
                 try
-                {                    
-                    _context.Update(_converterHelper.ToZoneAsync(zone, false));
+                {
+                    var z = await _converterHelper.ToZoneAsync(zone, false);
+
+                    _context.Update(z);
+
+                    Park p = z.Park;
+                    p.Zones = new List<Zone>() {z};
+
+                    _context.Update(p);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -26,6 +26,6 @@ namespace PNN.Web.Models
         public IFormFile ImageFile { get; set; }
 
         public IEnumerable<SelectListItem> ContentTypes { get; set; }
-        public IEnumerable<SelectListItem> Parks { get; set; }
+        public IEnumerable<SelectListItem> Parks { get; set; } 
     }
 }

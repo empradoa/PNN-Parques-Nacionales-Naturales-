@@ -28,6 +28,7 @@
             </StackLayout>
 
             <ActivityIndicator
+            Color="{StaticResource colorPrimary}"    
             Grid.Row="1"
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
@@ -78,7 +79,7 @@
             Grid.Row="5"
             Margin="0,70,0,0"
             HorizontalOptions="Center"
-            Text="Service terms"/>
+            Text="Terminos y Condiciones"/>
             
         </Grid>
         

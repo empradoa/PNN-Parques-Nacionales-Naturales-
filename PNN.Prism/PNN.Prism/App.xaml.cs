@@ -23,6 +23,7 @@ namespace PNN.Prism
          * App(IPlatformInitializer initializer = null) cannot be handled by the Activator.
          */
         public App() : this(null) { }
+        
 
         public App(IPlatformInitializer initializer) : base(initializer) { }
 
@@ -32,9 +33,11 @@ namespace PNN.Prism
 
             InitializeComponent();
 
+            
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             if (Settings.IsRemembered && token?.Expiration > DateTime.Now)
             {
+                Settings.Inicio= true;
                 await NavigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
             }
             else
@@ -45,6 +48,7 @@ namespace PNN.Prism
             
         }
 
+       
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IApiService, ApiService>();
@@ -63,6 +67,7 @@ namespace PNN.Prism
             containerRegistry.RegisterForNavigation<CnpMasterDetailPage, CnpMasterDetailPageViewModel>();
             containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
             containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
+            containerRegistry.RegisterForNavigation<ZonePage, ZonePageViewModel>();
         }
     }
 }

@@ -17,6 +17,11 @@ namespace PNN.Common.Helpers
         private const string _isRemembered = "IsRemembered";
         private static readonly bool _boolDefault = false;
 
+        private const string _inicio = "Inicio";
+        private static readonly bool _boolDeflt = false;
+
+
+
         private static readonly string _stringDefault = string.Empty;
 
         private static ISettings AppSettings => CrossSettings.Current;
@@ -49,6 +54,12 @@ namespace PNN.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_isRemembered, _boolDefault);
             set => AppSettings.AddOrUpdateValue(_isRemembered, value);
+        }
+
+        public static bool Inicio
+        {
+            get => AppSettings.GetValueOrDefault(_inicio, _boolDeflt);
+            set => AppSettings.AddOrUpdateValue(_inicio, value);
         }
 
     }

@@ -28,7 +28,7 @@ namespace PNN.Prism.ViewModels
         {
             _navigationServices = navigationServices;
             _apiServices = apiServices;
-            Title = "User";
+            Title = "Usuario";
             User = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
             IsEnabled = true;
             ValidateUser();

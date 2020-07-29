@@ -96,7 +96,7 @@
                             CornerRadius="30" 
                             HorizontalOptions="FillAndExpand"
                             IsEnabled="{Binding IsEnabled}"
-                            Text="Change Password"/>
+                            Text="Cambiar Clave"/>
                     
                     </StackLayout>
                 </StackLayout>

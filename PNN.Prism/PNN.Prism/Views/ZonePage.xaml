@@ -6,26 +6,23 @@
              xmlns:Sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="PNN.Prism.Views.PubPage"
-             BackgroundColor="{StaticResource colorBackgroud}"
+             x:Class="PNN.Prism.Views.ZonePage"
              Title="{Binding Title}">
-
     <ScrollView>
         <StackLayout
         Padding="10">
-        <ffimageLoading:CachedImage
-        CacheDuration="50"
-        DownsampleToViewSize="True" 
-        ErrorPlaceholder="ErrorImage"
-        HeightRequest="250"
-        LoadingPlaceholder="LoaderImage"   
-        RetryCount="3"
-        RetryDelay="600"
-        Source="{Binding Content.ImageShow}" />
+
+            <ffimageLoading:CachedImage
+                CacheDuration="50"
+                DownsampleToViewSize="True" 
+                ErrorPlaceholder="ErrorImage"
+                HeightRequest="250"
+                LoadingPlaceholder="LoaderImage"   
+                RetryCount="3"
+                RetryDelay="600"
+                Source="{Binding Zone.ImageFullPath}" />
 
 
-
-           
             <Grid
                                         Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -36,45 +33,85 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Content.FullName}" FontAttributes="Bold"/>
+                <Label Grid.Column="1" Grid.Row="0" Text="{Binding Zone.Nombre}" FontAttributes="Bold"/>
 
-                <Label Grid.Column="1" Grid.Row="1" 
-                                               
-                                               HeightRequest="100"
-                                               Text="{Binding Content.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
-                                               TextType="Html"
-                                               VerticalOptions="FillAndExpand"
-                                               FlowDirection="MatchParent"/>
-
-
+                
+                <Image
+                    Grid.Column="0" 
+                    Grid.Row="1"
+                    HeightRequest="20"
+                    Source="ic_landscape"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Zone.Manager}"/>
 
                 <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="2"
-                                        HeightRequest="20"
-                                        Source="ic_landscape"
-                                        VerticalOptions="Center"/>
-                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Content.Park}"/>
+                    Grid.Column="0" 
+                    Grid.Row="2"
+                    HeightRequest="20"
+                    Source="ic_style"
+                    VerticalOptions="Center"/>
+                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Zone.ZoneType.Name}"/>
 
-                <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="3"
-                                        HeightRequest="20"
-                                        Source="ic_event_available"
-                                        VerticalOptions="Center"/>
-                <Label Grid.Column="1" Grid.Row="3" Text="{Binding Content.Date, StringFormat='{0:dd/MM/yyyy}'}"/>
+                <Label Grid.Column="1" Grid.Row="3" 
+                    HeightRequest="100"
+                    Text="{Binding Zone.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
+                    TextType="Html"
+                    VerticalOptions="FillAndExpand"
+                    FlowDirection="MatchParent"/>
 
-                <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="4"
-                                        HeightRequest="20"
-                                        Source="ic_style"
-                                        VerticalOptions="Center"/>
-                <Label Grid.Column="1" Grid.Row="4" Text="{Binding Content.ContentType.Name}"/>
+                <Grid Grid.Column="1" Grid.Row="4"
+                                              HorizontalOptions="StartAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" 
+                                              HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image 
+                            Grid.Column="0" 
+                            HeightRequest="30" 
+                            Margin="15,0,0,0"
+                            VerticalOptions="StartAndExpand"  
+                            Source="ic_favorite"/>
+                        <Label
+                            Grid.Column="1" 
+                            HorizontalOptions="CenterAndExpand"
+                            Text="{Binding Zone.Like}"
+                            VerticalOptions="CenterAndExpand" />
+
+                    </Grid>
+
+                    <Grid Grid.Column="1" 
+                                              HorizontalOptions="CenterAndExpand">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image 
+                            Grid.Column="0" 
+                            HeightRequest="20" 
+                            VerticalOptions="EndAndExpand"  
+                            Source="malo"/>
+                        <Label
+                            Grid.Column="1" 
+                            Text="{Binding Zone.DisLike}"
+                            VerticalOptions="CenterAndExpand" />
+
+                    </Grid>
+
+
+                </Grid>
 
 
             </Grid>
@@ -85,13 +122,13 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                
+
                 <Entry
                     Grid.Column="0"
                     Margin="5"
                     Placeholder="Escribe Un Commentario."
                     PlaceholderColor="{Binding colorPrimary}"
-                    Text="{Binding Comment}"/>    
+                    Text="{Binding Comment}"/>
 
 
                 <Sfbuttons:SfButton
@@ -119,7 +156,7 @@
                     Grid.Row="5"
                 HasUnevenRows="True"
                 IsRefreshing="{Binding IsRefreshing}"
-                ItemsSource="{Binding Content.Comments}"
+                ItemsSource="{Binding Zone.Comments}"
                 SeparatorVisibility="None">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -140,7 +177,7 @@
                                             Text="{Binding Descripcion}"/> -->
                                     <Grid 
                                         Grid.Column="1">
-                                    
+
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="*"/>
                                             <RowDefinition Height="Auto"/>
@@ -153,26 +190,26 @@
                                         <Label
                                                 Grid.Row="1" 
                                                 Text="{Binding FullName}"/>
-                                            <Grid
-                                                Grid.Row="2" >
-                                               <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Image 
+                                        
+                                        <Grid  Grid.Row="2" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image 
                                                   Grid.Column="0" 
                                                   HeightRequest="30" 
-                                                  VerticalOptions="StartAndExpand"  
+                                                  VerticalOptions="StartAndExpand"
                                                   Source="ic_favorite"/>
-                                                <Label
+                                            <Label
                                                     Grid.Column="1" 
                                                     Text="{Binding Like}"/>
-                                                <Label
+                                            <Label
                                                     HorizontalOptions="End"
                                                     Grid.Column="2" 
                                                     Text="{Binding Date}"/>
-                                            </Grid>
+                                        </Grid>
                                     </Grid>
                                 </Grid>
                             </Frame>
@@ -183,4 +220,6 @@
 
         </StackLayout>
     </ScrollView>
+
+
 </ContentPage>

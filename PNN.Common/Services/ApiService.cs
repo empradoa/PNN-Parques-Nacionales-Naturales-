@@ -296,6 +296,44 @@ namespace PNN.Common.Services
             }
         }
 
+        public async Task<Response<object>> AddComment(
+            string urlBase, 
+            string servicePrefix, 
+            string controller, 
+            CommentRequest comment, 
+            string tokenType, 
+            string accessToken)
+        {
+            try
+            {
+                
 
+
+                var request = JsonConvert.SerializeObject(comment);
+
+                
+
+                var content = new StringContent(request, Encoding.UTF8, "application/json");
+                var client = new HttpClient
+                {
+                    BaseAddress = new Uri(urlBase)
+                };
+
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(tokenType, accessToken);
+                var url = $"{servicePrefix}{controller}";
+                var response = await client.PostAsync(url, content);
+                var answer = await response.Content.ReadAsStringAsync();
+                var obj = JsonConvert.DeserializeObject<Response<object>>(answer);
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                return new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
     }
 }

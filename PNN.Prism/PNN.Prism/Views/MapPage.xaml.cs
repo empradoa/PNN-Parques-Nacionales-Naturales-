@@ -35,11 +35,11 @@ namespace PNN.Prism.Views
                     _geolocatorService.Longitude);
                 MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
                     position,
-                    Distance.FromKilometers(50)));
+                    Distance.FromKilometers(100)));//distancia visual en km
             }
         }
 
-        private async void ShowAreasAsync()
+        private void ShowAreasAsync()
         {
             
             var areas = JsonConvert.DeserializeObject <List<AreaResponse>>(Settings.Areas);
@@ -55,9 +55,7 @@ namespace PNN.Prism.Views
 
                 
                 /* MyMap.MapElements.Add(new Polygon 
-                {  
-                     
-                    
+                {                                         
                 });*/
                 
             }

@@ -174,7 +174,7 @@ namespace PNN.Web.Helpers
         }
 
 
-        public Zone ToZoneAsync(ZoneViewModel zone, bool isNew)
+        public  async Task<Zone> ToZoneAsync(ZoneViewModel zone, bool isNew)
         {
             var z = new Zone
             {
@@ -185,7 +185,7 @@ namespace PNN.Web.Helpers
                 Like = zone.Like,
                 DisLike = zone.DisLike,
                 ZoneType = zone.ZoneType,
-                Park = zone.Park,
+                Park = await _dataContext.Parks.FindAsync(zone.ParkId),
                 Manager = zone.Manager,
                 Comments = zone.Comments
             };
@@ -219,6 +219,8 @@ namespace PNN.Web.Helpers
                 ZoneType    = zone.ZoneType,
                 Locations   = zone.Locations,
                 Park        = zone.Park,
+                ParkId      = zone.Park == null ? default : zone.Park.Id,
+                Parks       = _combosHelper.GetComboParks(),
                 Manager     = zone.Manager,
                 Comments    = zone.Comments,
                 latitud     = zone.Locations?.FirstOrDefault().Location.Latitude.ToString(),
@@ -296,9 +298,49 @@ namespace PNN.Web.Helpers
             return zones;
         }
 
-        public ZoneResponse ToZoneResponse(Zone z)
+        public  ZoneResponse ToZoneResponse(Zone z)
         {
-            return (z == null ? new ZoneResponse
+            List<Area> l; ZoneType tz; List<Comment> c; Manager m;
+
+            if (z.Locations == null)
+            {
+                l = _dataContext.Areas.Include(a => a.Location)
+                                          .Where<Area>(ar => ar.Zone.Id == z.Id).ToList();
+            }
+            else
+            {
+                l = z.Locations.ToList();
+            }
+
+            if (z.ZoneType == null)
+            {
+                tz = _dataContext.ZoneTypes.Find(z.Id);
+            }
+            else
+            {
+                tz = z.ZoneType;
+            }
+
+            if (z.Comments == null)
+            {
+                 c = _dataContext.Comments.Include(cm => cm.User).Include(cnt => cnt.Content)
+                                          .Where<Comment>(ar => ar.Zone.Id == z.Id).ToList();
+            }
+            else
+            {
+                c = z.Comments.ToList();
+            }
+
+            if (z.Manager == null)
+            {
+                m = _dataContext.Managers.Find(z.Id);
+            } 
+            else 
+            { 
+                m = z.Manager; 
+            }
+
+            return (z != null ? new ZoneResponse
                                 {
                                     Id = z.Id,
                                     Nombre = z.Nombre,
@@ -306,10 +348,11 @@ namespace PNN.Web.Helpers
                                     Description = z.Description,
                                     Like = z.Like,
                                     DisLike = z.DisLike,
-                                    ZoneType = ToZoneTyperespone(z.ZoneType),
-                                    Location = ToListAreaResponse(z.Locations),
-                                    Manager = ToManagerResponse(z.Manager),
-                                    Comments = ToListCommentsResponse(z.Comments)
+                                    ZoneType = ToZoneTyperespone(tz),
+                                    Location = ToListAreaResponse(l),
+                                    ManagerId = m!= null ? m.Id : default,
+                                    Manager = m != null ? m.User.FullName : default,
+                                    Comments = ToListCommentsResponse(c)
                                 }
                                 : new ZoneResponse { });
         }
@@ -371,7 +414,8 @@ namespace PNN.Web.Helpers
 
         public Content ToContent(ContentResponse c)
         {
-            return (c != null ? new Content
+
+              return (c != null ? new Content
                                 {
                                     Id = c.Id,
                                     Description = c.Description,
@@ -384,9 +428,7 @@ namespace PNN.Web.Helpers
                                                         .ThenInclude(p => p.User)
                                                         .Include (p=>  p.Locations)
                                                         .Include(p=> p.Contents)
-                                                        .ThenInclude(cnt => cnt.FirstOrDefault().ContentType)
                                                         .Include(p=> p.Zones)
-                                                        .ThenInclude(z=> z.FirstOrDefault().ZoneType)
                                                         .FirstOrDefault(p => p.Name.ToLower() == c.Park.ToLower() ),
                                     Comments = ToListComments(c.Comments)
 
