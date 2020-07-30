@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PNN.Prism.ViewModels
 {
@@ -16,16 +17,17 @@ namespace PNN.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private PublicationsResponse _Ps;
         private ObservableCollection<ContentItemViewModel> _pubs;
-        
+
         public PubsPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             Title = "Publicaciones";
             _navigationService = navigationService;
             LoadPubs();
-            
+
+            Encuesta();
         }
-        
-        
+
+
         public ObservableCollection<ContentItemViewModel> Pubs
         {
             get => _pubs;
@@ -40,7 +42,7 @@ namespace PNN.Prism.ViewModels
 
             Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c => new ContentItemViewModel(_navigationService)
             {
-                
+
                 Comments = c.Comments,
                 ContentType = c.ContentType,
                 Date = c.Date,
@@ -51,9 +53,20 @@ namespace PNN.Prism.ViewModels
                 Like = c.Like,
                 Park = c.Park,
                 UserAlias = c.UserAlias
-                
+
             }).ToList());
         }
 
+
+        public async void Encuesta()
+        {
+            await Task.Delay(90000); //1000 es 1 seg
+
+            await App.Current.MainPage.DisplayAlert("Bienvenido", "Por Favor Ayudanos a conocer Tu Experiencia ConParks.", "Aceptar");
+
+            await _navigationService.NavigateAsync($"/CnpMasterDetailPage/NavigationPage/NotificationPage");
+           
+                 
+        }
     }
 }

@@ -68,6 +68,7 @@ namespace PNN.Prism
             containerRegistry.RegisterForNavigation<ChangePasswordPage, ChangePasswordPageViewModel>();
             containerRegistry.RegisterForNavigation<RememberPasswordPage, RememberPasswordPageViewModel>();
             containerRegistry.RegisterForNavigation<ZonePage, ZonePageViewModel>();
+            containerRegistry.RegisterForNavigation<NotificationPage, NotificationPageViewModel>();
         }
     }
 }

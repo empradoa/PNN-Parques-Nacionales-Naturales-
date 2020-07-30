@@ -56,6 +56,13 @@ namespace PNN.Prism.ViewModels
 
                 new Menu
                 {
+                    Icon = "ic_content_paste",
+                    PageName = "NotificationPage",
+                    Title = "Encuesta"
+                },
+
+                new Menu
+                {
                     Icon = "ic_exit_to_app",
                     PageName ="InitialPage",
                     Title = "Cerrar Sesion"
