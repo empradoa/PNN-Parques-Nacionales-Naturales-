@@ -14,12 +14,14 @@ namespace PNN.Prism.ViewModels
         private readonly INavigationService _navigationService;
         private ObservableCollection<ZoneItemViewModel> _zones;
         private ParkResponse _park;
-        
+        private bool _isRefreshing;
+
 
         public ParkPageViewModel(INavigationService navigationService) : base(navigationService)
         {
             _navigationService = navigationService;
             Title = "Parque";
+            IsRefreshing = false;
                        
         }
 
@@ -28,6 +30,12 @@ namespace PNN.Prism.ViewModels
         {
             get => _park;
             set => SetProperty(ref _park, value);
+        }
+
+        public bool IsRefreshing //IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
         }
 
         public override void OnNavigatedTo(INavigationParameters parameters)

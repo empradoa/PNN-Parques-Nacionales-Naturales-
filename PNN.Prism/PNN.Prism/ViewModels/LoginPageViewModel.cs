@@ -45,7 +45,7 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _password, value);
         }
 
-        public bool IsRemember
+        public bool IsRemember 
         {
             get => _isRemember;
             set => SetProperty(ref _isRemember, value);

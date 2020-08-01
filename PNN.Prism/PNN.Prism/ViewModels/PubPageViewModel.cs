@@ -7,8 +7,11 @@ using Prism.Mvvm;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace PNN.Prism.ViewModels
 {
@@ -16,10 +19,14 @@ namespace PNN.Prism.ViewModels
     {
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRefreshing;
         private string _comment;
         private ContentResponse _content;
         private UserResponse _user;
+        private ObservableCollection<CommentResponse> _comments;
         private DelegateCommand _commentCommand;
+        private DelegateCommand _refreshCommand;
+        private readonly INavigationService _navigationService;
         private readonly IApiService _apiServices;
         
 
@@ -28,14 +35,25 @@ namespace PNN.Prism.ViewModels
                                 IApiService apiServices ) : base(navigationService)
         {
             Title = "Publicacion";
+            _navigationService = navigationService;
             _apiServices = apiServices;
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            
         }
+
+        //public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
 
         public ContentResponse Content 
         { 
             get => _content;
             set => SetProperty(ref _content, value);  
+        }
+
+        public ObservableCollection<CommentResponse> Comments
+        {
+            get => _comments;
+            set => SetProperty(ref _comments, value);
+
         }
 
         public string Comment 
@@ -56,6 +74,12 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
+
         public DelegateCommand CommentCommand => _commentCommand ?? (_commentCommand = new DelegateCommand(Comentar));
 
         public override void OnNavigatedTo(INavigationParameters parameters)
@@ -67,6 +91,7 @@ namespace PNN.Prism.ViewModels
                 Content = parameters.GetValue<ContentResponse>("Pub");
             }
 
+            LoadComments();
 
             //CommentCommand
         }
@@ -115,6 +140,38 @@ namespace PNN.Prism.ViewModels
                 return;
             }
 
+            int id;
+
+            if (_content.Comments.Count() != 0)
+            {
+                id = ((_content.Comments.Last().Id) + 1);
+            }
+            else
+                id = 1;
+
+            var c = new CommentResponse{
+                Id = id,
+                Description = Comment,
+                Date = DateTime.Now,
+                Like = 0,
+                FullName = _user.FullName,
+                User = _user.Id
+            };
+
+            Comment = "";
+                      
+            _content.Comments.Add(c);
+            LoadComments();
+
+            await App.Current.MainPage.DisplayAlert(
+                    "Comentario",
+                    response.Message,
+                    "Aceptar");
+        }
+
+        private void LoadComments()
+        {
+            Comments = new ObservableCollection<CommentResponse>(_content.Comments);
         }
 
         public async Task<bool> ValidateComment()

@@ -6,6 +6,7 @@
              xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:Sfbuttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"  
              x:Class="PNN.Prism.Views.ParkPage"
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
@@ -167,7 +168,13 @@
                 <Label Text="Descripcion" Style="{StaticResource Title}"/>
                 
                 <Label Text="{Binding Park.Description}" HorizontalOptions="FillAndExpand"/>
-                            
+
+                <StackLayout HeightRequest="300">
+                    <maps:Map
+                        x:Name="MyMap"
+                        IsShowingUser="True"
+                        MapType="Street"/>
+                </StackLayout>
 
                 <Label Text="Flora" Style="{StaticResource Title}"/>
 

@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -25,6 +27,8 @@ namespace PNN.Prism.ViewModels
             {
                 {"Zone", this}
             };
+
+            Settings.ZoneId = JsonConvert.SerializeObject(this.Id.ToString());
 
             await _navigationService.NavigateAsync("ZonePage", parameters);
         }

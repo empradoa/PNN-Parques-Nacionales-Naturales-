@@ -27,7 +27,7 @@ namespace PNN.Prism.ViewModels
             Encuesta();
         }
 
-
+        
         public ObservableCollection<ContentItemViewModel> Pubs
         {
             get => _pubs;

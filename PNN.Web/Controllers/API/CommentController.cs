@@ -76,7 +76,17 @@ namespace PNN.Web.Controllers.API
 
             // Se enlaza el modelo dentro del proxie de EFcore para que no genere error al insertar
             _dataContext.Attach(comment.User);
-            _dataContext.Attach(comment.Content);
+            
+            if (request.Content != 0)
+            {
+                _dataContext.Attach(comment.Content);
+            }
+
+            if (request.zone != 0)
+            {
+                _dataContext.Attach(comment.Zone);
+            }
+
 
             var result = _dataContext.Comments.Add(comment);
             await _dataContext.SaveChangesAsync();

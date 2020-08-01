@@ -89,7 +89,7 @@
                 <Entry
                     Grid.Column="0"
                     Margin="5"
-                    Placeholder="Escribe Un Commentario."
+                    Placeholder="Escribe un Comentario."
                     PlaceholderColor="{Binding colorPrimary}"
                     Text="{Binding Comment}"/>    
 
@@ -114,48 +114,54 @@
 
             </Grid>
 
-            <ListView
+            <RefreshView 
+             Command="{Binding RefreshCommand}"
+             IsEnabled="False"  
+             IsRefreshing="{Binding IsRefreshing}"   
+             RefreshColor="{Binding colorPrimary}">
+                
+                <ListView
                     Grid.Column="1" 
                     Grid.Row="5"
                 HasUnevenRows="True"
                 IsRefreshing="{Binding IsRefreshing}"
-                ItemsSource="{Binding Content.Comments}"
+                ItemsSource="{Binding Comments}"
                 SeparatorVisibility="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Frame>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Image 
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image 
                                           Grid.Column="0" 
                                           HorizontalOptions="CenterAndExpand"
                                           VerticalOptions="CenterAndExpand"
                                           Source="ic_account_circle"/>
-                                    <!-- <Label 
+                                        <!-- <Label 
                                             Grid.Column="1"
                                             Text="{Binding Descripcion}"/> -->
-                                    <Grid 
+                                        <Grid 
                                         Grid.Column="1">
-                                    
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Label
+
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Label
                                                 Grid.Row="0" 
                                                 Text="{Binding Description}"/>
 
-                                        <Label
+                                            <Label
                                                 Grid.Row="1" 
                                                 Text="{Binding FullName}"/>
                                             <Grid
                                                 Grid.Row="2" >
-                                               <Grid.ColumnDefinitions>
+                                                <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
@@ -173,14 +179,15 @@
                                                     Grid.Column="2" 
                                                     Text="{Binding Date}"/>
                                             </Grid>
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </Frame>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
+            </RefreshView>
         </StackLayout>
     </ScrollView>
 </ContentPage>

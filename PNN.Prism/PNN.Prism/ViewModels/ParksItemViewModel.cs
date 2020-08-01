@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -24,9 +26,11 @@ namespace PNN.Prism.ViewModels
             var parameters = new NavigationParameters
                 {
                     {"Park", this}
-                };
+                };   
 
             await _navigationService.NavigateAsync("ParkPage", parameters);
+
+            Settings.ParkId = JsonConvert.SerializeObject(this.Id.ToString());
         }
     }  
 }
