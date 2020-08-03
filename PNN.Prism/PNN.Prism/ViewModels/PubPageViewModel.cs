@@ -25,7 +25,7 @@ namespace PNN.Prism.ViewModels
         private UserResponse _user;
         private ObservableCollection<CommentResponse> _comments;
         private DelegateCommand _commentCommand;
-        private DelegateCommand _refreshCommand;
+        private DelegateCommand _editPubCommand;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiServices;
         
@@ -41,8 +41,9 @@ namespace PNN.Prism.ViewModels
             
         }
 
-        //public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(Refresh));
+        public DelegateCommand EditPubCommand => _editPubCommand ?? (_editPubCommand = new DelegateCommand(EditPub));
 
+  
         public ContentResponse Content 
         { 
             get => _content;
@@ -197,6 +198,16 @@ namespace PNN.Prism.ViewModels
 
             return true;
         }
-        
+
+        private async void EditPub()
+        {
+            var parameters = new NavigationParameters 
+            {
+                {"Content",Content}
+            };
+            
+            await _navigationService.NavigateAsync("AddPubPage",parameters);
+        }
+
     }
 }

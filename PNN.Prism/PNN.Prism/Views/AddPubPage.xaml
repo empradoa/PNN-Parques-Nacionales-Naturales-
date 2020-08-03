@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:ffimageLoading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="PNN.Prism.Views.AddPubPage"
+             Title="{Binding Title}">
+
+
+    <ScrollView>
+        <StackLayout
+            Padding="10">
+
+            <ffimageLoading:CachedImage
+            CacheDuration="50"
+            DownsampleToViewSize="True" 
+            ErrorPlaceholder="ErrorImage"
+            HeightRequest="150"
+            LoadingPlaceholder="LoaderImage"   
+            RetryCount="3"
+            RetryDelay="600"
+            Source="{Binding ImageSource}" >
+                <ffimageLoading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
+                </ffimageLoading:CachedImage.GestureRecognizers>
+            </ffimageLoading:CachedImage>
+
+            
+            <Label
+                FontSize="Micro"
+                HorizontalOptions="Center"
+                Text="Agregar Imagen..."/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Descripcion"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Placeholder="Escriba una Descripcion"
+                    Text="{Binding Content.Description}"/>
+
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Text="Fecha"
+                    VerticalOptions="Center"/>
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Placeholder="Selecciona la Fecha..."
+                    Text="{Binding Content.Date}"/>
+
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Text="Tipo"
+                    VerticalOptions="Center"/>
+                
+                <Picker
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    ItemDisplayBinding="{Binding Name}"
+                	ItemsSource="{Binding ContentTypes}"
+                	SelectedItem="{Binding ContentType}"
+                	Title="Seleccione Tipo..."/>
+
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="3"
+                    Text="parque"
+                    VerticalOptions="Center"/>
+                <Picker
+                    Grid.Column="1"
+                    Grid.Row="3"
+                    ItemDisplayBinding="{Binding Name}"
+                	ItemsSource="{Binding Parks}"
+                	SelectedItem="{Binding Park}"
+                	Title="Seleccione un parque..." />
+
+                
+            </Grid>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning}"
+                VerticalOptions="CenterAndExpand"/>
+
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Button
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding IsEnabled}"
+                    Text="Guardar"/>
+
+                <Button
+                    Command="{Binding DeleteCommand}"
+                    IsEnabled="{Binding IsEnabled}"
+                    IsVisible="{Binding IsEdit}"
+                    Style="{StaticResource DangerButton}"
+                    Text="Eliminar"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+
+
+</ContentPage>

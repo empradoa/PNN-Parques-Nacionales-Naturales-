@@ -6,8 +6,7 @@
   <Application.Resources>
         
       <ResourceDictionary>
-
-            <x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String>
+          <x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String>
 
             <!-- Colors -->
             <Color x:Key="colorBackgroud">#FFFFFF</Color>
@@ -41,6 +40,12 @@
             <Style TargetType="CheckBox">
                 <Setter Property="Color" Value="{StaticResource colorPrimary}" />
             </Style>
+
+            <Style x:Key="DangerButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource colorDanger}" />
+                <Setter Property="TextColor" Value="{StaticResource colorFontInverse}" />
+            </Style>
+
 
         </ResourceDictionary>
 

@@ -53,6 +53,23 @@ namespace PNN.Common.Services
             string tokenType,
             string accessToken);
 
+        Task<Response<object>> PostAsync<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            T model,
+            string tokenType,
+            string accessToken);
+
+        Task<Response<object>> PutAsync<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            int id,
+            T model,
+            string tokenType,
+            string accessToken);
+
         Task<Response<object>> ChangePasswordAsync(
             string urlBase,
             string servicePrefix,
@@ -68,6 +85,14 @@ namespace PNN.Common.Services
            CommentRequest comment, 
            string tokenType, 
            string accessToken);
+
+        Task<Response<object>> GetListAsync<T>(
+            string urlBase,
+            string servicePrefix,
+            string controller,
+            string tokenType,
+            string accessToken);
+
     }
 
 }
