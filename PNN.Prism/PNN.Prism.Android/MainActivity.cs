@@ -2,6 +2,8 @@
 using Android.Content.PM;
 using Android.OS;
 using Plugin.CurrentActivity;
+using Android.Runtime;
+using Plugin.Permissions;
 using Prism;
 using Prism.Ioc;
 using Syncfusion.SfRotator.XForms.Droid;

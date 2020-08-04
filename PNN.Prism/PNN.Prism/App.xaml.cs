@@ -35,17 +35,16 @@ namespace PNN.Prism
 
             
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            Settings.Inicio = true;
             if (Settings.IsRemembered && token?.Expiration > DateTime.Now)
             {
-                Settings.Inicio= true;
-                await NavigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
+               await NavigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");
             }
             else
             {
                 await NavigationService.NavigateAsync("NavigationPage/InitialPage");
             }
 
-            
         }
 
        

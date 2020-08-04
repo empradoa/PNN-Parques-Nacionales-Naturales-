@@ -20,8 +20,10 @@ namespace PNN.Prism.ViewModels
         private PublicationsResponse _Ps;
         private ObservableCollection<ContentItemViewModel> _pubs;
         private UserResponse _user;
-        private DelegateCommand _addPropertyCommand;
+        private DelegateCommand _addPropertyCommand; 
         private static PubsPageViewModel _instance;
+        private DelegateCommand _refreshCommand;
+
 
         public PubsPageViewModel(INavigationService navigationService,
                                  IApiService apiService) : base(navigationService)
@@ -30,12 +32,17 @@ namespace PNN.Prism.ViewModels
             _navigationService = navigationService;
             _apiService = apiService;
             _instance = this;
-            LoadPubs();
+                        
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            
             Encuesta();
+
+            LoadPubs();
         }
 
         public DelegateCommand AddPropertyCommand => _addPropertyCommand ?? (_addPropertyCommand = new DelegateCommand(AddProperty));
+
+        //public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(UpdateContent));
 
         private async void AddProperty()
         {
@@ -57,8 +64,9 @@ namespace PNN.Prism.ViewModels
         }
 
 
-        private void LoadPubs()
+        private async void LoadPubs()
         {
+                      
             _Ps = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
 
             Pubs = new ObservableCollection<ContentItemViewModel>(_Ps.Contents.Select(c => new ContentItemViewModel(_navigationService)
@@ -81,7 +89,20 @@ namespace PNN.Prism.ViewModels
 
         public async void Encuesta()
         {
-            await Task.Delay(90000); //1000 es 1 seg
+            int t;
+
+            if (Settings.IsRemembered && Settings.Inicio)
+                await UpdateContentAsync();
+
+            if (Settings.Inicio)
+            {
+                t = 90000;  //1 minuto y 30 seg.
+                Settings.Inicio = false;
+            }
+            else
+                t = 420000; // 7 minutos.
+
+            await Task.Delay(t); //1000 es 1 seg
 
             await App.Current.MainPage.DisplayAlert("Bienvenido", "Por Favor Ayudanos a conocer Tu Experiencia ConParks.", "Aceptar");
 
@@ -103,7 +124,7 @@ namespace PNN.Prism.ViewModels
             var response = await _apiService.GetOwnerByEmailAsync(
                 url,
                 "/api",
-                "/Owners/GetOwnerByEmail",
+                "/Users/GetUserByEmail",
                 "bearer",
                 token.Token,
                 _user.Email);
@@ -113,8 +134,18 @@ namespace PNN.Prism.ViewModels
                 var user = (UserResponse)response.Result;
                 Settings.User = JsonConvert.SerializeObject(user);
                 _user = user;
+            }
+
+            var response2 = await _apiService.GetContentsAsync(url, "api", "/Content/GetContentsAsync", "bearer", token.Token);
+
+            if (response2.IsSuccess)
+            {
+                var publics = response2.Result;
+                Settings.Pubs = JsonConvert.SerializeObject(publics);
+                Settings.Areas = JsonConvert.SerializeObject(publics.Areas);
                 LoadPubs();
             }
+
         }
 
     }

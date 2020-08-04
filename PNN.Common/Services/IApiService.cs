@@ -93,6 +93,14 @@ namespace PNN.Common.Services
             string tokenType,
             string accessToken);
 
+        Task<Response<object>> GetLastContentByUserId(
+                string urlBase,
+                string servicePrefix,
+                string controller,
+                string tokenType,
+                string accessToken,
+                string userId);
+
     }
 
 }

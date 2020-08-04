@@ -60,18 +60,7 @@
                     Grid.Row="0"
                     Placeholder="Escriba una Descripcion"
                     Text="{Binding Content.Description}"/>
-
-                <Label
-                    Grid.Column="0"
-                    Grid.Row="1"
-                    Text="Fecha"
-                    VerticalOptions="Center"/>
-                <Entry
-                    Grid.Column="1"
-                    Grid.Row="1"
-                    Placeholder="Selecciona la Fecha..."
-                    Text="{Binding Content.Date}"/>
-
+                
                 <Label
                     Grid.Column="0"
                     Grid.Row="2"

@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using PNN.Common.Helpers;
 using PNN.Common.Models;
 using PNN.Common.Services;
@@ -159,9 +161,48 @@ namespace PNN.Prism.ViewModels
             Parks = new ObservableCollection<ParkResponse>(_Pubs.Parks);
         }
 
-        private void Changeimage()
+        private async void Changeimage()
         {
-            throw new NotImplementedException();
+            await CrossMedia.Current.Initialize();
+
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                "Seleccione Origen:",
+                "Cancelar",
+                null,
+                "Galeria",
+                "Camara");
+
+            if (source == "Cancelar")
+            {
+                _file = null;
+                return;
+            }
+
+            if (source == "Camara")
+            {
+                _file = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+                    }
+                );
+            }
+            else
+            {
+                _file = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (_file != null)
+            {
+                ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = _file.GetStream();
+                    return stream;
+                });
+            }
+
         }
 
         private async void SaveAsync()
@@ -183,7 +224,7 @@ namespace PNN.Prism.ViewModels
             {
                 Id = Content.Id,
                 Description= Content.Description,
-                Date = Content.Date,
+                Date = IsEdit ? Content.Date : DateTime.Today,
                 ContentType = ContentType.Id,
                 Park = Park.Id,
                 UserId = user.Id
@@ -196,7 +237,7 @@ namespace PNN.Prism.ViewModels
                 response = await _apiService.PutAsync(
                     url,
                     "/api",
-                    "/Properties",
+                    "/Content",
                     contentRequest.Id,
                     contentRequest,
                     "bearer",
@@ -207,7 +248,7 @@ namespace PNN.Prism.ViewModels
                 response = await _apiService.PostAsync(
                     url,
                     "/api",
-                    "/Properties",
+                    "/Content",
                     contentRequest,
                     "bearer",
                     token.Token);
@@ -216,7 +257,7 @@ namespace PNN.Prism.ViewModels
             byte[] imageArray = null;
             if (_file != null)
             {
-                imageArray = FilesHelper.ReadFully(File.GetStream());
+                imageArray = FilesHelper.ReadFully(_file.GetStream());
                 if (Content.Id == 0)
                 {
                     var response2 = await _apiService.GetLastContentByUserId(
@@ -250,7 +291,7 @@ namespace PNN.Prism.ViewModels
                     }
                 }
             }
-
+              
             if (!response.IsSuccess)
             {
                 IsRunning = false;
@@ -265,8 +306,8 @@ namespace PNN.Prism.ViewModels
             IsEnabled = true;
 
             await App.Current.MainPage.DisplayAlert(
-                "Error",
-                string.Format("Publicacion", IsEdit ? "Se ha Cambiado Los Datos Exitosamente.": "La Publicacion Se ha Crerado exitosamente."),
+                "Publicacion",
+                IsEdit ? "Se han Cambiado Los Datos Exitosamente.": "La Publicacion Se ha Creado exitosamente.",
                 "Aceptar");
 
             await _navigationService.GoBackToRootAsync();
