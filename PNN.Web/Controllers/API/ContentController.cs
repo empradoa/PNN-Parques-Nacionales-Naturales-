@@ -135,6 +135,11 @@ namespace PNN.Web.Controllers.API
                 return BadRequest("La Publicacion No Existe.");
             }
 
+            if (request.UserId != oldContent.User.Id) 
+            {
+                return BadRequest("El Usuario No es el Propietario De La Publicacion.");
+            }
+
             var contentType = await _dataContext.ContentTypes.FindAsync(request.ContentType);
             if (contentType == null)
             {
