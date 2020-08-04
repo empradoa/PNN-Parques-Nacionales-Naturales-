@@ -23,6 +23,7 @@ namespace PNN.Prism.ViewModels
         private DelegateCommand _addPropertyCommand; 
         private static PubsPageViewModel _instance;
         private DelegateCommand _refreshCommand;
+        private bool _isRefreshing;
 
 
         public PubsPageViewModel(INavigationService navigationService,
@@ -42,7 +43,13 @@ namespace PNN.Prism.ViewModels
 
         public DelegateCommand AddPropertyCommand => _addPropertyCommand ?? (_addPropertyCommand = new DelegateCommand(AddProperty));
 
-        //public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(UpdateContent));
+        public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(RefreshContent));
+
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
 
         private async void AddProperty()
         {
@@ -147,6 +154,17 @@ namespace PNN.Prism.ViewModels
             }
 
         }
+
+        private async void RefreshContent()
+        {
+            IsRefreshing = true;
+            
+            await UpdateContentAsync();
+
+            IsRefreshing = false;
+        }
+
+
 
     }
 }

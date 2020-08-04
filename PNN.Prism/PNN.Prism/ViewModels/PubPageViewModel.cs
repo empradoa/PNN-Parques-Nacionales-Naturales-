@@ -18,7 +18,8 @@ namespace PNN.Prism.ViewModels
     public class PubPageViewModel : ViewModelBase
     {
         private bool _isRunning;
-        private bool _isEnabled;
+        private bool _isEnabled; 
+        private bool _isUser; 
         private bool _isRefreshing;
         private string _comment;
         private ContentResponse _content;
@@ -38,7 +39,7 @@ namespace PNN.Prism.ViewModels
             _navigationService = navigationService;
             _apiServices = apiServices;
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
-            
+            IsUser = false;
         }
 
         public DelegateCommand EditPubCommand => _editPubCommand ?? (_editPubCommand = new DelegateCommand(EditPub));
@@ -75,6 +76,13 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _isEnabled, value);
         }
 
+        public bool IsUser
+        {
+            get => _isUser;
+            set => SetProperty(ref _isUser, value);
+        }
+
+
         public bool IsRefreshing
         {
             get => _isRefreshing;
@@ -92,9 +100,16 @@ namespace PNN.Prism.ViewModels
                 Content = parameters.GetValue<ContentResponse>("Pub");
             }
 
-            LoadComments();
 
-            //CommentCommand
+            if (Content.FullName == _user.FullName ||
+                _user.Email.ToLower() == "empradoa@gmail.com".ToLower())
+            {
+                IsUser = true;
+            }
+
+                LoadComments();
+
+            
         }
 
         private async void Comentar()
@@ -205,8 +220,9 @@ namespace PNN.Prism.ViewModels
             {
                 {"Content",Content}
             };
+                        
+                await _navigationService.NavigateAsync("AddPubPage", parameters);
             
-            await _navigationService.NavigateAsync("AddPubPage",parameters);
         }
 
     }

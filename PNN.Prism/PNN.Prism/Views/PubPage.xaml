@@ -193,6 +193,7 @@
         </ScrollView>
         <Button
             Command="{Binding EditPubCommand}"
+            IsVisible="{Binding IsUser}"
             Text="Editar Publicacion"  />
     </StackLayout>    
 </ContentPage>

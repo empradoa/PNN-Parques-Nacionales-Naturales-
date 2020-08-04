@@ -28,6 +28,7 @@ namespace PNN.Prism.ViewModels
         private MediaFile _file;
         private DelegateCommand _changeImageCommand; 
         private DelegateCommand _saveCommand;
+        private DelegateCommand _deleteCommand;
         private ObservableCollection<ContentTypeResponse> _contentTypes;
         private ContentTypeResponse _contentType;
         private ObservableCollection<ParkResponse> _parks;
@@ -46,7 +47,8 @@ namespace PNN.Prism.ViewModels
         
         public DelegateCommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(SaveAsync));
 
-        
+        public DelegateCommand DeleteCommand => _deleteCommand ?? (_deleteCommand = new DelegateCommand(Delete));
+
         public bool IsRunning
         {
             get => _isRunning;
@@ -341,6 +343,42 @@ namespace PNN.Prism.ViewModels
 
             return true;
         }
+
+        private async void Delete()
+        {
+            var answer = await App.Current.MainPage.DisplayAlert(
+                "Confirmar",
+                "esta Seguro De Eliminar esta Publicacion? /\n Esta Operacion Eliminara todos los datos relacionados.",
+                "Si",
+                "No");
+
+            if (!answer)
+            {
+                return;
+            }
+
+            IsRunning = true;
+            IsEnabled = false;
+
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            var response = await _apiService.DeleteAsync(url, "/api", "/Content", Content.Id, "bearer", token.Token);
+
+            if (!response.IsSuccess)
+            {
+                IsRunning = false;
+                IsEnabled = true;
+                await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                return;
+            }
+
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+
+            IsRunning = false;
+            IsEnabled = true;
+            await _navigationService.GoBackToRootAsync();
+        }
+
 
     }
 }

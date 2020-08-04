@@ -246,5 +246,43 @@ namespace PNN.Web.Controllers.API
         }
 
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProperty([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return this.BadRequest(ModelState);
+            }
+
+            var content = await _dataContext.Contents
+                .Include(c => c.ContentType)
+                .Include(c => c.Park)
+                .Include(c => c.Comments)
+                .Include(c=> c.Location)
+                .FirstOrDefaultAsync(p => p.Id == id);
+            if (content == null)
+            {
+                return this.NotFound();
+            }
+
+            if (content.Comments.Count != 0)
+            {
+                foreach (var cmm in content.Comments)
+                {
+                    _dataContext.Comments.Remove(cmm);
+                }
+            }
+
+            if (content.Location != null)
+            {
+                _dataContext.Locations.Remove(content.Location);
+            }
+
+            _dataContext.Contents.Remove(content);
+            await _dataContext.SaveChangesAsync();
+            return Ok("Publicacion Eliminada!");
+        }
+
+
     }
 }

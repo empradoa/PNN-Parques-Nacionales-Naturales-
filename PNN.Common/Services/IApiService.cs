@@ -101,6 +101,15 @@ namespace PNN.Common.Services
                 string accessToken,
                 string userId);
 
+        Task<Response<object>> DeleteAsync(
+                string urlBase,
+                string servicePrefix,
+                string controller,
+                int id,
+                string tokenType,
+                string accessToken);
+
+
     }
 
 }

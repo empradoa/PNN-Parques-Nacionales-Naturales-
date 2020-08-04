@@ -21,6 +21,9 @@
             BackgroundColor="Transparent"
             HasUnevenRows="True"
             ItemsSource="{Binding Pubs}"
+            IsPullToRefreshEnabled="True"
+            RefreshCommand="{Binding RefreshCommand}"
+            IsRefreshing="{Binding IsRefreshing}"
             SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
