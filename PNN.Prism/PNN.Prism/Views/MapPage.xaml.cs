@@ -41,22 +41,45 @@ namespace PNN.Prism.Views
 
         private void ShowAreasAsync()
         {
-            
+            int parkid=0;
             var areas = JsonConvert.DeserializeObject <List<AreaResponse>>(Settings.Areas);
-           
-            foreach (var area in areas)
-            {                
-                MyMap.Pins.Add(new Pin
-                {
-                    Label = area.Name,
-                    Position = new Position(area.Location.Latitude, area.Location.Longitude),
-                    Type = PinType.Place
-                });
+            
 
+            foreach (var area in areas)
+            {    
+                if (area.Zone != 0) { 
+                 
+                    MyMap.Pins.Add(new Pin
+                    {
+                        Label = area.Name,
+                        Position = new Position(area.Location.Latitude, area.Location.Longitude),
+                        Type = PinType.Place
+                    });
+                }
+
+                var path = new Polygon();
+                path.FillColor = new Color(41,204,133);
+                path.StrokeColor = new Color(10, 196, 186);
+                if (area.Park != 0) 
+                {
+                    
+                    if(parkid == 0)  
+                        parkid = area.Park;
+
+                    if (parkid == area.Park) 
+                    {
+                        path.Geopath.Add(new Position (area.Location.Latitude,area.Location.Longitude));
+                    }
+                    else
+                    {
+                        MyMap.MapElements.Add(path);
+                        path = new Polygon(); 
+                        path.Geopath.Add(new Position(area.Location.Latitude, area.Location.Longitude));
+                        parkid = area.Park;
+                    }
+                }
                 
-                /* MyMap.MapElements.Add(new Polygon 
-                {                                         
-                });*/
+                /* */
                 
             }
 

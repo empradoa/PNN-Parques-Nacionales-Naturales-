@@ -91,9 +91,10 @@
                                         Grid.Column="0" 
                                         Grid.Row="2"
                                         HeightRequest="20"
+                                        IsVisible="{Binding prkShow}"     
                                         Source="ic_landscape"
                                         VerticalOptions="Center"/>
-                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Park}"/>
+                                        <Label Grid.Column="1" Grid.Row="2" IsVisible="{Binding prkShow}" Text="{Binding Park}"/>
                                         
                                         <Image
                                         Grid.Column="0" 

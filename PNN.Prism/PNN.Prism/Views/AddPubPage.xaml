@@ -55,12 +55,14 @@
                     Grid.Row="0"
                     Text="Descripcion"
                     VerticalOptions="Center"/>
-                <Entry
+                
+                <Editor
                     Grid.Column="1"
                     Grid.Row="0"
-                    Placeholder="Escriba una Descripcion"
+                    HeightRequest="100"
+                    Placeholder="Escriba una Descripcion.."
                     Text="{Binding Content.Description}"/>
-                
+
                 <Label
                     Grid.Column="0"
                     Grid.Row="2"

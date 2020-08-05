@@ -54,12 +54,13 @@
 
 
                     <Image
-                                            Grid.Column="0" 
-                                            Grid.Row="2"
-                                            HeightRequest="20"
-                                            Source="ic_landscape"
-                                            VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Content.Park}"/>
+                        Grid.Column="0" 
+                        Grid.Row="2"
+                        HeightRequest="20"
+                        IsVisible="{Binding PrkShow}" 
+                        Source="ic_landscape"
+                        VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Grid.Row="2" IsVisible="{Binding PrkShow}" Text="{Binding Content.Park}"/>
 
                     <Image
                                             Grid.Column="0" 

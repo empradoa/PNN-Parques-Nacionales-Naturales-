@@ -87,10 +87,11 @@ namespace PNN.Prism.ViewModels
                 Id = c.Id,
                 ImageUrl = c.ImageUrl,
                 Like = c.Like,
-                Park = c.Park,
+                Park = c.Park == "Prefiero no registrar el parque" ? "": c.Park,
                 UserAlias = c.UserAlias
 
-            }).ToList());
+            }).OrderByDescending(x => x.Date).ToList());
+
         }
 
 

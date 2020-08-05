@@ -105,7 +105,7 @@ namespace PNN.Web.Controllers.API
             return Ok(new Response<object>
             {
                 IsSuccess = true,
-                Message = "The Comment has created successfully!"
+                Message = "El Comentario Se Creo Exitosamente!"
             });
         }
 

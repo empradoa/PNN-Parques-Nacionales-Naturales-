@@ -21,6 +21,7 @@ namespace PNN.Prism.ViewModels
         private bool _isEnabled; 
         private bool _isUser; 
         private bool _isRefreshing;
+        private bool _prkShow;
         private string _comment;
         private ContentResponse _content;
         private UserResponse _user;
@@ -40,6 +41,7 @@ namespace PNN.Prism.ViewModels
             _apiServices = apiServices;
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
             IsUser = false;
+            PrkShow = true;
         }
 
         public DelegateCommand EditPubCommand => _editPubCommand ?? (_editPubCommand = new DelegateCommand(EditPub));
@@ -68,6 +70,12 @@ namespace PNN.Prism.ViewModels
         {
             get => _isRunning;
             set => SetProperty(ref _isRunning, value);
+        }
+
+        public bool PrkShow
+        {
+            get => _prkShow;
+            set => SetProperty(ref _prkShow, value);
         }
 
         public bool IsEnabled
@@ -105,6 +113,11 @@ namespace PNN.Prism.ViewModels
                 _user.Email.ToLower() == "empradoa@gmail.com".ToLower())
             {
                 IsUser = true;
+            }
+
+            if (Content.Park == "Prefiero no registrar el parque") 
+            {
+                PrkShow = false;
             }
 
                 LoadComments();
@@ -187,7 +200,7 @@ namespace PNN.Prism.ViewModels
 
         private void LoadComments()
         {
-            Comments = new ObservableCollection<CommentResponse>(_content.Comments);
+            Comments = new ObservableCollection<CommentResponse>(_content.Comments.OrderByDescending(x => x.Date));
         }
 
         public async Task<bool> ValidateComment()

@@ -111,9 +111,11 @@ namespace PNN.Prism.ViewModels
             if (parameters.ContainsKey("Content"))
             {
                 Content = parameters.GetValue<ContentResponse>("Content");
+                var p = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
                 ImageSource = Content.ImageShow;
                 IsEdit = true;
                 Title = "Editar Publicacion";
+                Park = p.Parks.FirstOrDefault(prk => prk.Id== int.Parse(Content.Park));
             }
             else
             {

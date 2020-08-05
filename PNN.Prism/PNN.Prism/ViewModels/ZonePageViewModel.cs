@@ -156,7 +156,7 @@ namespace PNN.Prism.ViewModels
 
         private void LoadComments()
         {
-            Comments = new ObservableCollection<CommentResponse>(_zone.Comments);
+            Comments = new ObservableCollection<CommentResponse>(_zone.Comments.OrderByDescending(x => x.Date));
         }
 
         public async Task<bool> ValidateComment()
