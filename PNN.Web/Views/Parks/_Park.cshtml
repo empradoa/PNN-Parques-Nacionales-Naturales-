@@ -72,101 +72,79 @@
 <br />
 
 <div class="form-row">
-    <div class="form-group col-md-3">
-        <label asp-for="latitud" class="control-label"></label>
-        <input type="text" asp-for="latitud" id="Lat" class="form-control" />
-        <span asp-validation-for="latitud" class="text-danger"></span>
+    <div class="form-group col-md-12">
+        <label asp-for="Coordenadas" class="control-label"></label>
+        <input asp-for="Coordenadas" id="info" class="form-control" style="height:100px;" />
+        <span asp-validation-for="Coordenadas" class="text-danger"></span>
     </div>
-
-    <div class="form-group col-md-3">
-        <label asp-for="longuitud" class="control-label"></label>
-        <input type="text" asp-for="longuitud" id="Long" class="form-control" />
-        <span asp-validation-for="longuitud" class="text-danger"></span>
+    <div class="form-group col-md-9">
     </div>
 </div>
-<br />
-<script>
-                    // Initialize and add the map
-                    var Bog = { lat: 4.710967, lng: -74.072004 };
-                    var marker;
+    <br />
+    <script>
+        var bermudaTriangle;
 
-                    function initMap() {
-                        // The location of Uluru
-                        //4.710967, -74.072004
-                        // The map, centered at Uluru
-                        var map = new google.maps.Map(
-                            document.getElementById('map'), { zoom: 4, center: Bog });
-                        // The marker, positioned at Uluru
-                        marker = new google.maps.Marker({ position: Bog, map: map });
+        function initMap() {
+            var myLatLng = new google.maps.LatLng(4.710967, -74.072004);
+            var mapOptions = {
+                zoom: 11,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.RoadMap
+            };
 
-                        google.maps.event.addListener(map, 'click', function(event) {
-                            var result = [event.latLng.lat(), event.latLng.lng()];
-                            transition(result);
-                         });
-                    }
+            var map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
 
 
+            var triangleCoords = [
+                new google.maps.LatLng(4.686884, -74.116681),
+                new google.maps.LatLng(4.691973, -74.057200),
+                new google.maps.LatLng(4.731422, -74.060396),
+                new google.maps.LatLng(4.731476, -74.104621)
 
-                    var numDeltas = 100;
-                    var delay = 10; //milliseconds
-                    var i = 0;
-                    var deltaLat;
-                    var deltaLng;
+            ];
 
-                    function transition(result){
-                        i = 0;
-                        deltaLat = (result[0] - Bog.lat) / numDeltas;
-                        deltaLng = (result[1] - Bog.lng) / numDeltas;
-                        moveMarker();
-                    }
+            // Construct the polygon
+            bermudaTriangle = new google.maps.Polygon({
+                paths: triangleCoords,
+                draggable: true,
+                editable: true,
+                strokeColor: '#0AC4BA',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#29CC85',
+                fillOpacity: 0.35
+            });
 
-                    function moveMarker() {
-                        Bog.lat += deltaLat;
-                        Bog.lng += deltaLng;
-                        var latlng = new google.maps.LatLng(Bog.lat, Bog.lng);
-                        marker.setTitle("Latitude:" + Bog.lat + " | Longitude:" + Bog.lng);
-                        marker.setPosition(latlng);
-                        if (i != numDeltas) {
-                            i++;
-                            setTimeout(moveMarker, delay);
-                        }
+            bermudaTriangle.setMap(map);
+            google.maps.event.addListener(bermudaTriangle, "dragend", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "insert_at", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "remove_at", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "set_at", getPolygonCoords);
+        }
 
-                        var lat = Bog.lat;
-                        var lng = Bog.lng;
+        function getPolygonCoords() {
+            var len = bermudaTriangle.getPath().getLength();
+            var htmlStr = "";
 
-                        myFunc("Lat" , lat);
-                        myFunc("Long", lng);
+            for (var i = 0; i < len; i++) {
+                htmlStr += bermudaTriangle.getPath().getAt(i).toUrlValue(5) + ";";
+            }
 
-                    }
+            myFunc("info", htmlStr);
+            /*var s = document.getElementById('info');
+            s.value= htmlStr;*/
+        }
 
-                   /*function addMarker(location, map) {
-                        // Add the marker at the clicked location, and add the next-available label
-                        // from the array of alphabetical characters.
-                        var marker = new google.maps.Marker({
-                            position: location,
-                            map: map
-                        });
-
-                        marker.setMap(marker);
-
-                        var lat = location.lat;
-                        var lng = location.lng;
-
-                        myFunc("Lat", lat);
-                        myFunc("Long", lng);
-
-                    }*/
-
-                    function myFunc(variable,coord) {
+        function myFunc(variable,coord) {
                         var s = document.getElementById(variable);
                         s.value = coord;
-                    }
+         }
 
 
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZnGkhL--bUGKbcagJ0uGDu-kuy4OvLX4&callback=initMap">
+    </script>
 
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZnGkhL--bUGKbcagJ0uGDu-kuy4OvLX4&callback=initMap">
-</script>
-
-<br />
+    <br />

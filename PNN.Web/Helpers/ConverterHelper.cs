@@ -133,18 +133,76 @@ namespace PNN.Web.Helpers
                 //Location = await _dataContext.Locations.FindAsync(model.LocationId)
             };
 
-            if (model.latitud != null && model.longuitud != null)
+            /* if (model.latitud != null && model.longuitud != null)
+             {
+                 park.Locations = new List<Area> { new Area {
+                                  Id = isNew ? 0 :(int) model.Locations?.FirstOrDefault().Id ,
+                                  Location = new Location{
+                                     Id        = isNew ? 0:(int) model.Locations?.FirstOrDefault().Location.Id,
+                                     Latitude  = double.Parse(model.latitud,CultureInfo.InvariantCulture),
+                                     Longitude = double.Parse(model.longuitud,CultureInfo.InvariantCulture)
+                                                       },
+                                  Park = park }
+                             };
+             }
+             */
+
+            if (!isNew) 
             {
-                park.Locations = new List<Area> { new Area {
-                                 Id = isNew ? 0 :(int) model.Locations?.FirstOrDefault().Id ,
-                                 Location = new Location{
-                                    Id        = isNew ? 0:(int) model.Locations?.FirstOrDefault().Location.Id,
-                                    Latitude  = double.Parse(model.latitud,CultureInfo.InvariantCulture),
-                                    Longitude = double.Parse(model.longuitud,CultureInfo.InvariantCulture)
-                                                      },
-                                 Park = park }
-                            };
+                model.Locations = _dataContext.Areas.Include(l => l.Location).Where(a => a.Park.Id == model.Id).ToList();
             }
+
+            if(model.Coordenadas != null)
+            {
+                var latlong = new List<String>();
+                var areas = new List<Area>();
+
+                latlong = model.Coordenadas.Split(';').ToList();
+                latlong.Remove("");
+                int j = 1;
+
+                    foreach (var i in latlong) 
+                    {
+
+                     var a = isNew || j > model.Locations.Count() ? 
+                                            new Area { Id = 0, Park = park }
+                                            : model.Locations?.ElementAt(j - 1) ;
+
+                        
+
+                        var cc = new List<String>();
+
+                        
+
+                            cc = i.Split(',').ToList();
+
+                        if (isNew || j > model.Locations.Count()) { 
+                                a.Location = new Location
+                                {
+                                    Id = 0,
+                                    Latitude = double.Parse(cc.ElementAt(0)),
+                                    Longitude = double.Parse(cc.ElementAt(1))
+                                };
+                        }
+                        else 
+                        {
+                            a.Location = model.Locations.ElementAt(j - 1)?.Location;
+                            a.Location.Latitude = double.Parse(cc.ElementAt(0));
+                            a.Location.Longitude = double.Parse(cc.ElementAt(1));
+                        }
+
+                    areas.Add(a);
+
+                        
+                        j++;
+                    }
+                
+
+
+                park.Locations = areas;
+
+            }
+
 
             return park;
         }
@@ -152,7 +210,9 @@ namespace PNN.Web.Helpers
         //eiditar park
         public ParkViewModel ToParkViewModel(Park park)
         {
-            return new ParkViewModel
+            String c ="";
+
+            var p = new ParkViewModel
             {
                 Name = park.Name,
                 Id = park.Id,
@@ -166,11 +226,22 @@ namespace PNN.Web.Helpers
                 Flora = park.Flora,
                 Wildlife = park.Wildlife,
                 Communities = park.Communities,
-                ManagerId = park.Manager.Id,
-                //LocationId = content.Location.Id   
-                latitud = park.Locations?.FirstOrDefault().Location.Latitude.ToString(),
-                longuitud = park.Locations?.FirstOrDefault().Location.Longitude.ToString()
+                ManagerId = park.Manager.Id,   
             };
+
+            park.Locations = _dataContext.Areas.Include(l => l.Location).Where(a => a.Park.Id == park.Id)?.ToList();
+
+            if (park.Locations != null)
+            {
+                foreach (var a in park.Locations)
+                {
+                    c += $"{a.Location.Latitude},{a.Location.Longitude};";
+                }
+
+                p.Coordenadas = c.Trim();
+            }
+
+            return p;
         }
 
 

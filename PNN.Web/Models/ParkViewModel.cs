@@ -19,6 +19,8 @@ namespace PNN.Web.Models
 
         public string longuitud { get; set; }
 
+        public string Coordenadas { get; set; }
+
 
     }
 }
