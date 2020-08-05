@@ -150,7 +150,7 @@ namespace PNN.Prism.ViewModels
             {
                 var publics = response2.Result;
                 Settings.Pubs = JsonConvert.SerializeObject(publics);
-                Settings.Areas = JsonConvert.SerializeObject(publics.Areas);
+                Settings.Areas = JsonConvert.SerializeObject(publics.Areas.OrderBy(a=>a.Park));
                 LoadPubs();
             }
 

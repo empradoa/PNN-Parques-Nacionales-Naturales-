@@ -43,7 +43,13 @@ namespace PNN.Prism.Views
         {
             int parkid=0;
             var areas = JsonConvert.DeserializeObject <List<AreaResponse>>(Settings.Areas);
-            
+
+            var path = new Polygon
+            {
+                StrokeWidth = 3,
+                StrokeColor = Color.FromHex("#0AC4BA"),
+                FillColor = Color.FromHex("#29CC85CA") //#FFFFFFNN FFFFFF= color NN= opacidad % hex
+            };
 
             foreach (var area in areas)
             {    
@@ -57,9 +63,8 @@ namespace PNN.Prism.Views
                     });
                 }
 
-                var path = new Polygon();
-                path.FillColor = new Color(41,204,133);
-                path.StrokeColor = new Color(10, 196, 186);
+                
+                
                 if (area.Park != 0) 
                 {
                     
@@ -73,14 +78,26 @@ namespace PNN.Prism.Views
                     else
                     {
                         MyMap.MapElements.Add(path);
-                        path = new Polygon(); 
+
+                        path = new Polygon
+                        {
+                            StrokeWidth = 3,
+                            StrokeColor = Color.FromHex("#0AC4BA"),
+                            FillColor = Color.FromHex("#29CC85CA") //#FFFFFFNN FFFFFF= color NN= opacidad % hex
+                            
+                        };
+
                         path.Geopath.Add(new Position(area.Location.Latitude, area.Location.Longitude));
                         parkid = area.Park;
                     }
+
+                    if (areas.IndexOf(area) == areas.Count - 1) //si es el ultimo item imprima el polygono
+                    {
+                        MyMap.MapElements.Add(path);
+                    }
                 }
-                
-                /* */
-                
+
+
             }
 
         }
