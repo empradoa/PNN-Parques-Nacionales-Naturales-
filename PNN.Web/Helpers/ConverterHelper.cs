@@ -528,7 +528,7 @@ namespace PNN.Web.Helpers
                                 {
                                     Id = c.Id,
                                     Description = c.Description,
-                                    Date = c.Date,
+                                    Date = c.DateLocal,
                                     ImageUrl = c.ImageUrl,
                                     Like = c.Like,
                                     ContentType = ToContentTypeResponse(c.ContentType),
