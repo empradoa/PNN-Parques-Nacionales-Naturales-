@@ -104,11 +104,11 @@ namespace PNN.Prism.ViewModels
 
             if (Settings.Inicio)
             {
-                t = 90000;  //1 minuto y 30 seg.
+                t = 420000;  //7 min
                 Settings.Inicio = false;
             }
             else
-                t = 420000; // 7 minutos.
+                t = 1200000; // 20 minutos.
 
             await Task.Delay(t); //1000 es 1 seg
 

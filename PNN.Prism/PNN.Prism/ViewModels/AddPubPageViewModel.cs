@@ -97,7 +97,7 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _parks, value);
         }
 
-        public ParkResponse Park
+        public ParkResponse ParkList
         {
             get => _park;
             set => SetProperty(ref _park, value);
@@ -115,7 +115,7 @@ namespace PNN.Prism.ViewModels
                 ImageSource = Content.ImageShow;
                 IsEdit = true;
                 Title = "Editar Publicacion";
-                Park = p.Parks.FirstOrDefault(prk => prk.Id== int.Parse(Content.Park));
+                //Park = p.Parks.FirstOrDefault(prk => prk.Id== int.Parse(Content.Park));
             }
             else
             {
@@ -124,7 +124,6 @@ namespace PNN.Prism.ViewModels
                 IsEdit = false;
                 Title = "Agregar Publicacion";
             }
-
 
             LoadContentTypesAsync();
             LoadParks();
@@ -143,7 +142,7 @@ namespace PNN.Prism.ViewModels
 
             if (!response.IsSuccess)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Error Al obtener lista  de Tipso", "Aceptar");
+                await App.Current.MainPage.DisplayAlert("Error", "Error Al obtener lista  de Tipos", "Aceptar");
                 return;
             }
 
@@ -163,6 +162,22 @@ namespace PNN.Prism.ViewModels
            var _Pubs = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
 
             Parks = new ObservableCollection<ParkResponse>(_Pubs.Parks);
+
+            if (!string.IsNullOrEmpty(Content.Description))
+            {
+                
+                if (Content.Park == "") 
+                {
+                    if (IsEdit)
+                        ParkList = Parks.FirstOrDefault(pt => pt.Name == "Prefiero no registrar el parque");
+                    else
+                        ParkList = default;
+                }
+                else 
+                {
+                    ParkList = Parks.FirstOrDefault(pt => pt.Name == Content.Park);
+                }       
+            }
         }
 
         private async void Changeimage()
@@ -230,7 +245,7 @@ namespace PNN.Prism.ViewModels
                 Description= Content.Description,
                 Date = IsEdit ? Content.Date : DateTime.Today,
                 ContentType = ContentType.Id,
-                Park = Park.Id,
+                Park = ParkList.Id,
                 UserId = user.Id
                 
             };
@@ -331,7 +346,7 @@ namespace PNN.Prism.ViewModels
                 return false;
             }
                         
-            if (Park == null)
+            if (ParkList == null)
             {
                 await App.Current.MainPage.DisplayAlert("Error", "Debe Seleccionar un Parque", "Aceptar");
                 return false;

@@ -87,7 +87,7 @@
                     Grid.Row="3"
                     ItemDisplayBinding="{Binding Name}"
                 	ItemsSource="{Binding Parks}"
-                	SelectedItem="{Binding Park}"
+                	SelectedItem="{Binding ParkList}"
                 	Title="Seleccione un parque..." />
 
                 
