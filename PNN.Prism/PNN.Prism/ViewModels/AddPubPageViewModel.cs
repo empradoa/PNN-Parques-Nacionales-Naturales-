@@ -243,7 +243,7 @@ namespace PNN.Prism.ViewModels
             {
                 Id = Content.Id,
                 Description= Content.Description,
-                Date = IsEdit ? Content.Date : DateTime.Today,
+                Date = IsEdit ? Content.Date : DateTime.Now,
                 ContentType = ContentType.Id,
                 Park = ParkList.Id,
                 UserId = user.Id
