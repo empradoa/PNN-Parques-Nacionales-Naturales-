@@ -80,7 +80,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image 
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
+                        </Grid.GestureRecognizers>
+
+                        <Image 
                             Grid.Column="0" 
                             HeightRequest="30" 
                             Margin="15,0,0,0"
@@ -101,7 +105,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image 
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SelectDisLikeCommand}"/>
+                        </Grid.GestureRecognizers>
+
+                        <Image 
                             Grid.Column="0" 
                             HeightRequest="20" 
                             VerticalOptions="EndAndExpand"  

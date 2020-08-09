@@ -84,34 +84,34 @@
                                                TextType="Html"
                                                VerticalOptions="FillAndExpand"
                                                FlowDirection="MatchParent"/>
-                                                                                 
-                                      
-                                                                                    
+
+
+
                                         <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="2"
-                                        HeightRequest="20"
-                                        IsVisible="{Binding prkShow}"     
-                                        Source="ic_landscape"
-                                        VerticalOptions="Center"/>
-                                        <Label Grid.Column="1" Grid.Row="2" IsVisible="{Binding prkShow}" Text="{Binding Park}"/>
-                                        
+                                            Grid.Column="0" 
+                                            Grid.Row="2"
+                                            HeightRequest="20"
+                                            Source="ic_style"
+                                            VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding ContentType.Name}"/>
+
                                         <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="3"
-                                        HeightRequest="20"
-                                        Source="ic_event_available"
-                                        VerticalOptions="Center"/>
+                                            Grid.Column="0" 
+                                            Grid.Row="3"
+                                            HeightRequest="20"
+                                            Source="ic_event_available"
+                                            VerticalOptions="Center"/>
                                         <Label Grid.Column="1" Grid.Row="3" Text="{Binding Date, StringFormat='{0:dd/MM/yyyy}'}"/>
-                                        
+
                                         <Image
-                                        Grid.Column="0" 
-                                        Grid.Row="4"
-                                        HeightRequest="20"
-                                        Source="ic_style"
-                                        VerticalOptions="Center"/>
-                                        <Label Grid.Column="1" Grid.Row="4" Text="{Binding ContentType.Name}"/>
-                                        
+                                            Grid.Column="0" 
+                                            Grid.Row="4"
+                                            HeightRequest="20"
+                                            IsVisible="{Binding PrkShow}" 
+                                            Source="ic_landscape"
+                                            VerticalOptions="Center"/>
+                                        <Label Grid.Column="1" Grid.Row="4" IsVisible="{Binding PrkShow}" Text="{Binding Park}"/>
+
 
                                     </Grid>
                                     <!--<Image

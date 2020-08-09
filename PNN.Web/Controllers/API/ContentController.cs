@@ -129,7 +129,7 @@ namespace PNN.Web.Controllers.API
                 return BadRequest();
             }
 
-            var oldContent = await _dataContext.Contents.FindAsync(request.Id);
+            var oldContent = await _dataContext.Contents.Include(c=> c.User).FirstOrDefaultAsync(c => c.Id==request.Id);
             if (oldContent == null)
             {
                 return BadRequest("La Publicacion No Existe.");

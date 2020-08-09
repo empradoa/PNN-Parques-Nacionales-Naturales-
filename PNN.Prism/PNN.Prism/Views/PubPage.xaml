@@ -10,16 +10,18 @@
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
     <StackLayout
-            Padding="10">
+            Padding="5,5,5,5">
         
         <ScrollView>
             <StackLayout>
             <ffimageLoading:CachedImage
+            FadeAnimationDuration="300"
             CacheDuration="50"
             DownsampleToViewSize="True" 
             ErrorPlaceholder="ErrorImage"
             HeightRequest="250"
-            LoadingPlaceholder="LoaderImage"   
+            LoadingPlaceholder="LoaderImage" 
+            Margin="-10,-10,-10,0"
             RetryCount="3"
             RetryDelay="600"
             Source="{Binding Content.ImageShow}" />
@@ -45,39 +47,39 @@
 
                     <Label Grid.Column="1" Grid.Row="1" 
                                                
-                                                   HeightRequest="100"
-                                                   Text="{Binding Content.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
-                                                   TextType="Html"
-                                                   VerticalOptions="FillAndExpand"
-                                                   FlowDirection="MatchParent"/>
-
+                        HeightRequest="100"
+                        Text="{Binding Content.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
+                        TextType="Html"
+                        VerticalOptions="FillAndExpand"
+                        FlowDirection="MatchParent"/>
 
 
                     <Image
                         Grid.Column="0" 
                         Grid.Row="2"
                         HeightRequest="20"
+                        Source="ic_style"
+                        VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Content.ContentType.Name}"/>
+
+                    <Image
+                        Grid.Column="0" 
+                        Grid.Row="3"
+                        HeightRequest="20"
+                        Source="ic_event_available"
+                        VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Content.Date, StringFormat='{0:dd/MM/yyyy}'}"/>
+                    
+                    <Image
+                        Grid.Column="0" 
+                        Grid.Row="4"
+                        HeightRequest="20"
                         IsVisible="{Binding PrkShow}" 
                         Source="ic_landscape"
                         VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="2" IsVisible="{Binding PrkShow}" Text="{Binding Content.Park}"/>
+                    <Label Grid.Column="1" Grid.Row="4" IsVisible="{Binding PrkShow}" Text="{Binding Content.Park}"/>
 
-                    <Image
-                                            Grid.Column="0" 
-                                            Grid.Row="3"
-                                            HeightRequest="20"
-                                            Source="ic_event_available"
-                                            VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Content.Date, StringFormat='{0:dd/MM/yyyy}'}"/>
-
-                    <Image
-                                            Grid.Column="0" 
-                                            Grid.Row="4"
-                                            HeightRequest="20"
-                                            Source="ic_style"
-                                            VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="4" Text="{Binding Content.ContentType.Name}"/>
-
+                    
 
                 </Grid>
 
@@ -168,6 +170,9 @@
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
+                                                    </Grid.GestureRecognizers>
                                                     <Image 
                                                       Grid.Column="0" 
                                                       HeightRequest="30" 
@@ -195,6 +200,7 @@
         <Button
             Command="{Binding EditPubCommand}"
             IsVisible="{Binding IsUser}"
-            Text="Editar Publicacion"  />
+            Text="Editar Publicacion" 
+            CornerRadius="30"/>
     </StackLayout>    
 </ContentPage>

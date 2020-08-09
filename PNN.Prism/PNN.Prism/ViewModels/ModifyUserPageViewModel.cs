@@ -106,8 +106,8 @@ namespace PNN.Prism.ViewModels
 
             await App.Current.MainPage.DisplayAlert(
                 "Ok",
-                "User updated sucessfully.",
-                "Accept");
+                "Usuario Actualizado Exitosamente.",
+                "Aceptar");
         }
 
         private async Task<bool> ValidateDataAsync()
@@ -116,8 +116,8 @@ namespace PNN.Prism.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
-                    "You must to enter a document.",
-                    "Accept");
+                    "Debe Digitar un Numero De Telefono.",
+                    "Aceptar");
                 return false;
             }
 
@@ -125,8 +125,8 @@ namespace PNN.Prism.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
-                    "You must to enter a first name.",
-                    "Accept");
+                    "Debe Digitar un Nombre.",
+                    "Aceptar");
                 return false;
             }
 
@@ -134,8 +134,8 @@ namespace PNN.Prism.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
-                    "You must to enter a last name.",
-                    "Accept");
+                    "Debe Digitar los Apellidos.",
+                    "Aceptar");
                 return false;
             }
 
@@ -143,8 +143,8 @@ namespace PNN.Prism.ViewModels
             {
                 await App.Current.MainPage.DisplayAlert(
                     "Error",
-                    "You must to enter an address.",
-                    "Accept");
+                    "Debe Digitar la Direccion.",
+                    "Aceptar");
                 return false;
             }
 

@@ -46,7 +46,9 @@ namespace PNN.Prism.ViewModels
 
         public DelegateCommand EditPubCommand => _editPubCommand ?? (_editPubCommand = new DelegateCommand(EditPub));
 
-  
+              
+        public DelegateCommand CommentCommand => _commentCommand ?? (_commentCommand = new DelegateCommand(Comentar));
+
         public ContentResponse Content 
         { 
             get => _content;
@@ -97,7 +99,7 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _isRefreshing, value);
         }
 
-        public DelegateCommand CommentCommand => _commentCommand ?? (_commentCommand = new DelegateCommand(Comentar));
+        
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
@@ -238,5 +240,6 @@ namespace PNN.Prism.ViewModels
             
         }
 
+        
     }
 }

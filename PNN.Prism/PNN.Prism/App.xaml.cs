@@ -11,6 +11,7 @@ using PNN.Common.Models;
 using PNN.Common.Helpers;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace PNN.Prism
@@ -36,6 +37,15 @@ namespace PNN.Prism
             
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             Settings.Inicio = true;
+
+            var r = JsonConvert.DeserializeObject(Settings.Reactions);
+
+            if (r.ToString() =="Reactions")
+            {
+                var a = new List<Reactions>();
+                Settings.Reactions = JsonConvert.SerializeObject(a);
+            }
+
             if (Settings.IsRemembered && token?.Expiration > DateTime.Now)
             {
                await NavigationService.NavigateAsync("/CnpMasterDetailPage/NavigationPage/PubsPage");

@@ -102,11 +102,13 @@
 
                 <Button
                     Command="{Binding SaveCommand}"
+                    CornerRadius="30"
                     IsEnabled="{Binding IsEnabled}"
                     Text="Guardar"/>
 
                 <Button
                     Command="{Binding DeleteCommand}"
+                    CornerRadius="30"
                     IsEnabled="{Binding IsEnabled}"
                     IsVisible="{Binding IsEdit}"
                     Style="{StaticResource DangerButton}"

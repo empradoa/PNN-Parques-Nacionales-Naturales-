@@ -140,6 +140,11 @@ namespace PNN.Prism.ViewModels
             Settings.Areas = JsonConvert.SerializeObject(publics.Areas.OrderBy(a => a.Park));
             Settings.IsRemembered = IsRemember;
 
+            var r = JsonConvert.DeserializeObject<String>(Settings.Reactions);
+
+            if (r == "Reactions")
+                Settings.Reactions = JsonConvert.SerializeObject(new List<Reactions>());
+
             IsRunning = false;
             IsEnabled = true;
 

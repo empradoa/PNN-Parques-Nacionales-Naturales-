@@ -25,45 +25,45 @@
                     <Label
                         Grid.Row="1"
                         Grid.Column="0"
-                        Text="First Name"
+                        Text="Nombre"
                         VerticalOptions="Center"/>
                     <Entry
                         Grid.Row="1"
                         Grid.Column="1"
-                        Placeholder="First Name..."
+                        Placeholder="Digite su Nombre..."
                         Text="{Binding User.FirstName}"/>
 
                     <Label
                         Grid.Row="2"
                         Grid.Column="0"
-                        Text="Last Name"
+                        Text="Apellidos"
                         VerticalOptions="Center"/>
                     <Entry
                         Grid.Row="2"
                         Grid.Column="1"
-                        Placeholder="Last name..."
+                        Placeholder="digite sus Apellidos..."
                         Text="{Binding User.LastName}"/>
 
                     <Label
                         Grid.Row="0"
                         Grid.Column="0"
-                        Text="Cellphone"
+                        Text="Telefono"
                         VerticalOptions="Center"/>
                     <Entry
                         Grid.Row="0"
                         Grid.Column="1"
-                        Placeholder="Cellphone..."
+                        Placeholder="Digite su Telefono..."
                         Text="{Binding User.CellPhone}"/>
                     
                     <Label
                         Grid.Row="3"
                         Grid.Column="0"
-                        Text="Address"
+                        Text="Direccion"
                         VerticalOptions="Center"/>
                     <Entry
                         Grid.Row="3"
                         Grid.Column="1"
-                        Placeholder="Address..."
+                        Placeholder="Digite su Dirreccion..."
                         Text="{Binding User.Address}"/>
                     
                 </Grid>

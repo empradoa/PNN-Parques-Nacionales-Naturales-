@@ -155,7 +155,6 @@ namespace PNN.Prism.ViewModels
             }
         }
 
-    
 
         private void LoadParks()
         {
@@ -326,7 +325,7 @@ namespace PNN.Prism.ViewModels
 
             await App.Current.MainPage.DisplayAlert(
                 "Publicacion",
-                IsEdit ? "Se han Cambiado Los Datos Exitosamente.": "La Publicacion Se ha Creado exitosamente.",
+                IsEdit ? "Actualizada Con Exito.": "Se ha Creado exitosamente.",
                 "Aceptar");
 
             await _navigationService.GoBackToRootAsync();

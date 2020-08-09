@@ -119,16 +119,16 @@ namespace PNN.Web.Controllers.API
             var myToken = await _userHelper.GeneratePasswordResetTokenAsync(user);
             var link = Url.Action("ResetPassword","Account",new { token = myToken }, protocol: HttpContext.Request.Scheme);
 
-            _mailHelper.SendMail(user.Email, "ConParks Password Reset", $"<h1>ConParks Password Reset</h1>" +
-                    $"To reset the password click in this link:</br></br>" +
-                    $"<a href = \"{link}\">Reset Password</a>");
+            _mailHelper.SendMail(user.Email, "ConParks Password Reset", $"<h1>ConParks Cambio De Password</h1>" +
+                    $"Para Cambiar Su Password haga Clic en el Siguiente Enlace:</br></br>" +
+                    $"<a href = \"{link}\">Cambiar Password</a>");
             
 
 
             return Ok( new Response<object> 
                         { 
                           IsSuccess= true,
-                          Message = "The instructions to recover your password has been sent to email."
+                          Message = "las instrucciones Para Recuperar tu password han Sido enviadas Ha Tu Correo."
                         });
         }
 
@@ -144,7 +144,7 @@ namespace PNN.Web.Controllers.API
             var userEntity = await _userHelper.GetUserByEmailAsync(request.Email);
             if (userEntity == null)
             {
-                return BadRequest("User not found.");
+                return BadRequest("usuario no Existe.");
             }
 
             userEntity.FirstName = request.FirstName;
@@ -182,7 +182,7 @@ namespace PNN.Web.Controllers.API
                 return BadRequest(new Response<object>
                 {
                     IsSuccess = false,
-                    Message = "This email is not assigned to any user."
+                    Message = "Este Correo No ha sido asignado a ningun Usuario."
                 });
             }
 
@@ -199,7 +199,7 @@ namespace PNN.Web.Controllers.API
             return Ok(new Response<object>
             {
                 IsSuccess = true,
-                Message = "The password was changed successfully!"
+                Message = "El Password Se Cambio Exitosamente!"
             });
         }
 

@@ -6,7 +6,8 @@
   <Application.Resources>
         
       <ResourceDictionary>
-          <x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String>
+            <!--<x:String x:Key="UrlAPI">http://colombianp-001-site1.gtempurl.com/</x:String> -->
+            <x:String x:Key="UrlAPI">https://conparks.org/</x:String>
 
             <!-- Colors -->
             <Color x:Key="colorBackgroud">#FFFFFF</Color>

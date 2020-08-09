@@ -12,6 +12,7 @@ namespace PNN.Common.Helpers
         private const string _user = "User";
         private const string _token = "Token";
         private const string _pubs = "Pubs";
+        private const string _reactions = "Reactions";
         private const string _areas = "Areas";
         private const string _parkId = "ParkId";
         private const string _zoneId = "ZoneId";
@@ -32,6 +33,12 @@ namespace PNN.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault( _pubs, _stringDefault );
             set => AppSettings.AddOrUpdateValue(  _pubs, value );
+        }
+
+        public static string Reactions
+        {
+            get => AppSettings.GetValueOrDefault(_reactions, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_reactions, value);
         }
 
         public static string Token

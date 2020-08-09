@@ -25,6 +25,8 @@ namespace PNN.Prism.ViewModels
         private ZoneResponse _zone;
         private UserResponse _user;
         private DelegateCommand _commentCommand;
+        private DelegateCommand _likeCommand;
+        private DelegateCommand _disLikeCommand;
         private ObservableCollection<CommentResponse> _comments;
 
         public ZonePageViewModel(INavigationService navigationService,
@@ -37,6 +39,9 @@ namespace PNN.Prism.ViewModels
         }
 
         public DelegateCommand CommentCommand => _commentCommand ?? (_commentCommand = new DelegateCommand(Comentar));
+
+        public DelegateCommand SelectLikeCommand => _likeCommand ?? (_likeCommand = new DelegateCommand(Like));
+        public DelegateCommand SelectDisLikeCommand => _disLikeCommand ?? (_disLikeCommand = new DelegateCommand(DisLike));
 
         public ZoneResponse Zone
         {
@@ -182,5 +187,137 @@ namespace PNN.Prism.ViewModels
 
             return true;
         }
+
+        private async void Like()
+        {
+            var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+
+            var rct = rcts == null ? null : rcts.FirstOrDefault(r => r.ZoneId == Zone.Id);
+
+            if (rct != null)
+            {
+                if (rct.Tipo == 2)
+                {
+                    await App.Current.MainPage.DisplayAlert("Zona", "Ya has seleccionado que te gusta anteriormente.", "Aceptar");
+                    return;
+                }
+
+                if (rct.Tipo == 1)
+                {
+                    rcts.Remove(rct);
+                    rct.Tipo = 2;
+
+                    Zone.Like++;
+                    Zone.DisLike--;
+                }
+
+            }
+            else
+            {
+                rct = new Reactions
+                {
+                    Id = rcts == null ? 1 : rcts.Last().Id + 1,
+                    ZoneId = Zone.Id,
+                    Tipo = 2
+                };
+                Zone.Like++;
+            }
+
+            rcts.Add(rct);
+            Settings.Reactions = JsonConvert.SerializeObject(rcts);
+
+            ActPark();
+
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+
+            ZoneResponse z = Zone;
+            var parameters = new NavigationParameters{ {"Zone",z} };
+
+            var s = _navigationService.GetNavigationUriPath();
+
+            await NavigationService.NavigateAsync(s, parameters);
+        }
+
+        private async void DisLike()
+        {
+            var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+
+            var rct = rcts==null? null :rcts.FirstOrDefault(r => r.ZoneId == Zone.Id);
+
+            if (rct != null)
+            {
+                if (rct.Tipo == 1)
+                {
+                    await App.Current.MainPage.DisplayAlert("parque", "Ya has seleccionado que no te gusta anteriormente.", "Aceptar");
+                    return;
+                }
+
+                if (rct.Tipo == 2)
+                {
+                    rcts.Remove(rct);
+                    rct.Tipo = 1;
+
+                    Zone.DisLike++;
+                    Zone.Like--;
+                }
+            }
+            else
+            {
+                rct = new Reactions
+                {
+                    Id = rcts== null ? 1 : rcts.Last().Id + 1,
+                    ZoneId = Zone.Id,
+                    Tipo = 1
+                };
+                Zone.DisLike++;
+            }
+
+            if (rcts == null)
+                rcts = new List<Reactions>();
+
+            rcts.Add(rct);
+            Settings.Reactions = JsonConvert.SerializeObject(rcts);
+
+            ActPark();
+
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+
+            var parameters = new NavigationParameters{ {"Zone", Zone} };
+
+            var s= _navigationService.GetNavigationUriPath();
+
+            await NavigationService.NavigateAsync(s, parameters);
+
+        }
+
+        private async void ActPark()
+        {
+            var url = App.Current.Resources["UrlAPI"].ToString();
+            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+
+            var request = new ZoneRequest
+            {
+                Id = Zone.Id,
+                dislike = Zone.DisLike,
+                like = Zone.Like
+            };
+
+            var response = await _apiServices.PutAsync(
+                    url,
+                    "/api",
+                    "/Zone",
+                    request.Id,
+                    request,
+                    "bearer",
+                    token.Token);
+
+            if (!response.IsSuccess)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                return;
+            }
+        }
+
     }
 }
