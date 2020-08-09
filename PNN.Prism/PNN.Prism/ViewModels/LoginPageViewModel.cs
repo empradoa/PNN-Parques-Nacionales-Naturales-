@@ -140,8 +140,6 @@ namespace PNN.Prism.ViewModels
             Settings.Areas = JsonConvert.SerializeObject(publics.Areas.OrderBy(a => a.Park));
             Settings.IsRemembered = IsRemember;
 
-           
-
             IsRunning = false;
             IsEnabled = true;
 

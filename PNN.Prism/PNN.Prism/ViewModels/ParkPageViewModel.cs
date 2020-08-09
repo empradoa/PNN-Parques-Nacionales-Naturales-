@@ -94,8 +94,9 @@ namespace PNN.Prism.ViewModels
         private async void Like()
         {
             var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
 
-             var rct= rcts == null ? null : rcts.FirstOrDefault(r => r.ParkId == Park.Id);
+            var rct= rcts == null ? null : rcts.FirstOrDefault(r => r.ParkId == Park.Id && r.UserId == user.Id);
 
             if (rct != null)
             {
@@ -121,7 +122,8 @@ namespace PNN.Prism.ViewModels
                 {
                     Id = rcts == null ? 1 : rcts.Last().Id + 1, 
                     ParkId = Park.Id,
-                    Tipo = 2
+                    Tipo = 2,
+                    UserId = user.Id
                 };
                 Park.Like++;
             }
@@ -143,8 +145,9 @@ namespace PNN.Prism.ViewModels
         private async void DisLike()
         {
             var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
 
-            var rct = rcts == null ? null : rcts.FirstOrDefault(r => r.ParkId == Park.Id);
+            var rct = rcts == null ? null : rcts.FirstOrDefault(r => r.ParkId == Park.Id && r.UserId == user.Id);
 
             if (rct != null )
             {
@@ -169,7 +172,8 @@ namespace PNN.Prism.ViewModels
                 {
                     Id = rcts == null ? 1 : rcts.Last().Id + 1,
                     ParkId = Park.Id,
-                    Tipo = 1
+                    Tipo = 1,
+                    UserId = user.Id
                 };
                 Park.DisLike++;
             }

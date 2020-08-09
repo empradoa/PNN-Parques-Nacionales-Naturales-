@@ -17,5 +17,7 @@ namespace PNN.Common.Models
         public int ParkId { get; set; }
 
         public byte Tipo { get; set; }  //1: dislike  2:Like
+
+        public String UserId { get; set; }
     }
 }
