@@ -38,9 +38,8 @@ namespace PNN.Prism
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
             Settings.Inicio = true;
 
-            var r = JsonConvert.DeserializeObject(Settings.Reactions);
-
-            if (r.ToString() =="Reactions")
+            
+            if (Settings.Reactions == "Reactions")
             {
                 var a = new List<Reactions>();
                 Settings.Reactions = JsonConvert.SerializeObject(a);
