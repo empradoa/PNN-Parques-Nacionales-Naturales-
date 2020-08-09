@@ -8,7 +8,10 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="PNN.Prism.Views.ZonePage"
              Title="{Binding Title}">
-    <!-- <ScrollView> -->
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"     
+                 Command="{Binding RefreshCommand}">
+        <!-- <ScrollView> -->
         <AbsoluteLayout>
             <StackLayout 
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -80,11 +83,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
-                        </Grid.GestureRecognizers>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
+                            </Grid.GestureRecognizers>
 
-                        <Image 
+                            <Image 
                             Grid.Column="0" 
                             HeightRequest="30" 
                             Margin="15,0,0,0"
@@ -105,11 +108,11 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectDisLikeCommand}"/>
-                        </Grid.GestureRecognizers>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectDisLikeCommand}"/>
+                            </Grid.GestureRecognizers>
 
-                        <Image 
+                            <Image 
                             Grid.Column="0" 
                             HeightRequest="20" 
                             VerticalOptions="EndAndExpand"  
@@ -169,76 +172,76 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    
+
                     <ListView
                     Grid.Row="0"    
                     HasUnevenRows="True"
                     IsRefreshing="{Binding IsRefreshing}"
                     ItemsSource="{Binding Comments}"
                     SeparatorVisibility="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Frame>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image 
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Image 
                                           Grid.Column="0" 
                                           HorizontalOptions="CenterAndExpand"
                                           VerticalOptions="CenterAndExpand"
                                           Source="ic_account_circle"/>
-                                        <!-- <Label 
+                                            <!-- <Label 
                                             Grid.Column="1"
                                             Text="{Binding Descripcion}"/> -->
-                                        <Grid 
+                                            <Grid 
                                         Grid.Column="1">
 
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <Label
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Label
                                                 Grid.Row="0" 
                                                 Text="{Binding Description}"/>
 
-                                            <Label
+                                                <Label
                                                 Grid.Row="1" 
                                                 Text="{Binding FullName}"/>
 
-                                            <Grid  Grid.Row="2" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                </Grid.ColumnDefinitions>
-                                                <Image 
+                                                <Grid  Grid.Row="2" >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image 
                                                   Grid.Column="0" 
                                                   HeightRequest="30" 
                                                   VerticalOptions="StartAndExpand"
                                                   Source="ic_favorite"/>
-                                                <Label
+                                                    <Label
                                                     Grid.Column="1" 
                                                     Text="{Binding Like}"/>
-                                                <Label
+                                                    <Label
                                                     HorizontalOptions="End"
                                                     Grid.Column="2" 
                                                     Text="{Binding Date}"/>
+                                                </Grid>
                                             </Grid>
                                         </Grid>
-                                    </Grid>
-                                </Frame>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </StackLayout>
         </AbsoluteLayout>
-    <!-- </ScrollView> -->
-
+        <!-- </ScrollView> -->
+    </RefreshView>
 
 </ContentPage>

@@ -16,10 +16,12 @@ namespace PNN.Prism.ViewModels
     {
         private readonly INavigationService _navigationService;
         private ObservableCollection<ZoneItemViewModel> _zones;
+        private PublicationsResponse _Ps;
         private ParkResponse _park;
         private DelegateCommand _likeCommand;
         private DelegateCommand _disLikeCommand;
         private readonly IApiService _apiService;
+        private DelegateCommand _refreshCommand;
         private bool _isRefreshing;
 
 
@@ -37,6 +39,9 @@ namespace PNN.Prism.ViewModels
         public DelegateCommand SelectLikeCommand => _likeCommand ?? (_likeCommand = new DelegateCommand(Like));
         public DelegateCommand SelectDisLikeCommand => _disLikeCommand ?? (_disLikeCommand = new DelegateCommand(DisLike));
 
+        public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(RefreshPark));
+
+       
         public ParkResponse Park
         {
             get => _park;
@@ -136,10 +141,8 @@ namespace PNN.Prism.ViewModels
 
             ActPark();
 
-            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+            RefreshPark();
 
-            
-            LoadZones();
         }
 
         private async void DisLike()
@@ -186,16 +189,14 @@ namespace PNN.Prism.ViewModels
 
             ActPark();
 
-            await PubsPageViewModel.GetInstance().UpdateContentAsync();
-
-            LoadZones();
+            RefreshPark();
         }
 
         private async void ActPark() 
         {
             var url = App.Current.Resources["UrlAPI"].ToString();
             var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
-            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+           
             
             var request = new ParkRequest
             {
@@ -218,6 +219,17 @@ namespace PNN.Prism.ViewModels
                 await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 return;
             }
+        }
+
+        private async void RefreshPark()
+        {
+            IsRefreshing = true;
+            
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+            _Ps= JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
+            Park = _Ps.Parks.FirstOrDefault(p => p.Id == _park.Id);
+
+            IsRefreshing = false;
         }
 
     }

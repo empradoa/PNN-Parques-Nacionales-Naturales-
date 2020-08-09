@@ -19,15 +19,19 @@ namespace PNN.Prism.ViewModels
     {
         private bool _isRunning;
         private bool _isEnabled;
+        private bool _isRefreshing;
         private string _comment;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiServices;
+        private PublicationsResponse _Ps;
         private ZoneResponse _zone;
         private UserResponse _user;
         private DelegateCommand _commentCommand;
         private DelegateCommand _likeCommand;
         private DelegateCommand _disLikeCommand;
+        private DelegateCommand _refreshCommand;
         private ObservableCollection<CommentResponse> _comments;
+       
 
         public ZonePageViewModel(INavigationService navigationService,
                                 IApiService apiServices) : base(navigationService)
@@ -42,6 +46,8 @@ namespace PNN.Prism.ViewModels
 
         public DelegateCommand SelectLikeCommand => _likeCommand ?? (_likeCommand = new DelegateCommand(Like));
         public DelegateCommand SelectDisLikeCommand => _disLikeCommand ?? (_disLikeCommand = new DelegateCommand(DisLike));
+
+        public DelegateCommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new DelegateCommand(RefreshZone));
 
         public ZoneResponse Zone
         {
@@ -73,6 +79,13 @@ namespace PNN.Prism.ViewModels
             get => _isEnabled;
             set => SetProperty(ref _isEnabled, value);
         }
+
+        public bool IsRefreshing //IsRefreshing
+        {
+            get => _isRefreshing;
+            set => SetProperty(ref _isRefreshing, value);
+        }
+
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
             base.OnNavigatedTo(parameters);
@@ -230,21 +243,15 @@ namespace PNN.Prism.ViewModels
 
             ActPark();
 
-            await PubsPageViewModel.GetInstance().UpdateContentAsync();
-
-            ZoneResponse z = Zone;
-            var parameters = new NavigationParameters{ {"Zone",z} };
-
-            var s = _navigationService.GetNavigationUriPath();
-
-            await NavigationService.NavigateAsync(s, parameters);
+            RefreshZone();
         }
 
         private async void DisLike()
         {
             var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
 
-            var rct = rcts==null? null :rcts.FirstOrDefault(r => r.ZoneId == Zone.Id);
+            var rct = rcts==null? null :rcts.FirstOrDefault(r => r.ZoneId == Zone.Id && r.UserId == user.Id);
 
             if (rct != null)
             {
@@ -269,7 +276,8 @@ namespace PNN.Prism.ViewModels
                 {
                     Id = rcts== null ? 1 : rcts.Last().Id + 1,
                     ZoneId = Zone.Id,
-                    Tipo = 1
+                    Tipo = 1,
+                    UserId = user.Id
                 };
                 Zone.DisLike++;
             }
@@ -282,13 +290,7 @@ namespace PNN.Prism.ViewModels
 
             ActPark();
 
-            await PubsPageViewModel.GetInstance().UpdateContentAsync();
-
-            var parameters = new NavigationParameters{ {"Zone", Zone} };
-
-            var s= _navigationService.GetNavigationUriPath();
-
-            await NavigationService.NavigateAsync(s, parameters);
+            RefreshZone();
 
         }
 
@@ -319,6 +321,19 @@ namespace PNN.Prism.ViewModels
                 await App.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 return;
             }
+        }
+
+        private async void RefreshZone()
+        {
+            IsRefreshing = true;
+
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
+            _Ps = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
+            var parkid = JsonConvert.DeserializeObject<int>(Settings.ParkId);
+            var park = _Ps.Parks.FirstOrDefault(p => p.Id == parkid);
+            Zone = park.Zones.FirstOrDefault(z => z.Id == _zone.Id);
+
+            IsRefreshing = false;
         }
 
     }

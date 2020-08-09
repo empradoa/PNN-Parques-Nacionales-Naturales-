@@ -11,14 +11,17 @@
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
-    <ScrollView>
-        <AbsoluteLayout>
-            <StackLayout 
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"     
+                 Command="{Binding RefreshCommand}">
+
+        <ScrollView>
+            <AbsoluteLayout>
+                <StackLayout 
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 Padding="10">
 
-                <ffimageLoading:CachedImage
+                    <ffimageLoading:CachedImage
                     CacheDuration="50"
                     DownsampleToViewSize="True" 
                     ErrorPlaceholder="ErrorImage"
@@ -28,100 +31,100 @@
                     RetryDelay="600"
                     Source="{Binding Park.ImageFullPath}" />
 
-                <Grid >
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="1" Grid.Row="0" Text="{Binding Park.Name}"  
+                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding Park.Name}"  
                            FontAttributes="Bold" HeightRequest="30" />
 
-                    <Image 
+                        <Image 
                         Grid.Column="0" 
                         Grid.Row="1"   
                         HeightRequest="30" 
                         VerticalOptions="StartAndExpand"  
                         Source="temperatura"/>
-                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Park.Temperature}" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Park.Temperature}" FontAttributes="Bold"/>
 
-                    <Image 
+                        <Image 
                         Grid.Column="0" 
                         Grid.Row="2"   
                         HeightRequest="30" 
                         VerticalOptions="StartAndExpand"  
                         Source="ic_filter"/>
-                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Park.Height}"/>
+                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Park.Height}"/>
 
-                    <Image 
+                        <Image 
                         Grid.Column="0" 
                         Grid.Row="3"   
                         HeightRequest="30" 
                         VerticalOptions="StartAndExpand"  
                         Source="ic_straighten"/>
-                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park.Extension}" FontAttributes="Bold"/>
+                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Park.Extension}" FontAttributes="Bold"/>
 
-                    <Grid Grid.Column="0" Grid.Row="4"
+                        <Grid Grid.Column="0" Grid.Row="4"
                                               HorizontalOptions="CenterAndExpand">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
-                        </Grid.GestureRecognizers>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectLikeCommand}"/>
+                            </Grid.GestureRecognizers>
 
-                        <Image 
+                            <Image 
                             Grid.Column="0" 
                             HeightRequest="30" 
                             Margin="15,0,0,0"
                             VerticalOptions="StartAndExpand"  
                             Source="ic_favorite"/>
-                        <Label
+                            <Label
                             Grid.Column="1" 
                             HorizontalOptions="CenterAndExpand"
                             Text="{Binding Park.Like}"
                             VerticalOptions="CenterAndExpand" />
 
-                    </Grid>
+                        </Grid>
 
-                    <Grid Grid.Column="1" Grid.Row="4"
+                        <Grid Grid.Column="1" Grid.Row="4"
                                               HorizontalOptions="CenterAndExpand">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding SelectDisLikeCommand}"/>
-                        </Grid.GestureRecognizers>
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SelectDisLikeCommand}"/>
+                            </Grid.GestureRecognizers>
 
-                        <Image 
+                            <Image 
                             Grid.Column="0" 
                             HeightRequest="20" 
                             VerticalOptions="EndAndExpand"  
                             Source="malo"/>
-                        <Label
+                            <Label
                             Grid.Column="1" 
                             Text="{Binding Park.DisLike}"
                             VerticalOptions="CenterAndExpand" />
 
+                        </Grid>
+
                     </Grid>
 
-                </Grid>
 
+                    <Label Text="Zonas" Style="{StaticResource Title}"/>
 
-                <Label Text="Zonas" Style="{StaticResource Title}"/>
-
-                <ListView
+                    <ListView
                     Grid.Column="1" 
                     Grid.Row="5"
                     BackgroundColor="#F2F2F2"
@@ -131,25 +134,25 @@
                 ItemsSource="{Binding Zones}"
                 SeparatorVisibility="None"    
                 VerticalScrollBarVisibility="Default">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Frame CornerRadius="20"
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame CornerRadius="20"
                                        HasShadow="True"
                                        Margin="5,5,5,5">
-                                    <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ZoneCommand}"/>
-                                    </Frame.GestureRecognizers>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding ZoneCommand}"/>
+                                        </Frame.GestureRecognizers>
 
 
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="100"/>
-                                            <RowDefinition Height="15"/>
-                                        </Grid.RowDefinitions>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="100"/>
+                                                <RowDefinition Height="15"/>
+                                            </Grid.RowDefinitions>
 
-                                        <StackLayout>
-                                            <ffimageLoading:CachedImage
+                                            <StackLayout>
+                                                <ffimageLoading:CachedImage
                                                 CacheDuration="50"    
                                                 DownsampleToViewSize="True"
                                                 ErrorPlaceholder="ErrorImage"
@@ -161,43 +164,45 @@
                                                 Source="{Binding ImageFullPath}"
                                                 VerticalOptions="FillAndExpand"
                                                 WidthRequest="200"/>
-                                        </StackLayout>
+                                            </StackLayout>
 
-                                        <Label Grid.Row="1" Text="{Binding Nombre}" />
-                                    </Grid>
+                                            <Label Grid.Row="1" Text="{Binding Nombre}" />
+                                        </Grid>
 
 
-                                </Frame>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
 
-                <Label Text="Descripcion" Style="{StaticResource Title}"/>
-                
-                <Label Text="{Binding Park.Description}" HorizontalOptions="FillAndExpand"/>
+                    <Label Text="Descripcion" Style="{StaticResource Title}"/>
 
-                <StackLayout HeightRequest="300">
-                    <maps:Map
+                    <Label Text="{Binding Park.Description}" HorizontalOptions="FillAndExpand"/>
+
+                    <StackLayout HeightRequest="300">
+                        <maps:Map
                         x:Name="MyMap"
                         IsShowingUser="True"
                         MapType="Street"/>
+                    </StackLayout>
+
+                    <Label Text="Flora" Style="{StaticResource Title}"/>
+
+                    <Label Text="{Binding Park.Flora}" HorizontalOptions="FillAndExpand"/>
+
+                    <Label Text="Fauna" Style="{StaticResource Title}"/>
+
+                    <Label Text="{Binding Park.Wildlife}" HorizontalOptions="FillAndExpand"/>
+
+                    <Label Text="Comunidades" Style="{StaticResource Title}"/>
+
+                    <Label Text="{Binding Park.Communities}" HorizontalOptions="FillAndExpand"/>
+
                 </StackLayout>
+            </AbsoluteLayout>
+        </ScrollView>
 
-                <Label Text="Flora" Style="{StaticResource Title}"/>
-
-                <Label Text="{Binding Park.Flora}" HorizontalOptions="FillAndExpand"/>
-
-                <Label Text="Fauna" Style="{StaticResource Title}"/>
-
-                <Label Text="{Binding Park.Wildlife}" HorizontalOptions="FillAndExpand"/>
-
-                <Label Text="Comunidades" Style="{StaticResource Title}"/>
-
-                <Label Text="{Binding Park.Communities}" HorizontalOptions="FillAndExpand"/>
-
-            </StackLayout>
-        </AbsoluteLayout>
-    </ScrollView>
+    </RefreshView>
 
 </ContentPage>
