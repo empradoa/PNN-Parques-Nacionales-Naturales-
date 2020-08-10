@@ -14,10 +14,19 @@ namespace PNN.Web.Models
 
         public string longuitud { get; set; }
 
+        [Display(Name = "Tipo de Zona")]
+        [Range(0, int.MaxValue, ErrorMessage = "Desea especificar un tipo de zona")]
+        public int ZoneTypeId { get; set; }
+
+        public IEnumerable<SelectListItem> ZoneTypes { get; set; }
+
         [Display(Name = "Parque")]
         [Range(0, int.MaxValue, ErrorMessage = "Desea especificar un parque natural")]
-        public int ParkId { get; set; }
 
-        public IEnumerable<SelectListItem> Parks { get; set; } 
+        
+        public int ParkId { get; set; }
+        
+
+        public IEnumerable<SelectListItem> Parks { get; set; }
     }
 }
