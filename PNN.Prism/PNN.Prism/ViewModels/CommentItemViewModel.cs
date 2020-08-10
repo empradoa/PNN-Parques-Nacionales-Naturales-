@@ -30,13 +30,15 @@ namespace PNN.Prism.ViewModels
         {
             var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
             var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
-            var pubs = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
-            var contents = pubs.Contents;
+                       
+            var pubid = JsonConvert.DeserializeObject<int>(Settings.PubId);
+
             var comment = this;
 
            
 
             var rct = rcts == null ? null : rcts.FirstOrDefault(r => r.CommentId == comment.Id 
+                                                                    && r.ContentId== pubid
                                                                     && r.UserId == user.Id);
 
             if (rct != null)
@@ -51,6 +53,7 @@ namespace PNN.Prism.ViewModels
                 {
                     Id = rcts == null ? 1 : rcts.Last().Id + 1,
                     CommentId = comment.Id,
+                    ContentId = pubid,
                     Tipo = 2,
                     UserId = user.Id
                 };
@@ -62,12 +65,53 @@ namespace PNN.Prism.ViewModels
 
             rcts.Add(rct);
             Settings.Reactions = JsonConvert.SerializeObject(rcts);
+
+           // await PubPageViewModel.GetInstance().UpdateContentAsync();
         }
 
 
-        private void LikeZone()
+        private async void LikeZone()
         {
-            throw new NotImplementedException();
+            var rcts = JsonConvert.DeserializeObject<List<Reactions>>(Settings.Reactions);
+            var user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+
+            var zoneid = JsonConvert.DeserializeObject<int>(Settings.ZoneId);
+
+
+            var comment = this;
+
+
+
+            var rct = rcts == null ? null : rcts.FirstOrDefault(r => r.CommentId == comment.Id
+                                                                    && r.ZoneId == zoneid
+                                                                    && r.UserId == user.Id);
+
+            if (rct != null)
+            {
+                await App.Current.MainPage.DisplayAlert("parque", "Ya has seleccionado que te gusta anteriormente.", "Aceptar");
+                return;
+
+            }
+            else
+            {
+                rct = new Reactions
+                {
+                    Id = rcts == null ? 1 : rcts.Last().Id + 1,
+                    CommentId = comment.Id,
+                    ZoneId = zoneid,
+                    Tipo = 2,
+                    UserId = user.Id
+                };
+                comment.Like++;
+            }
+
+            if (rcts == null)
+                rcts = new List<Reactions>();
+
+            rcts.Add(rct);
+            Settings.Reactions = JsonConvert.SerializeObject(rcts);
+
+           // await PubPageViewModel.GetInstance().UpdateContentAsync();
         }
 
        

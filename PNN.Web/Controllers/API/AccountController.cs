@@ -78,7 +78,12 @@ namespace PNN.Web.Controllers.API
 
             if (result != IdentityResult.Success)
             {
-                return BadRequest(result.Errors.FirstOrDefault().Description);
+                return BadRequest(new Response<object>
+                {
+                    IsSuccess = false,
+                    Message = result.Errors.FirstOrDefault().Description
+                });
+
             }
 
             var userNew = await _userHelper.GetUserByEmailAsync(userRequest.Email);

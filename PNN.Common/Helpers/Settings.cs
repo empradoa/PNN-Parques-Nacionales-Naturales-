@@ -16,6 +16,7 @@ namespace PNN.Common.Helpers
         private const string _areas = "Areas";
         private const string _parkId = "ParkId";
         private const string _zoneId = "ZoneId";
+        private const string _pubId = "PubId";
 
         private const string _isRemembered = "IsRemembered";
         private static readonly bool _boolDefault = false;
@@ -81,6 +82,11 @@ namespace PNN.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_zoneId, _stringDefault);
             set => AppSettings.AddOrUpdateValue(_zoneId, value);
+        }
+        public static string PubId
+        {
+            get => AppSettings.GetValueOrDefault(_pubId, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_pubId, value);
         }
     }
 }

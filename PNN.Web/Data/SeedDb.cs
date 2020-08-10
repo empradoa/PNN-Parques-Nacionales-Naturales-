@@ -28,7 +28,7 @@ namespace PNN.Web.Data
             await _dataContext.Database.EnsureCreatedAsync();
             await CheckRoles();
             await CheckLocationsAsync();
-            var manager = await CheckUserAsync("Eider", "Prado", "empradoa@gmail.com", "3506342747", "Calle Luna Calle Sol", "Admin", "empradoa_1");
+            var manager = await CheckUserAsync("Conparks", "Soporte", "soporteconparks@gmail.com", "3506342747", "Calle Luna Calle Sol", "Admin", "Conparks_1");
             var customer = await CheckUserAsync("Manuel", "Avendaño", "eiderprado@hotmail.com", "3506342747", "Calle Luna Calle Sol","Customer", "eiderprado_1");
             var visit = await CheckUserAsync("Visit", "Visitante", "visit@hotmail.com", "350 634 2747", "Calle Luna Calle Sol","Visit", "visit_0");
             await CheckZoneTypesAsync();

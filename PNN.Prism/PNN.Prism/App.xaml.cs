@@ -34,8 +34,11 @@ namespace PNN.Prism
 
             InitializeComponent();
 
-            
-            var token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+            TokenResponse token = new TokenResponse();
+           
+            if(Settings.Token != "Token")
+            token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
+
             Settings.Inicio = true;
 
             

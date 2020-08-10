@@ -49,7 +49,8 @@ namespace PNN.Web.Controllers
         // GET: Zones/Create
         public IActionResult Create()
         {
-            return View();
+            var zone = new Zone();
+            return View(_converterHelper.ToZoneViewModel(zone));
         }
 
         // POST: Zones/Create

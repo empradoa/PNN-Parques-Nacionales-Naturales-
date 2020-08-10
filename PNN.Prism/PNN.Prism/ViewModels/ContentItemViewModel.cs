@@ -1,4 +1,6 @@
-﻿using PNN.Common.Models;
+﻿using Newtonsoft.Json;
+using PNN.Common.Helpers;
+using PNN.Common.Models;
 using Prism.Commands;
 using Prism.Navigation;
 using System;
@@ -27,6 +29,8 @@ namespace PNN.Prism.ViewModels
             };
 
             await _navigationService.NavigateAsync("PubPage", parameters);
+
+            Settings.PubId = JsonConvert.SerializeObject(this.Id.ToString());
         }
     }
 }
