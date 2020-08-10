@@ -126,7 +126,7 @@ namespace PNN.Web.Controllers
         }
 
         [HttpPost]
-        //sobrecargamos el metodo EditContent para armar el POST
+        //sobrecargamos el metodo EditContent para armar el POSTy
         public async Task<IActionResult> EditPark(ParkViewModel model)
         {
             if (ModelState.IsValid)
