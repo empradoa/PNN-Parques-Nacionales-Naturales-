@@ -26,11 +26,12 @@ namespace PNN.Prism.ViewModels
             var parameters = new NavigationParameters
                 {
                     {"Park", this}
-                };   
-
-            await _navigationService.NavigateAsync("ParkPage", parameters);
+                };
 
             Settings.ParkId = JsonConvert.SerializeObject(this.Id.ToString());
+
+            await _navigationService.NavigateAsync("ParkPage", parameters);
+ 
         }
     }  
 }

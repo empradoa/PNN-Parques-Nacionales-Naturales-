@@ -28,9 +28,10 @@ namespace PNN.Prism.ViewModels
                 {"Pub", this}
             };
 
-            await _navigationService.NavigateAsync("PubPage", parameters);
-
             Settings.PubId = JsonConvert.SerializeObject(this.Id.ToString());
+
+            await _navigationService.NavigateAsync("PubPage", parameters);
+ 
         }
     }
 }

@@ -74,8 +74,8 @@
                                             <RowDefinition Height="Auto"/>
                                             <RowDefinition Height="Auto"/>
                                         </Grid.RowDefinitions>
-                                        
-                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding FullName}" FontAttributes="Bold"/>
+
+                                        <Label Grid.Column="1" Grid.Row="0" Text="{Binding UserAlias}" FontAttributes="Bold"/>
 
                                         <Label Grid.Column="1" Grid.Row="1" 
                                                

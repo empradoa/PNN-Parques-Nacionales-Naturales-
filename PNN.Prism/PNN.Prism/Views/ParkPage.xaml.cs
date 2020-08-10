@@ -4,6 +4,7 @@ using PNN.Common.Models;
 using PNN.Common.Services;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -30,21 +31,44 @@ namespace PNN.Prism.Views
 
             var ParkId = int.Parse(JsonConvert.DeserializeObject<string>(Settings.ParkId)); 
             
-            var Park = Areas.Find(a=> a.Park == ParkId);
+            var Park = Areas.FindAll(a=> a.Park == ParkId);
 
-            var position = new Position(Park.Location.Latitude, Park.Location.Longitude);
+            //var position = new Position(Park.Location.Latitude, Park.Location.Longitude);
+
+
+            var path = new Polygon
+            {
+                StrokeWidth = 3,
+                StrokeColor = Color.FromHex("#0AC4BA"),
+                FillColor = Color.FromHex("#29CC85CA") //#FFFFFFNN FFFFFF= color NN= opacidad % hex
+            };
+
+
+            foreach (var area in Park)
+            {
+                        path.Geopath.Add(new Position(area.Location.Latitude, area.Location.Longitude));
+            }
+
+            MyMap.MapElements.Add(path);
+
+            var clat = ((Park.First().Location.Latitude + Park.Last().Location.Latitude) / 2);
+            var clon = ((Park.First().Location.Longitude + Park.Last().Location.Longitude) / 2);
+
+            var center = new Position(clat, clon);
+            
 
             MyMap.MoveToRegion(MapSpan.FromCenterAndRadius(
-                   position,
-                   Distance.FromKilometers(10)));//distancia visual en km
+                   center,
+                   Distance.FromKilometers(50)));//distancia visual en km
 
-            MyMap.Pins.Add(new Pin
+
+           /* MyMap.Pins.Add(new Pin
             {     
                 Label ="parque natural",
                 Position = position,
                 Type = PinType.Place
             });
-
+            */
         }
     }
 }
