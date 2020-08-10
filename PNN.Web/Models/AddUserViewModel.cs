@@ -13,7 +13,9 @@ namespace PNN.Web.Models
         [MaxLength(50, ErrorMessage = "El campo {0} no puede tener más de {1} caracteres.")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         Random rnd = new Random();
+       // 'AddUserViewModel.Alias' oculta el miembro heredado 'EditUserViewModel.Alias'. Use la palabra clave new si su intención era ocultarlo.
         public string Alias => $"{FirstName.Trim().Replace(" ", string.Empty)}_{rnd.Next(0, 100)}".ToLower();
+       // 'AddUserViewModel.Alias' oculta el miembro heredado 'EditUserViewModel.Alias'. Use la palabra clave new si su intención era ocultarlo.
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
