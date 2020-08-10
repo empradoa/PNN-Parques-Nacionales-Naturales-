@@ -16,7 +16,7 @@
             <StackLayout 
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
-                Padding="10">
+                Padding="5">
 
                 <ffimageLoading:CachedImage
                 CacheDuration="50"
@@ -29,45 +29,44 @@
                 Source="{Binding Zone.ImageFullPath}" />
 
 
-                <Grid
-                                        Grid.Column="1">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="17"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="30"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="15"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Label Grid.Column="1" Grid.Row="0" Text="{Binding Zone.Nombre}" FontAttributes="Bold"/>
 
-
-                    <Image
-                    Grid.Column="0" 
-                    Grid.Row="1"
-                    HeightRequest="20"
-                    Source="ic_landscape"
-                    VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding Zone.Manager}"/>
-
+                    <Label Grid.Column="1" Grid.Row="1" 
+                    Text="{Binding Zone.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
+                    TextType="Html"
+                    VerticalOptions="FillAndExpand"
+                    FlowDirection="MatchParent"/>                    
+                    
                     <Image
                     Grid.Column="0" 
                     Grid.Row="2"
                     HeightRequest="20"
+                    Source="ic_landscape"
+                    VerticalOptions="Center"/>
+                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Zone.Manager}"/>
+
+                    <Image
+                    Grid.Column="0" 
+                    Grid.Row="3"
+                    HeightRequest="20"
                     Source="ic_style"
                     VerticalOptions="Center"/>
-                    <Label Grid.Column="1" Grid.Row="2" Text="{Binding Zone.ZoneType.Name}"/>
+                    <Label Grid.Column="1" Grid.Row="3" Text="{Binding Zone.ZoneType.Name}"/>
 
-                    <Label Grid.Column="1" Grid.Row="3" 
-                    HeightRequest="100"
-                    Text="{Binding Zone.Description, StringFormat='&lt;p style=&quot;text-align:justify;&quot;&gt; {0} &lt;p&gt;' }"
-                    TextType="Html"
-                    VerticalOptions="FillAndExpand"
-                    FlowDirection="MatchParent"/>
+                    
 
                     <Grid Grid.Column="1" Grid.Row="4"
                                               HorizontalOptions="StartAndExpand">
