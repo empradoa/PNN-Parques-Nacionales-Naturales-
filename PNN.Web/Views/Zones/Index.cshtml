@@ -28,10 +28,13 @@
                         Foto
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ImageUrl)
+                        @Html.DisplayNameFor(model => model.ZoneType)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Park)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Like)
@@ -45,31 +48,37 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre)
-                        </td>
-                        <td>
-                            @if (!string.IsNullOrEmpty(item.ImageUrl))
-                            {
-                                <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:150px;max-width: 100%; height: auto;" />
-                            }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Like)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DisLike)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-edit btn-success" title="Editar"></i></a>
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-list btn-default" title="Detalles"></i></a>
-                            <button data-id="@item.Id" class="btn btn-link deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"></i></button>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ImageUrl))
+                        {
+                            <img src="@Url.Content(item.ImageUrl)" alt="Image" style="width:200px;height:150px;max-width: 100%; height: auto;" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ZoneType.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Park.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Like)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DisLike)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-edit btn-success" title="Editar"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-link"><i class="fas fa-list btn-default" title="Detalles"></i></a>
+                        <button data-id="@item.Id" class="btn btn-link deleteItem" data-toggle="modal" data-target="#deleteDialog"><i class="fas fa-trash-alt btn-danger" title="Eliminar"></i></button>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
