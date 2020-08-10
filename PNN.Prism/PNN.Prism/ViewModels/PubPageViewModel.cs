@@ -25,12 +25,13 @@ namespace PNN.Prism.ViewModels
         private string _comment;
         private ContentResponse _content;
         private UserResponse _user;
-        private ObservableCollection<CommentResponse> _comments;
+        private ObservableCollection<CommentItemViewModel> _comments;
         private DelegateCommand _commentCommand;
         private DelegateCommand _editPubCommand;
         private readonly INavigationService _navigationService;
         private readonly IApiService _apiServices;
-        
+        private static PubPageViewModel _instance;
+
 
 
         public PubPageViewModel(INavigationService navigationService,
@@ -40,6 +41,7 @@ namespace PNN.Prism.ViewModels
             _navigationService = navigationService;
             _apiServices = apiServices;
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            _instance = this;
             IsUser = false;
             PrkShow = true;
         }
@@ -55,7 +57,7 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _content, value);  
         }
 
-        public ObservableCollection<CommentResponse> Comments
+        public ObservableCollection<CommentItemViewModel> Comments
         {
             get => _comments;
             set => SetProperty(ref _comments, value);
@@ -200,9 +202,17 @@ namespace PNN.Prism.ViewModels
                     "Aceptar");
         }
 
-        private void LoadComments()
+        public void LoadComments()
         {
-            Comments = new ObservableCollection<CommentResponse>(_content.Comments.OrderByDescending(x => x.Date));
+            Comments = new ObservableCollection<CommentItemViewModel>(_content.Comments.Select(c => new CommentItemViewModel(_navigationService,_apiServices) 
+            { 
+                Id = c.Id,
+                Description = c.Description,
+                Date = c.Date,
+                Like = c.Like,
+                FullName = c.FullName,
+                User = c.User
+            }).ToList().OrderByDescending(x => x.Date));
         }
 
         public async Task<bool> ValidateComment()
@@ -240,6 +250,10 @@ namespace PNN.Prism.ViewModels
             
         }
 
-        
+        public static PubPageViewModel GetInstance()
+        {
+            return _instance;
+        }
+
     }
 }

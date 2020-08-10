@@ -57,6 +57,40 @@ namespace PNN.Web.Controllers.API
             return Ok(true);
         }
 
+        [HttpPut]
+        [Route("LikeCommentAsync/{id}")]
+        public async Task<IActionResult> LikeComment([FromRoute] int id, [FromBody] LikeRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
+            if (id != request.ZoneId)
+            {
+                return BadRequest();
+            }
+
+            var oldZone = await _dataContext.Zones.Include(p => p.Manager)
+                                                  .Include(p => p.ZoneType)
+                                                  .Include(p => p.Comments)
+                                                  .Include(p => p.Locations)
+                                                  .Include(p => p.Park)
+                                                  .FirstOrDefaultAsync(c => c.Id == request.ZoneId);
+            if (oldZone == null)
+            {
+                return BadRequest("La Zona No Existe.");
+            }
+
+            var comment = oldZone.Comments.FirstOrDefault(c => c.Id == request.CommentId);
+
+            comment.Like += request.Like;
+
+
+
+            _dataContext.Comments.Update(comment);
+            await _dataContext.SaveChangesAsync();
+            return Ok(true);
+        }
     }
 }

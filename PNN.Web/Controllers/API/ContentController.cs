@@ -289,5 +289,41 @@ namespace PNN.Web.Controllers.API
         }
 
 
+        [HttpPut]
+        [Route("LikeCommentAsync/{id}")]
+        public async Task<IActionResult> LikeComment([FromRoute] int id, [FromBody] LikeRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != request.ContentId)
+            {
+                return BadRequest();
+            }
+
+            var oldcontent = await _dataContext.Contents.Include(p => p.Park)
+                                                  .Include(p => p.ContentType)
+                                                  .Include(p => p.Comments)
+                                                  .Include(p => p.Location)
+                                                  .Include(p => p.User)
+                                                  .FirstOrDefaultAsync(c => c.Id == request.ContentId);
+            if (oldcontent == null)
+            {
+                return BadRequest("la Publicacion No Existe.");
+            }
+
+            var comment = oldcontent.Comments.FirstOrDefault(c => c.Id == request.CommentId);
+
+            comment.Like += request.Like;
+            
+
+
+            _dataContext.Comments.Update(comment);
+            await _dataContext.SaveChangesAsync();
+            return Ok(true);
+        }
+
     }
 }

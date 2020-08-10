@@ -218,11 +218,20 @@
                                                         <ColumnDefinition Width="Auto"/>
                                                         <ColumnDefinition Width="*"/>
                                                     </Grid.ColumnDefinitions>
+
+                                                    <Grid.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding LikeZoneCommand}"/>
+                                                    </Grid.GestureRecognizers>
+
                                                     <Image 
-                                                  Grid.Column="0" 
-                                                  HeightRequest="30" 
-                                                  VerticalOptions="StartAndExpand"
-                                                  Source="ic_favorite"/>
+                                                      Grid.Column="0" 
+                                                      HeightRequest="30" 
+                                                      VerticalOptions="StartAndExpand"
+                                                      Source="ic_favorite">
+                                                        <Image.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding LikeZoneCommand}"/>
+                                                        </Image.GestureRecognizers>
+                                                    </Image>
                                                     <Label
                                                     Grid.Column="1" 
                                                     Text="{Binding Like}"/>

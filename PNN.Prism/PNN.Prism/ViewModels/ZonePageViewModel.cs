@@ -30,8 +30,9 @@ namespace PNN.Prism.ViewModels
         private DelegateCommand _likeCommand;
         private DelegateCommand _disLikeCommand;
         private DelegateCommand _refreshCommand;
-        private ObservableCollection<CommentResponse> _comments;
-       
+        private ObservableCollection<CommentItemViewModel> _comments;
+        private static ZonePageViewModel _instance;
+
 
         public ZonePageViewModel(INavigationService navigationService,
                                 IApiService apiServices) : base(navigationService)
@@ -40,6 +41,7 @@ namespace PNN.Prism.ViewModels
             Title = "Zona";
             _apiServices = apiServices;
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
+            _instance = this;
         }
 
         public DelegateCommand CommentCommand => _commentCommand ?? (_commentCommand = new DelegateCommand(Comentar));
@@ -55,7 +57,7 @@ namespace PNN.Prism.ViewModels
             set => SetProperty(ref _zone, value);
         }
 
-        public ObservableCollection<CommentResponse> Comments
+        public ObservableCollection<CommentItemViewModel> Comments
         {
             get => _comments;
             set => SetProperty(ref _comments, value);
@@ -172,9 +174,17 @@ namespace PNN.Prism.ViewModels
                     "Aceptar");
         }
 
-        private void LoadComments()
+        public void LoadComments()
         {
-            Comments = new ObservableCollection<CommentResponse>(_zone.Comments.OrderByDescending(x => x.Date));
+            Comments = new ObservableCollection<CommentItemViewModel>(_zone.Comments.Select(c => new CommentItemViewModel(_navigationService, _apiServices)
+            {
+                Id = c.Id,
+                Description = c.Description,
+                Date = c.Date,
+                Like = c.Like,
+                FullName = c.FullName,
+                User = c.User
+            }).ToList().OrderByDescending(x => x.Date));
         }
 
         public async Task<bool> ValidateComment()
@@ -336,5 +346,9 @@ namespace PNN.Prism.ViewModels
             IsRefreshing = false;
         }
 
+        public static ZonePageViewModel GetInstance()
+        {
+            return _instance;
+        }
     }
 }
