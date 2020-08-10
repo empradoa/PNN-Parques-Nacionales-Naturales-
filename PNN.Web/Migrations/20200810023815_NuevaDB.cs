@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PNN.Web.Migrations
 {
-    public partial class update : Migration
+    public partial class NuevaDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -41,11 +41,11 @@ namespace PNN.Web.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Alias = table.Column<string>(maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     CellPhone = table.Column<string>(maxLength: 20, nullable: false),
-                    Address = table.Column<string>(maxLength: 100, nullable: true)
+                    Address = table.Column<string>(maxLength: 100, nullable: true),
+                    Alias = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -255,18 +255,11 @@ namespace PNN.Web.Migrations
                     Communities = table.Column<string>(nullable: true),
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),
-                    ManagerId = table.Column<int>(nullable: true),
-                    LocationId = table.Column<int>(nullable: true)
+                    ManagerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Parks_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Parks_Managers_ManagerId",
                         column: x => x.ManagerId,
@@ -332,19 +325,12 @@ namespace PNN.Web.Migrations
                     Like = table.Column<int>(nullable: false),
                     DisLike = table.Column<int>(nullable: false),
                     ZoneTypeId = table.Column<int>(nullable: true),
-                    LocationId = table.Column<int>(nullable: true),
                     ParkId = table.Column<int>(nullable: true),
                     ManagerId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Zones", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Zones_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Zones_Managers_ManagerId",
                         column: x => x.ManagerId,
@@ -361,6 +347,39 @@ namespace PNN.Web.Migrations
                         name: "FK_Zones_ZoneTypes_ZoneTypeId",
                         column: x => x.ZoneTypeId,
                         principalTable: "ZoneTypes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Areas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LocationId = table.Column<int>(nullable: false),
+                    ParkId = table.Column<int>(nullable: true),
+                    ZoneId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Areas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Areas_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Areas_Parks_ParkId",
+                        column: x => x.ParkId,
+                        principalTable: "Parks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Areas_Zones_ZoneId",
+                        column: x => x.ZoneId,
+                        principalTable: "Zones",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -401,6 +420,21 @@ namespace PNN.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Areas_LocationId",
+                table: "Areas",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Areas_ParkId",
+                table: "Areas",
+                column: "ParkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Areas_ZoneId",
+                table: "Areas",
+                column: "ZoneId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -487,19 +521,9 @@ namespace PNN.Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Parks_LocationId",
-                table: "Parks",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Parks_ManagerId",
                 table: "Parks",
                 column: "ManagerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Zones_LocationId",
-                table: "Zones",
-                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Zones_ManagerId",
@@ -519,6 +543,9 @@ namespace PNN.Web.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Areas");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -553,13 +580,13 @@ namespace PNN.Web.Migrations
                 name: "ContentTypes");
 
             migrationBuilder.DropTable(
+                name: "Locations");
+
+            migrationBuilder.DropTable(
                 name: "Parks");
 
             migrationBuilder.DropTable(
                 name: "ZoneTypes");
-
-            migrationBuilder.DropTable(
-                name: "Locations");
 
             migrationBuilder.DropTable(
                 name: "Managers");
