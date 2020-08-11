@@ -255,10 +255,10 @@ namespace PNN.Web.Helpers
                 Description = zone.Description,
                 Like = zone.Like,
                 DisLike = zone.DisLike,
-                ZoneType = zone.ZoneType,
+                ZoneType = await _dataContext.ZoneTypes.FindAsync(zone.ZoneTypeId),
                 Park = await _dataContext.Parks.FindAsync(zone.ParkId),
                 Manager = zone.Manager,
-                Comments = zone.Comments
+                Comments = zone.Comments                
             };
 
 
@@ -292,6 +292,7 @@ namespace PNN.Web.Helpers
                 Park        = zone.Park,
                 ParkId      = zone.Park == null ? default : zone.Park.Id,
                 Parks       = _combosHelper.GetComboParks(),
+                ZoneTypes = _combosHelper.GetComboZoneTypes(),
                 Manager     = zone.Manager,
                 Comments    = zone.Comments,
                 latitud     = zone.Locations?.FirstOrDefault().Location.Latitude.ToString(),

@@ -35,6 +35,26 @@ namespace PNN.Web.Helpers
 
             return list;
         }
+        public IEnumerable<SelectListItem> GetComboZoneTypes()
+        {
+            //listamos de la tabla contenttypes el datos Name, Id para pintarlos en el combo
+            var list = _dataContext.ZoneTypes.Select(ct => new SelectListItem
+            {
+                Text = ct.Name,
+                Value = $"{ct.Id}"
+            })
+                .OrderBy(ct => ct.Value)
+                .ToList();
+
+            //insertamos la primera linea 0 para que el usuario sepa lo que va a seleccionar
+            list.Insert(1, new SelectListItem
+            {
+                Text = "Seleccione el tipo de zona",
+                Value = "0"
+            });
+
+            return list;
+        }
         public IEnumerable<SelectListItem> GetComboParks()
         {
             //listamos de la tabla contenttypes el datos Name, Id para pintarlos en el combo

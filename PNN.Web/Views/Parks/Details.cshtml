@@ -93,28 +93,37 @@
                 <div class="input-group form-group">
                     <h3>@Html.DisplayFor(model => model.Name)</h3>
                     <hr />
-                    
+
                 </div>
                 <div class="col-md-12">
+                    <b>Descripción:</b><br /><br />
                     <p style="text-align:justify;">
                         @Html.Raw(Model.Description)
                     </p>
                     <hr class="btn-light" />
                 </div>
-                <div class="row">
+                <div class="row">                    
                     <div class="col-md-6">
+                        <b>Flora:</b><br /><br />
                         <p style="text-align:justify;">
                             @Html.Raw(Model.Flora)
                         </p>
-                    </div>
+                    </div>                    
                     <div class="col-md-6">
+                        <b>Fauna:</b><br /><br />
                         <p style="text-align:justify;">
                             @Html.Raw(Model.Wildlife)
                         </p>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="map" style="height:300px; width:100%;"></div>
+                    </div>
+                </div>                
                 <div class="col-md-12">
                     <hr class="btn-light" />
+                    <b>Comunidades:</b><br /><br />
                     <p style="text-align:justify;">
                         @Html.Raw(Model.Communities)
                     </p>
@@ -176,4 +185,66 @@
             });
         });
     </script>
+    <br />
+    <script>
+        var bermudaTriangle;
+
+        function initMap() {
+            var myLatLng = new google.maps.LatLng(4.710967, -74.072004);
+            var mapOptions = {
+                zoom: 11,
+                center: myLatLng,
+                mapTypeId: google.maps.MapTypeId.RoadMap
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'),
+                mapOptions);
+
+
+            var triangleCoords =  [@Html.DisplayFor(model => model.Locations)];
+
+            // Construct the polygon
+            bermudaTriangle = new google.maps.Polygon({
+                paths: triangleCoords,
+                draggable: true,
+                editable: true,
+                strokeColor: '#0AC4BA',
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+                fillColor: '#29CC85',
+                fillOpacity: 0.35
+            });
+
+            bermudaTriangle.setMap(map);
+            google.maps.event.addListener(bermudaTriangle, "dragend", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "insert_at", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "remove_at", getPolygonCoords);
+            google.maps.event.addListener(bermudaTriangle.getPath(), "set_at", getPolygonCoords);
+        }
+
+        function getPolygonCoords() {
+            var len = bermudaTriangle.getPath().getLength();
+            var htmlStr = "";
+
+            for (var i = 0; i < len; i++) {
+                htmlStr += bermudaTriangle.getPath().getAt(i).toUrlValue(5) + ";";
+            }
+
+            myFunc("info", htmlStr);
+            /*var s = document.getElementById('info');
+            s.value= htmlStr;*/
+        }
+
+        function myFunc(variable, coord) {
+            var s = document.getElementById(variable);
+            s.value = coord;
+        }
+
+
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZnGkhL--bUGKbcagJ0uGDu-kuy4OvLX4&callback=initMap">
+    </script>
+
+    <br />
 }

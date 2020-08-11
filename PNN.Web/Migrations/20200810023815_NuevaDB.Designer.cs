@@ -10,8 +10,8 @@ using PNN.web.Data;
 namespace PNN.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200624012901_DB_WArea")]
-    partial class DB_WArea
+    [Migration("20200810023815_NuevaDB")]
+    partial class NuevaDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -509,7 +509,7 @@ namespace PNN.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")
-                        .WithMany("Location")
+                        .WithMany("Locations")
                         .HasForeignKey("ParkId");
 
                     b.HasOne("PNN.Web.Data.Entities.Zone", "Zone")

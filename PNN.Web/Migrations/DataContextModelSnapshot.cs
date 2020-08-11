@@ -507,7 +507,7 @@ namespace PNN.Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("PNN.Web.Data.Entities.Park", "Park")
-                        .WithMany("Location")
+                        .WithMany("Locations")
                         .HasForeignKey("ParkId");
 
                     b.HasOne("PNN.Web.Data.Entities.Zone", "Zone")
