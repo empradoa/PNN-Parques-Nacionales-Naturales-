@@ -75,9 +75,9 @@ namespace PNN.Prism.ViewModels
             
             Settings.Reactions = JsonConvert.SerializeObject(rcts);
 
-            
 
-           await PubsPageViewModel.GetInstance().UpdateContentAsync();
+
+            await PubsPageViewModel.GetInstance().UpdateContentAsync();
 
             var Ps = JsonConvert.DeserializeObject<PublicationsResponse>(Settings.Pubs);
             var contentId = JsonConvert.DeserializeObject<int>(Settings.PubId);
