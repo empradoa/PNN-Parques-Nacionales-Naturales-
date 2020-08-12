@@ -7,49 +7,54 @@
              BackgroundColor="{StaticResource colorBackgroud}"
              Title="{Binding Title}">
 
-    <StackLayout Padding="10,10,10,10">
+    <ScrollView>
+        <AbsoluteLayout>
 
-        <Entry
+            <StackLayout Padding="10,10,10,10">
+
+                <Entry
             Margin="5"
             Placeholder="Escribe Tu Nombre."
             Text="{Binding FirstName}"/>
-        <Entry
+                <Entry
             Margin="5"
             Placeholder="Escribe Tu Apellido."
             Text="{Binding LastName}"/>
-        <Entry
+                <Entry
             Margin="5"
             Keyboard="Email"
             Placeholder="Escribe Tu Email."
             Text="{Binding Email}"/>
-        <Entry 
+                <Entry 
             Margin="5"
             Placeholder="Escribe Tu Direccion."
             Text="{Binding Address}"/>
-        <Entry
+                <Entry
             Margin="5"
             Keyboard="Numeric"
             Placeholder="Escribe Tu Celular (Con Indicativo +57)."
             Text="{Binding CellPhone}"/>
-        <Entry  
+                <Entry  
             Margin="5"
             IsPassword="True"
             Placeholder="Escribe Tu Password."
             Text="{Binding Password}"/>
-        <Entry 
+                <Entry 
             Margin="5"
             IsPassword="True"
             Placeholder="Verifica Tu Password."
             Text="{Binding Passverified}"/>
-        <ActivityIndicator
+                <ActivityIndicator
             IsRunning="{Binding IsRunning}"
             VerticalOptions="CenterAndExpand"/>
-        <Button
+                <Button
             CornerRadius="30"
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding RegistCommand}"
             Text="Registrar"/>
-        
-    </StackLayout>
-    
+
+            </StackLayout>
+            
+        </AbsoluteLayout>
+    </ScrollView>
 </ContentPage>
