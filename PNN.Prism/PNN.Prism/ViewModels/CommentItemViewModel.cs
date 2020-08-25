@@ -49,22 +49,25 @@ namespace PNN.Prism.ViewModels
             if (rct != null)
             {
                 rcts.Remove(rct);
-                comment.Like--;
 
-                ActCmm(0, pubid, comment.Id,-1);
+                if (comment.Like > 0)
+                {
+                    comment.Like--;
+                    await ActCmm(0, pubid, comment.Id, -1);
+                }
             }
             else
             {
                 rct = new Reactions
                 {
-                    Id = rcts == null ? 1 : rcts.Last().Id + 1,
+                    Id = (rcts == null || rcts.Count==0) ? 1 : rcts.Last().Id + 1,
                     CommentId = comment.Id,
                     ContentId = pubid,
                     Tipo = 2,
                     UserId = user.Id
                 };
                 comment.Like++;
-                ActCmm(0, pubid, comment.Id,1);
+                await ActCmm(0, pubid, comment.Id,1);
 
                 if (rcts == null)
                     rcts = new List<Reactions>();
@@ -88,8 +91,8 @@ namespace PNN.Prism.ViewModels
 
             PubPageViewModel.GetInstance().LoadComments();
 
-            PubPageViewModel.GetInstance().Content = content;
-            PubPageViewModel.GetInstance().LoadComments();
+           /* PubPageViewModel.GetInstance().Content = content;
+            PubPageViewModel.GetInstance().LoadComments();*/
         }
 
 
@@ -112,14 +115,18 @@ namespace PNN.Prism.ViewModels
             if (rct != null)
             {
                 rcts.Remove(rct);
+
+                if (comment.Like > 0)
+                { 
                 comment.Like--;
                 await ActCmm(zoneid, 0, comment.Id, -1);
+                }
             }
             else
             {
                 rct = new Reactions
                 {
-                    Id = rcts == null ? 1 : rcts.Last().Id + 1,
+                    Id = (rcts == null || rcts.Count == 0) ? 1 : rcts.Last().Id + 1,
                     CommentId = comment.Id,
                     ZoneId = zoneid,
                     Tipo = 2,

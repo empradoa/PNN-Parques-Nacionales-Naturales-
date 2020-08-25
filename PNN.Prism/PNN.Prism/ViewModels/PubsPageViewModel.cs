@@ -36,7 +36,7 @@ namespace PNN.Prism.ViewModels
                         
             _user = JsonConvert.DeserializeObject<UserResponse>(Settings.User);
             
-            Encuesta();
+            //Encuesta();
 
             LoadPubs();
         }

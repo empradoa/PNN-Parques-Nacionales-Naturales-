@@ -17,6 +17,7 @@ namespace PNN.Common.Helpers
         private const string _parkId = "ParkId";
         private const string _zoneId = "ZoneId";
         private const string _pubId = "PubId";
+        private const string _nLoc = "NLoc";
 
         private const string _isRemembered = "IsRemembered";
         private static readonly bool _boolDefault = false;
@@ -32,8 +33,8 @@ namespace PNN.Common.Helpers
 
         public static string Pubs
         {
-            get => AppSettings.GetValueOrDefault( _pubs, _stringDefault );
-            set => AppSettings.AddOrUpdateValue(  _pubs, value );
+            get => AppSettings.GetValueOrDefault(_pubs, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_pubs, value);
         }
 
         public static string Reactions
@@ -44,14 +45,14 @@ namespace PNN.Common.Helpers
 
         public static string Token
         {
-            get => AppSettings.GetValueOrDefault( _token, _stringDefault );
-            set => AppSettings.AddOrUpdateValue(  _token, value );
+            get => AppSettings.GetValueOrDefault(_token, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_token, value);
         }
 
         public static string User
         {
-            get => AppSettings.GetValueOrDefault( _user, _stringDefault);
-            set => AppSettings.AddOrUpdateValue(  _user, value);
+            get => AppSettings.GetValueOrDefault(_user, _stringDefault);
+            set => AppSettings.AddOrUpdateValue(_user, value);
         }
 
         public static string Areas
@@ -87,6 +88,12 @@ namespace PNN.Common.Helpers
         {
             get => AppSettings.GetValueOrDefault(_pubId, _stringDefault);
             set => AppSettings.AddOrUpdateValue(_pubId, value);
+        }
+
+        public static bool NLoc
+        {
+            get => AppSettings.GetValueOrDefault(_nLoc, _boolDeflt);
+            set => AppSettings.AddOrUpdateValue(_nLoc, value);
         }
     }
 }

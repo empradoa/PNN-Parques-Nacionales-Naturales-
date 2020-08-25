@@ -40,8 +40,10 @@ namespace PNN.Prism
             token = JsonConvert.DeserializeObject<TokenResponse>(Settings.Token);
 
             Settings.Inicio = true;
+            Settings.NLoc = true;
 
-            
+
+
             if (Settings.Reactions == "Reactions")
             {
                 var a = new List<Reactions>();
